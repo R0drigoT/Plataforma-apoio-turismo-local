@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Detalhes do Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="room-details-container">
+
+    <section class="details-header">
+        <h1>Passeio de Barco no Douro</h1>
+        <div class="image-gallery">
+            <div class="main-image"></div>
+            <div class="thumbnail-grid">
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+        <div class="location-summary">
+            <div class="profile-pic-small"></div>
+            <div>
+                <p><strong>Avaliação ★ 5.0</strong> A partir de 50€</p>
+                <p>Prestador: Nome da Empresa</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="details-body">
+        <div class="details-main-content">
+            <div class="title-actions">
+                <h2>Detalhes</h2>
+                <div class="actions">
+                    <i class="far fa-heart"></i>
+                    <i class="fas fa-share-alt"></i>
+                </div>
+            </div>
+            <p class="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            </p>
+
+            <hr>
+
+            <h3>O que está incluído</h3>
+            <div class="amenities-grid">
+                <div class="amenity-item"><i class="fas fa-user-tie"></i> Guia Turístico</div>
+                <div class="amenity-item"><i class="fas fa-wine-glass"></i> Bebidas incluídas</div>
+                <div class="amenity-item"><i class="fas fa-camera"></i> Paragens para fotos</div>
+                <div class="amenity-item"><i class="fas fa-shield-alt"></i> Seguro de acidentes</div>
+                <div class="amenity-item"><i class="fas fa-car"></i> Transporte</div>
+                <div class="amenity-item"><i class="fas fa-info-circle"></i> Briefing de segurança</div>
+            </div>
+            <button class="show-all-btn">Mostrar Todos os Itens</button>
+
+            <hr>
+
+            <h3>Localização</h3>
+            <div class="map-placeholder">
+                <p>Mapa do ponto de encontro</p>
+            </div>
+
+            <hr>
+
+            <h3>Reviews ★ 5.0</h3>
+            <div class="sub-ratings">
+            </div>
+            <div class="reviews-grid">
+            </div>
+        </div>
+
+        <aside class="booking-box">
+            <h3>50€ <small>por pessoa</small></h3>
+            <div class="booking-inputs">
+                <div class="booking-input full-width">
+                    <label>Data</label>
+                    <input type="date">
+                </div>
+                <div class="booking-input full-width">
+                    <label>Participantes</label>
+                    <input type="text" value="1 pessoa">
+                </div>
+            </div>
+            <button class="reserve-btn">Reservar Agora</button>
+            <p class="contact-host"><i class="fas fa-comment-dots"></i> Contactar Prestador</p>
+        </aside>
+    </div>
+</div>

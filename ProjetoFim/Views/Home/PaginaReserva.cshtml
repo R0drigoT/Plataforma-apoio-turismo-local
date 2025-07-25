@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Finalizar Reserva";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="booking-page-wrapper">
+
+    <section class="booking-property-header">
+        <div class="property-header-gallery">
+            <div class="main-img"></div>
+            <div class="thumb-imgs">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="property-header-details">
+            <h3>TURIM Ibéria Hotel <span class="rating">★★★★☆</span></h3>
+            <p class="address">Av. 5 de Outubro 160, Avenidas Novas, 1050-062 Lisboa, Portugal – No centro da cidade</p>
+        </div>
+    </section>
+
+    <div class="booking-page-container">
+        <main class="booking-form-column">
+            <div class="form-section">
+                <h2>Insira os seus dados</h2>
+            </div>
+
+            <form class="booking-form">
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="nome">Nome *</label>
+                        <input type="text" id="nome">
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="apelido">Apelido *</label>
+                        <input type="text" id="apelido">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Endereço de e-mail *</label>
+                    <input type="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="email_confirm">Confirme o endereço de e-mail *</label>
+                    <input type="email" id="email_confirm">
+                </div>
+                <div class="form-group">
+                    <label for="telefone">Telefone (número do telemóvel se possível) *</label>
+                    <input type="tel" id="telefone">
+                </div>
+
+                <p class="form-notice">Está quase! Basta inserir a informação obrigatória *</p>
+
+                <div class="form-actions-final">
+                    <button type="button" class="submit-booking-btn" onclick="location.href='@Url.Action("PaginaPagamento", "Home")'">Seguinte</button>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>

@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Estatísticas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>Estatísticas de Desempenho</h1>
+        <p>Analise os dados dos seus anúncios e reservas.</p>
+    </div>
+
+    <div class="stats-filter-bar">
+        <label for="period-select">Mostrar dados para:</label>
+        <select id="period-select" class="filter-select">
+            <option>Últimos 30 dias</option>
+            <option>Este Mês</option>
+            <option>Últimos 90 dias</option>
+            <option>Este Ano</option>
+            <option>Desde o Início</option>
+        </select>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card large">
+            <h4>Ganhos Totais</h4>
+            <div class="stat-value">1,250.30€</div>
+            <div class="chart-placeholder">
+                <p>Gráfico de Linha de Ganhos</p>
+            </div>
+        </div>
+
+        <div class="stat-card large">
+            <h4>Taxa de Ocupação Média</h4>
+            <div class="stat-value">78%</div>
+            <div class="chart-placeholder">
+                <p>Gráfico de Barras de Ocupação</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <h4>Total de Reservas</h4>
+            <div class="stat-value">27</div>
+        </div>
+
+        <div class="stat-card">
+            <h4>Total de Noites Reservadas</h4>
+            <div class="stat-value">89</div>
+        </div>
+
+        <div class="stat-card">
+            <h4>Avaliação Média</h4>
+            <div class="stat-value">4.9 ★</div>
+        </div>
+    </div>
+
+    <div class="top-performing-panel">
+        <h2>Anúncios com Melhor Desempenho</h2>
+        <div class="performance-list">
+            <div class="performance-item">
+                <span>1. Apartamento Vista Mar</span>
+                <strong>680,50€</strong>
+            </div>
+            <div class="performance-item">
+                <span>2. Estúdio Moderno</span>
+                <strong>450,00€</strong>
+            </div>
+            <div class="performance-item">
+                <span>3. Passeio de Barco</span>
+                <strong>120,00€</strong>
+            </div>
+        </div>
+    </div>
+</div>

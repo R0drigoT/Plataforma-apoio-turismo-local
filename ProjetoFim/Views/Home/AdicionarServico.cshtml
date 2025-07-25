@@ -1,0 +1,61 @@
+﻿@model ProjetoFim.Models.Servico
+
+@{
+    ViewBag.Title = "Adicionar Novo Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>Adicionar Novo Serviço</h1>
+        <p>Preencha os detalhes abaixo para criar um novo anúncio de serviço.</p>
+    </div>
+
+    @using (Html.BeginForm("AdicionarServico", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Nome, "Nome do Serviço", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control", rows = 5 })
+                    @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Localizacao, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Localizacao, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Localizacao, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Preco, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Preco, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Preco, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Criar Serviço" class="btn-primary" style="margin-top: 20px;" />
+                    @Html.ActionLink("Cancelar", "GerirAnuncios", null, new { @class = "btn-cancel-form" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

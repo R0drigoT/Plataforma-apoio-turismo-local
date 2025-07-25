@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="profile-page-container">
+    <aside class="profile-summary-card">
+        <div class="profile-pic-large"></div>
+        <a href="#" class="photo-update-link">Atualize a foto</a>
+
+        <div class="profile-card-actions">
+            <a href="@Url.Action("EditarPerfil", "Home")" class="profile-action-btn">
+                <i class="fas fa-user-edit"></i>
+                <span>Dados Pessoais</span>
+            </a>
+            <a href="@Url.Action("MetodosPagamento", "Home")" class="profile-action-btn">
+                <i class="fas fa-credit-card"></i>
+                <span>Metodos de pagamento</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="profile-main-content">
+        <h1>Olá, Nome</h1>
+        <p class="member-since">Membro desde 2024</p>
+
+        <div class="reviews-summary">
+            <h3><i class="fas fa-star"></i> 2 Avaliações realizadas</h3>
+        </div>
+
+        <div class="profile-tabs-container">
+            <button class="profile-tab active">Quartos</button>
+            <button class="profile-tab">Serviços</button>
+            <a href="#" class="profile-tab-link">Últimas Avaliações</a>
+        </div>
+
+        <div class="review-list">
+            <div class="review-list-item">
+                <div class="review-item-image"></div>
+                <div class="review-item-details">
+                    <h4>Nome do alojamento</h4>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <a href="#" class="saber-mais-btn">Saber mais</a>
+            </div>
+            <div class="review-list-item">
+                <div class="review-item-image"></div>
+                <div class="review-item-details">
+                    <h4>Nome do alojamento</h4>
+                    <div class="rating">★★★★★</div>
+                </div>
+                <a href="#" class="saber-mais-btn">Saber mais</a>
+            </div>
+        </div>
+    </main>
+</div>

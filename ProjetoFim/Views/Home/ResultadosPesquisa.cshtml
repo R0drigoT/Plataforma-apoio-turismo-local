@@ -1,0 +1,68 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Resultados da Pesquisa";
+}
+
+<div class="search-results-page">
+    <div class="results-column">
+        <div class="results-header">
+            <h3>10 resultados encontrados</h3>
+            <button class="filter-btn"><i class="fas fa-filter"></i> Filtros</button>
+        </div>
+        <div class="results-filters">
+            <div class="filter-input">
+                <label>Localização</label>
+                <input type="text" placeholder="Para onde vais?">
+            </div>
+            <div class="filter-input">
+                <label>Check In</label>
+                <input type="date">
+            </div>
+            <div class="filter-input">
+                <label>Check Out</label>
+                <input type="date">
+            </div>
+            <div class="filter-input">
+                <label>Hóspedes</label>
+                <input type="text" placeholder="Quantos?">
+            </div>
+            <button class="search-icon-btn"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="results-list">
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link">
+                <div class="result-card">
+                    <div class="result-card-image">
+                        <div class="image-overlay-info">
+                            <div class="overlay-pic"></div>
+                            <div>
+                                <div class="rating">★★★★★</div>
+                                <div>localização</div>
+                                <div>A partir de 50€</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-card-details">
+                        <h4>Nome do Quarto</h4>
+                        <p>Localização</p>
+                        <div class="result-card-icons">
+                            <span><i class="fas fa-bed"></i> 3</span>
+                            <span><i class="fas fa-bath"></i> 1</span>
+                            <span><i class="fas fa-ruler-combined"></i> 2</span>
+                            <span><i class="fas fa-users"></i> 0</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="result-card"><div class="result-card-image"><div class="image-overlay-info"><div class="overlay-pic"></div><div><div class="rating">★★★★☆</div><div>Outra Localização</div><div>A partir de 75€</div></div></div></div><div class="result-card-details"><h4>Outro Nome de Quarto</h4><p>Localização Secundária</p><div class="result-card-icons"><span><i class="fas fa-bed"></i> 2</span><span><i class="fas fa-bath"></i> 1</span><span><i class="fas fa-ruler-combined"></i> 1</span><span><i class="fas fa-users"></i> 0</span></div></div></div></a>
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="result-card"><div class="result-card-image"><div class="image-overlay-info"><div class="overlay-pic"></div><div><div class="rating">★★★★★</div><div>Mais uma Localização</div><div>A partir de 90€</div></div></div></div><div class="result-card-details"><h4>Alojamento de Luxo</h4><p>Localização de Topo</p><div class="result-card-icons"><span><i class="fas fa-bed"></i> 5</span><span><i class="fas fa-bath"></i> 3</span><span><i class="fas fa-ruler-combined"></i> 4</span><span><i class="fas fa-users"></i> 0</span></div></div></div></a>
+
+        </div>
+    </div>
+
+    <div class="map-column">
+        <div class="map-sticky-container">
+            <p>Mapa Fixo Aqui</p>
+        </div>
+    </div>
+</div>

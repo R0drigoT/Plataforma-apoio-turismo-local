@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Favoritos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-container">
+    <h1 class="page-title">Favoritos</h1>
+
+    <div class="favorites-grid">
+        <a href="@Url.Action("DetalhesQuarto", "Home")" class="favorite-card">
+            <div class="favorite-card-image"></div>
+            <button class="remove-favorite-btn">&times;</button>
+            <div class="favorite-card-info">
+                <strong>Alojamento</strong>
+                <span>localização</span>
+            </div>
+        </a>
+
+        <a href="@Url.Action("DetalhesQuarto", "Home")" class="favorite-card">
+            <div class="favorite-card-image"></div>
+            <button class="remove-favorite-btn">&times;</button>
+            <div class="favorite-card-info">
+                <strong>Alojamento 2</strong>
+                <span>localização 2</span>
+            </div>
+        </a>
+
+        <a href="@Url.Action("DetalhesQuarto", "Home")" class="favorite-card">
+            <div class="favorite-card-image"></div>
+            <button class="remove-favorite-btn">&times;</button>
+            <div class="favorite-card-info">
+                <strong>Alojamento 3</strong>
+                <span>localização 3</span>
+            </div>
+        </a>
+
+        <a href="@Url.Action("DetalhesQuarto", "Home")" class="favorite-card">
+            <div class="favorite-card-image"></div>
+            <button class="remove-favorite-btn">&times;</button>
+            <div class="favorite-card-info">
+                <strong>Alojamento 4</strong>
+                <span>localização 4</span>
+            </div>
+        </a>
+    </div>
+</div>

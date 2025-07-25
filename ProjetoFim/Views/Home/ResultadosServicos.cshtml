@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Resultados da Pesquisa de Serviços";
+}
+
+<div class="service-results-container">
+    <div class="results-header">
+        <h3>10 resultados encontrados</h3>
+        <button class="filter-btn"><i class="fas fa-filter"></i> Filtros</button>
+    </div>
+
+    <div class="results-filters">
+        <div class="filter-input">
+            <label>Localização</label>
+            <input type="text" placeholder="Onde procura o serviço?">
+        </div>
+        <div class="filter-input">
+            <label>Datas</label>
+            <input type="date">
+        </div>
+        <div class="filter-input">
+            <label>Tipo de Serviço</label>
+            <input type="text" placeholder="Ex: Passeio de barco">
+        </div>
+        <button class="search-icon-btn"><i class="fas fa-search"></i></button>
+    </div>
+
+    <div class="services-results-grid">
+
+        <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
+            <div class="service-card">
+                <div class="service-card-image">
+                    <i class="far fa-heart"></i>
+                </div>
+                <div class="service-card-info">
+                    <div class="rating">★★★★★</div>
+                    <h4>Nome do Serviço</h4>
+                    <p>Localização</p>
+                    <p class="price"><strong>Valor</strong></p>
+                </div>
+            </div>
+        </a>
+
+        <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
+            <div class="service-card">
+                <div class="service-card-image">
+                    <i class="far fa-heart"></i>
+                </div>
+                <div class="service-card-info">
+                    <div class="rating">★★★★☆</div>
+                    <h4>Tour Guiado</h4>
+                    <p>Lisboa</p>
+                    <p class="price"><strong>Valor</strong></p>
+                </div>
+            </div>
+        </a>
+
+        <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
+            <div class="service-card">
+                <div class="service-card-image">
+                    <i class="far fa-heart"></i>
+                </div>
+                <div class="service-card-info">
+                    <div class="rating">★★★★★</div>
+                    <h4>Aula de Culinária</h4>
+                    <p>Porto</p>
+                    <p class="price"><strong>Valor</strong></p>
+                </div>
+            </div>
+        </a>
+
+    </div>

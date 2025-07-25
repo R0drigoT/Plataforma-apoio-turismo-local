@@ -1,0 +1,129 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Detalhes do Quarto";
+}
+
+<div class="room-details-container">
+    <section class="details-header">
+        <h1>Quarto X</h1>
+        <div class="room-main-info">
+            <span class="rating-summary"><i class="fas fa-star"></i> 5.0</span>
+            <span class="info-separator">·</span>
+            <a href="#reviews-section" class="location-text">4 comentários</a>
+            <span class="info-separator">·</span>
+            <span class="location-text">Localização</span>
+            <span class="info-separator">·</span>
+            <span class="price-info">A partir de 50€ / noite</span>
+        </div>
+        <div class="image-gallery">
+            <div class="main-image"></div>
+            <div class="thumbnail-grid">
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+                <div class="thumbnail"></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="details-body">
+        <div class="details-main-content">
+            <div class="title-actions">
+                <h2>Detalhes</h2>
+                <div class="actions">
+                    <i class="far fa-heart"></i>
+                    <i class="fas fa-share-alt"></i>
+                </div>
+            </div>
+            <p class="description">
+                Em frente à entrada do banheiro, há dois cestos para se colocar a roupa suja e
+                um pequeno armário para se guardar toalhas e objetos de higiene pessoal. Ao lado e em frente ao vaso sanitário que fica ao lado da pia - da qual há um espelho em cima -
+                tem o box de vidro fumê e, na parede ao lado, uma banheira..
+            </p>
+
+            <hr>
+
+            <h3>Comodidades</h3>
+            <div class="amenities-grid">
+                <div class="amenity-item"><i class="fas fa-utensils"></i> Cozinha</div>
+                <div class="amenity-item"><i class="fas fa-tv"></i> Televisão com Netflix</div>
+                <div class="amenity-item"><i class="fas fa-snowflake"></i> Ar Condicionado</div>
+                <div class="amenity-item"><i class="fas fa-wifi"></i> Internet sem fios gratuita</div>
+                <div class="amenity-item"><i class="fas fa-wind"></i> Climatização</div>
+                <div class="amenity-item"><i class="fas fa-umbrella-beach"></i> Varanda ou Pátio</div>
+            </div>
+
+            <hr>
+
+            <h3>Localização</h3>
+            <div class="map-placeholder">
+                <p>Mapa da localização aqui</p>
+            </div>
+
+            <hr>
+
+            <h3 id="reviews-section">Avaliações ★ 5.0</h3>
+            <div class="sub-ratings">
+                <div class="sub-rating-item"><span>Comodidades</span><div class="rating-bar"><div class="rating-bar-fill" style="width: 100%;"></div></div><span>5.0</span></div>
+                <div class="sub-rating-item"><span>Comunicação</span><div class="rating-bar"><div class="rating-bar-fill" style="width: 100%;"></div></div><span>5.0</span></div>
+                <div class="sub-rating-item"><span>Relação qualidade/preço</span><div class="rating-bar"><div class="rating-bar-fill" style="width: 100%;"></div></div><span>5.0</span></div>
+                <div class="sub-rating-item"><span>Limpeza</span><div class="rating-bar"><div class="rating-bar-fill" style="width: 100%;"></div></div><span>5.0</span></div>
+                <div class="sub-rating-item"><span>Localização</span><div class="rating-bar"><div class="rating-bar-fill" style="width: 100%;"></div></div><span>5.0</span></div>
+            </div>
+
+            <hr>
+
+            <div class="leave-review-form">
+                <h4>Deixe a sua avaliação</h4>
+                <form>
+                    <div class="form-group">
+                        <label>A sua pontuação</label>
+                        <div class="star-rating-input">
+                            <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>O seu comentário</label>
+                        <textarea placeholder="Partilhe a sua experiência..." rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="submit-review-btn">Submeter Avaliação</button>
+                </form>
+            </div>
+
+            <hr>
+
+            <h4>O que dizem os outros hóspedes</h4>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-author"><div class="profile-pic-small"></div><div><strong>João Silva</strong><small> Março de 2024</small></div></div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-author"><div class="profile-pic-small"></div><div><strong>Maria Santos</strong><small> Fevereiro de 2024</small></div></div>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-author"><div class="profile-pic-small"></div><div><strong>Pedro Costa</strong><small> Janeiro de 2024</small></div></div>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-author"><div class="profile-pic-small"></div><div><strong>Ana Pereira</strong><small> Dezembro de 2023</small></div></div>
+                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+            </div>
+        </div>
+
+        <aside class="booking-box">
+            <h3>50€ <small>noite</small></h3>
+            <div class="booking-inputs">
+                <div class="date-inputs">
+                    <div class="booking-input"><label>Check-in</label><input type="date"></div>
+                    <div class="booking-input"><label>Check-out</label><input type="date"></div>
+                </div>
+                <div class="booking-input full-width"><label>Hóspedes</label><input type="text" value="1 hóspede"></div>
+            </div>
+            <button class="reserve-btn" onclick="location.href='@Url.Action("PaginaReserva", "Home")'">Reservar Agora</button>
+            <p class="contact-host"><i class="fas fa-comment-dots"></i> Contactar Anfitrião</p>
+        </aside>
+    </div>
+</div>

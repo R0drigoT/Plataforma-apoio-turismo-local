@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Histórico de Transações";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-container">
+    <div class="admin-page-header">
+        <h1>Histórico de Transações</h1>
+        <p>Consulte todos os seus pagamentos e reembolsos.</p>
+    </div>
+
+    <div class="reservations-filter-bar">
+        <select class="filter-select">
+            <option>Todas as transações</option>
+            <option>Pagamentos</option>
+            <option>Reembolsos</option>
+        </select>
+        <select class="filter-select">
+            <option>Todos os anos</option>
+            <option>2025</option>
+            <option>2024</option>
+        </select>
+        <button class="filter-apply-btn">Aplicar Filtros</button>
+    </div>
+
+    <div class="reservations-table-container">
+        <table class="reservations-table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrição</th>
+                    <th>Método</th>
+                    <th>Total</th>
+                    <th>Fatura</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>18 Jul 2025</td>
+                    <td>Pagamento para Reserva #12345 - Apartamento Vista Mar</td>
+                    <td>Cartão de Crédito final 4242</td>
+                    <td class="amount-paid">- 450,00€</td>
+                    <td><a href="#" class="details-link">Ver Fatura</a></td>
+                </tr>
+                <tr>
+                    <td>25 Jun 2025</td>
+                    <td>Reembolso para Reserva #12301 - Estúdio Moderno</td>
+                    <td>Cartão de Crédito final 4242</td>
+                    <td class="amount-refunded">+ 110,00€</td>
+                    <td><a href="#" class="details-link">Ver Nota de Crédito</a></td>
+                </tr>
+
+                <tr>
+                    <td>02 Mai 2025</td>
+                    <td>Pagamento para Serviço - Passeio de Barco</td>
+                    <td>PayPal</td>
+                    <td class="amount-paid">- 80,00€</td>
+                    <td><a href="#" class="details-link">Ver Fatura</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

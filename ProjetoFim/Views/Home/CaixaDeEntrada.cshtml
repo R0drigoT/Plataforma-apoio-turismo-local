@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Caixa de Entrada";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-container full-height no-padding">
+    <div class="messages-container admin-inbox">
+        <div class="conversations-list">
+            <div class="inbox-list-header">
+                <h1>Caixa de Entrada</h1>
+                <div class="inbox-filters">
+                    <input type="text" placeholder="Pesquisar mensagens..." />
+                    <select>
+                        <option>Todas as mensagens</option>
+                        <option>Não lidas</option>
+                    </select>
+                </div>
+            </div>
+            <div class="conversations-scroll-area">
+                <div class="conversation-item active">
+                    <div class="convo-profile-pic"></div>
+                    <div class="convo-details">
+                        <strong>João Silva</strong>
+                        <span class="convo-property-name">Apartamento Vista Mar</span>
+                        <span class="convo-dates">18 Jul - 22 Jul</span>
+                    </div>
+                </div>
+                <div class="conversation-item">
+                    <div class="convo-profile-pic"></div>
+                    <div class="convo-details">
+                        <strong>Maria Santos</strong>
+                        <span class="convo-property-name">Estúdio Moderno</span>
+                        <span class="convo-dates">25 Jul - 28 Jul</span>
+                    </div>
+                </div>
+                <div class="conversation-item">
+                    <div class="convo-profile-pic"></div>
+                    <div class="convo-details">
+                        <strong>Carlos Pereira</strong>
+                        <span class="convo-property-name">Passeio de Barco</span>
+                        <span class="convo-dates">02 Ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="message-view">
+            <div class="inbox-context-header">
+                <div class="context-details">
+                    <h4>Reserva: Apartamento Vista Mar</h4>
+                    <span>18 de Jul de 2025 - 22 de Jul de 2025</span>
+                    <span>2 hóspedes - 450,00€</span>
+                </div>
+                <a href="#" class="details-link">Ver Reserva</a>
+            </div>
+            <div class="message-placeholder">
+                <h1>Mensagem</h1>
+            </div>
+            <div class="message-input-area">
+                <input type="text" placeholder="Escrever..." />
+                <button><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

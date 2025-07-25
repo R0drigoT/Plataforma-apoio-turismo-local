@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>Dashboard</h1>
+        <p>Bem-vindo de volta, Gestor!</p>
+    </div>
+
+    <div class="dashboard-summary-cards">
+        <div class="summary-card">
+            <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
+            <div class="card-content">
+                <span class="card-value">3</span>
+                <span class="card-label">Novas Reservas</span>
+            </div>
+        </div>
+        <div class="summary-card">
+            <div class="card-icon"><i class="fas fa-door-open"></i></div>
+            <div class="card-content">
+                <span class="card-value">2</span>
+                <span class="card-label">Check-ins para Hoje</span>
+            </div>
+        </div>
+        <div class="summary-card">
+            <div class="card-icon"><i class="fas fa-euro-sign"></i></div>
+            <div class="card-content">
+                <span class="card-value">1,250€</span>
+                <span class="card-label">Ganhos do Mês</span>
+            </div>
+        </div>
+        <div class="summary-card">
+            <div class="card-icon"><i class="fas fa-envelope"></i></div>
+            <div class="card-content">
+                <span class="card-value">5</span>
+                <span class="card-label">Mensagens por Ler</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="recent-activity-panel">
+        <h2>Atividade Recente</h2>
+        <div class="activity-list">
+            <div class="activity-item">
+                <div class="activity-icon new-booking"><i class="fas fa-suitcase"></i></div>
+                <div class="activity-details">
+                    <p><strong>Nova Reserva</strong> para o "Apartamento Vista Mar" de <strong>João Silva</strong>.</p>
+                    <small>há 15 minutos</small>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon new-message"><i class="fas fa-comment-dots"></i></div>
+                <div class="activity-details">
+                    <p><strong>Nova Mensagem</strong> de <strong>Maria Santos</strong> sobre a sua estadia.</p>
+                    <small>há 1 hora</small>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon new-review"><i class="fas fa-star"></i></div>
+                <div class="activity-details">
+                    <p><strong>Nova Avaliação (5 estrelas)</strong> para o "Estúdio Moderno".</p>
+                    <small>há 3 horas</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

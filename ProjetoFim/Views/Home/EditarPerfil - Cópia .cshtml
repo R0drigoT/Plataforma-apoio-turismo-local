@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Editar Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="profile-page-container">
+    <aside class="profile-summary-card">
+        <div class="profile-pic-large"></div>
+        <a href="#" class="photo-update-link">Atualize a foto</a>
+
+        <div class="profile-card-actions">
+            <a href="@Url.Action("EditarPerfil", "Home")" class="profile-action-btn active">
+                <i class="fas fa-user-edit"></i>
+                <span>Dados Pessoais</span>
+            </a>
+            <a href="@Url.Action("MetodosPagamento", "Home")" class="profile-action-btn">
+                <i class="fas fa-credit-card"></i>
+                <span>Metodos de pagamento</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="profile-main-content">
+        <h1>Olá, Nome</h1>
+        <p class="member-since">Membro desde 2024</p>
+
+        <form class="profile-edit-form">
+            <div class="form-group">
+                <label for="nome-completo">Nome</label>
+                <input type="text" id="nome-completo" placeholder="O seu nome completo" />
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="O seu endereço de e-mail" />
+            </div>
+
+            <div class="form-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" placeholder="O seu número de telefone" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half-width">
+                    <label for="data-nascimento">Data de nascimento</label>
+                    <input type="date" id="data-nascimento" />
+                </div>
+                <div class="form-group half-width">
+                    <label for="nacionalidade">Nacionalidade</label>
+                    <select id="nacionalidade">
+                        <option>Portugal</option>
+                        <option>Brasil</option>
+                        <option>Angola</option>
+                        <option>Espanha</option>
+                        <option>França</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="sexo">Sexo</label>
+                <select id="sexo">
+                    <option>Masculino</option>
+                    <option>Feminino</option>
+                    <option>Prefiro não indicar</option>
+                </select>
+            </div>
+
+
+            <div class="form-actions">
+                <a href="@Url.Action("Perfil", "Home")" class="form-btn-cancel">Cancelar</a>
+                <button type="submit" class="form-btn-save">Salvar</button>
+            </div>
+        </form>
+    </main>
+</div>

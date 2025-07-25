@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Reservas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-container">
+    <h1 class="page-title">Reservas</h1>
+
+    <div class="tabs-container">
+        <button class="tab-btn active">Atuais</button>
+        <button class="tab-btn">Passadas</button>
+    </div>
+
+    <div class="reservations-list">
+        <div class="reservation-card">
+            <div class="reservation-image"></div>
+            <div class="reservation-details">
+                <h3>Nome do alojamento</h3>
+                <p><strong>Check In:</strong> data</p>
+                <p><strong>Preço:</strong> 1000€</p>
+            </div>
+            <div class="reservation-info">
+                <p><strong>Duration:</strong> 5 dias</p>
+                <p><strong>Hóspedes:</strong> 2 adultos e 1 criança</p>
+            </div>
+            <div class="reservation-actions">
+                <button class="cancel-btn">Cancelar Reserva</button>
+            </div>
+        </div>
+        <div class="reservation-card">
+            <div class="reservation-image"></div>
+            <div class="reservation-details">
+                <h3>Nome do alojamento 2</h3>
+                <p><strong>Check In:</strong> data</p>
+                <p><strong>Preço:</strong> 1200€</p>
+            </div>
+            <div class="reservation-info">
+                <p><strong>Duration:</strong> 7 dias</p>
+                <p><strong>Guests:</strong> 2 adultos e 1 criança</p>
+            </div>
+            <div class="reservation-actions">
+                <button class="cancel-btn">Cancelar Reserva</button>
+            </div>
+        </div>
+    </div>
+</div>

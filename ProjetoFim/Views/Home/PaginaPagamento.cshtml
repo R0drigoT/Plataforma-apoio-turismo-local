@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Pagamento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="booking-page-wrapper">
+    <div class="booking-page-container">
+
+        <main class="booking-form-column">
+            <div class="form-section">
+                <h2>Como gostaria de pagar?</h2>
+            </div>
+
+            <div class="payment-method-selector">
+                <div class="payment-option active">
+                    <input type="radio" name="payment-method" id="card" checked />
+                    <label for="card">
+                        <span>Cartão de crédito ou débito</span>
+                        <div class="card-icons">
+                            <img src="https://i.imgur.com/3a2v5J1.png" alt="Visa" />
+                            <img src="https://i.imgur.com/D4s2D0a.png" alt="Mastercard" />
+                        </div>
+                    </label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" name="payment-method" id="paypal" />
+                    <label for="paypal">
+                        <span>PayPal</span>
+                        <img src="https://i.imgur.com/Vb2a22o.png" alt="PayPal" />
+                    </label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" name="payment-method" id="mbway" />
+                    <label for="mbway">
+                        <span>MB Way</span>
+                        <img src="https://i.imgur.com/s6n3c3D.png" alt="MB Way" />
+                    </label>
+                </div>
+            </div>
+
+            <form class="card-details-form">
+                <h4>Dados do cartão</h4>
+                <div class="form-group">
+                    <label for="card-number">Número do cartão</label>
+                    <input type="text" id="card-number" placeholder="xxxx xxxx xxxx xxxx" />
+                </div>
+                <div class="form-group">
+                    <label for="card-name">Nome no cartão</label>
+                    <input type="text" id="card-name" />
+                </div>
+                <div class="form-row">
+                    <div class="form-group half-width">
+                        <label for="expiry-date">Data de validade</label>
+                        <input type="text" id="expiry-date" placeholder="MM / AA" />
+                    </div>
+                    <div class="form-group half-width">
+                        <label for="cvc">CVC</label>
+                        <input type="text" id="cvc" placeholder="123" />
+                    </div>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="save-card" />
+                    <label for="save-card">Guardar este cartão para futuras reservas</label>
+                </div>
+            </form>
+        </main>
+
+        <aside class="booking-summary-column">
+            <div class="booking-summary-box">
+                <h4>Sumário do preço</h4>
+                <ul class="price-summary-list">
+                    <li class="price-item">
+                        <span>Quarto Duplo (1 noite)</span>
+                        <span>50€</span>
+                    </li>
+                    <li class="price-item">
+                        <span>Impostos e taxas</span>
+                        <span>10€</span>
+                    </li>
+                </ul>
+                <div class="price-total">
+                    <span>Preço Total</span>
+                    <strong>60€</strong>
+                </div>
+            </div>
+            <div class="form-actions-final">
+                <button type="submit" class="submit-booking-btn primary">Concluir reserva</button>
+            </div>
+        </aside>
+    </div>
+</div>

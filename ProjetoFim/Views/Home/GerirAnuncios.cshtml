@@ -1,0 +1,93 @@
+﻿@model ProjetoFim.Models.AnunciosViewModel
+
+@{
+    ViewBag.Title = "Gerir Anúncios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header with-actions">
+        <div>
+            <h1>Os Seus Anúncios</h1>
+            <p>Adicione, edite ou remova os seus quartos e serviços.</p>
+        </div>
+        <a id="btn-adicionar-novo" href="@Url.Action("AdicionarQuarto_Passo1", "Home")" class="add-new-btn"><i class="fas fa-plus"></i> Adicionar Novo</a>
+    </div>
+
+    <div class="content-tabs">
+        <button class="content-tab-btn active" data-tab="quartos" data-add-url="@Url.Action("AdicionarQuarto_Passo1", "Home")">Quartos</button>
+        <button class="content-tab-btn" data-tab="servicos" data-add-url="@Url.Action("AdicionarServico", "Home")">Serviços</button>
+    </div>
+
+    <div id="quartos" class="tab-content active">
+        <div class="listings-grid">
+            @foreach (var quarto in Model.Quartos)
+            {
+                <div class="listing-card">
+                    <div class="listing-card-image"></div>
+                    <div class="listing-card-details">
+                        <h4>@quarto.Nome</h4>
+                        <p>@quarto.Localizacao</p>
+                    </div>
+                    <div class="listing-card-actions">
+                        <a href="@Url.Action("ModificarQuarto_Passo1", "Home", new { id = quarto.Id })" class="action-btn modify">Modificar</a>
+                        @using (Html.BeginForm("RemoverQuarto", "Home", new { id = quarto.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="action-btn remove" onclick="return confirm('Tem a certeza?');">Remover</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div id="servicos" class="tab-content">
+        <div class="listings-grid">
+            @foreach (var servico in Model.Servicos)
+            {
+                <div class="listing-card">
+                    <div class="listing-card-image"></div>
+                    <div class="listing-card-details">
+                        <h4>@servico.Nome</h4>
+                        <p>@servico.Localizacao</p>
+                    </div>
+                    <div class="listing-card-actions">
+                        <a href="@Url.Action("ModificarServico", "Home", new { id = servico.Id })" class="action-btn modify">Modificar</a>
+                        @using (Html.BeginForm("RemoverServico", "Home", new { id = servico.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="action-btn remove" onclick="return confirm('Tem a certeza?');">Remover</button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabButtons = document.querySelectorAll('.content-tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const addNewBtn = document.getElementById('btn-adicionar-novo');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Lógica para mudar de aba
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById(this.dataset.tab).classList.add('active');
+
+                    // Lógica para mudar o link do botão "Adicionar Novo"
+                    const newUrl = this.dataset.addUrl;
+                    if (addNewBtn && newUrl) {
+                        addNewBtn.href = newUrl;
+                    }
+                });
+            });
+        });
+    </script>
+}

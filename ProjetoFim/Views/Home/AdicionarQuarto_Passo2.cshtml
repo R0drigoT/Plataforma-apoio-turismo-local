@@ -1,0 +1,64 @@
+﻿@model ProjetoFim.Models.Quarto
+
+@{
+    // Lógica para definir o título e a Action do formulário dinamicamente
+    bool isEditing = Model != null && Model.Id > 0;
+    ViewBag.Title = isEditing ? "Modificar Quarto - Passo 2" : "Adicionar Quarto - Passo 2";
+    string formAction = isEditing ? "ModificarQuarto_Passo2" : "AdicionarQuarto_Passo2";
+    string backAction = isEditing ? "ModificarQuarto_Passo1" : "AdicionarQuarto_Passo1";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@(isEditing ? "Modificar Quarto" : "Adicionar Novo Quarto")</h1>
+        <p>Passo 2 de 5: Instalações</p>
+    </div>
+
+    @using (Html.BeginForm(formAction, "Home", new { id = Model?.Id }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <p>Indique as instalações básicas disponíveis.</p>
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumeroCamasCasal, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.NumeroCamasCasal, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumeroCamasSolteiro, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.NumeroCamasSolteiro, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumeroCasasDeBanho, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.NumeroCasasDeBanho, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TemEstacionamento, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    <div class="inline-checkbox-group">
+                        @Html.EditorFor(model => model.TemEstacionamento)
+                        <label for="TemEstacionamento" style="font-weight:normal; margin-bottom:0;">Disponível</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" value="Próximo: Comodidades" class="btn-primary" style="margin-top: 20px;" />
+                    @Html.ActionLink("Voltar", backAction, "Home", new { id = Model?.Id }, new { @class = "btn-cancel-form" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

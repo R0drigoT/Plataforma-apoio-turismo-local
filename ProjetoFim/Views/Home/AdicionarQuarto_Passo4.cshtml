@@ -1,0 +1,94 @@
+﻿@model ProjetoFim.Models.Quarto
+
+@{
+    bool isEditing = Model != null && Model.Id > 0;
+    ViewBag.Title = isEditing ? "Modificar Quarto - Passo 4" : "Adicionar Quarto - Passo 4";
+    string formAction = isEditing ? "ModificarQuarto_Passo4" : "AdicionarQuarto_Passo4";
+    // LÓGICA CORRIGIDA PARA O BOTÃO VOLTAR
+    string backAction = isEditing ? "ModificarQuarto_Passo3" : "AdicionarQuarto_Passo3";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@(isEditing ? "Modificar Quarto" : "Adicionar Novo Quarto")</h1>
+        <p>Passo 4 de 5: Galeria de Fotos</p>
+    </div>
+
+    @using (Html.BeginForm(formAction, "Home", new { id = Model?.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <p>Carregue um novo conjunto de fotos para substituir as existentes. Os anúncios com fotos de alta qualidade recebem mais atenção.</p>
+            <hr />
+
+            <div class="photo-upload-zone">
+                <input type="file" name="files" id="file-input" multiple accept="image/*" style="display: none;" />
+                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <p><strong>Arraste e largue as suas fotos aqui</strong></p>
+                <p class="small-text">ou</p>
+                <button type="button" id="browse-btn" class="btn-secondary">Selecione os ficheiros</button>
+            </div>
+
+            <h4>Pré-visualização:</h4>
+            <div id="image-preview-grid" class="image-preview-grid">
+                @if (isEditing && Model.Imagens != null)
+                {
+                    foreach (var imagem in Model.Imagens)
+                    {
+                        <div class="preview-item">
+                            <img src="@Url.Content(imagem.Url)" alt="Imagem do quarto" />
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="form-group" style="margin-top: 30px;">
+                <input type="submit" value="Próximo: Preço e Disponibilidade" class="btn-primary" />
+                @Html.ActionLink("Voltar", backAction, "Home", new { id = Model?.Id }, new { @class = "btn-cancel-form" })
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script>
+        // O seu JavaScript de pré-visualização continua igual
+        document.addEventListener('DOMContentLoaded', function () {
+            const uploadZone = document.querySelector('.photo-upload-zone');
+            const fileInput = document.getElementById('file-input');
+            const browseBtn = document.getElementById('browse-btn');
+            const previewGrid = document.getElementById('image-preview-grid');
+
+            browseBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.classList.add('dragging');
+            });
+            uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragging'));
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragging');
+                fileInput.files = e.dataTransfer.files;
+                handleFiles(fileInput.files);
+            });
+
+            function handleFiles(files) {
+                previewGrid.innerHTML = "";
+                for (const file of files) {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const previewItem = document.createElement('div');
+                            previewItem.className = 'preview-item';
+                            previewItem.innerHTML = `<img src="${e.target.result}" alt="${file.name}" />`;
+                            previewGrid.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+        });
+    </script>
+}

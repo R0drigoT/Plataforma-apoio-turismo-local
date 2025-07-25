@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; // USA O LAYOUT DE ANÓNIMO
+    ViewBag.Title = "Página Inicial";
+}
+
+<main>
+    <section class="search-section">
+        <div class="search-tabs">
+            <button class="tab-link">Encontrar</button>
+            <button class="tab-link active">Quartos</button>
+            <button class="tab-link" onclick="location.href='@Url.Action("Servicos", "Home")'">Serviços</button>
+        </div>
+        <div class="search-bar">
+            <div class="search-input"><label>Localização</label><input type="text" placeholder="Diga-nos onde vai"></div>
+            <div class="search-input"><label>Check In</label><input type="date"></div>
+            <div class="search-input"><label>Check Out</label><input type="date"></div>
+            <div class="search-input"><label>Hóspedes</label><input type="text" placeholder="Hóspedes"></div>
+            <button class="search-button" onclick="location.href='@Url.Action("ResultadosPesquisa", "Home")'"><i class="fas fa-search"></i></button>
+        </div>
+    </section>
+
+    <section class="rooms-section">
+        <h2>Quartos com as melhor avaliações</h2>
+        <div class="rooms-grid">
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Suite Vista Mar</h3><p>Algarve</p></div></div></a>
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Quarto Aconchegante</h3><p>Lisboa</p></div></div></a>
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Estúdio Moderno</h3><p>Porto</p></div></div></a>
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><h3>Casa de Campo</h3><p>Gerês</p></div></div></a>
+        </div>
+    </section>
+
+    <section class="rooms-section">
+        <h2>Quartos recém adicionados</h2>
+        <div class="rooms-grid">
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Loft Urbano</h3><p>Coimbra</p></div></div></a>
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Tenda de Luxo</h3><p>Alentejo</p></div></div></a>
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Apartamento Central</h3><p>Braga</p></div></div></a>
+            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Bungalow na Praia</h3><p>Madeira</p></div></div></a>
+        </div>
+    </section>
+
+    <section class="rooms-section">
+        <h2>Serviços mais requisitados</h2>
+        <div class="rooms-grid">
+            <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Passeio de Barco</h3><p>Rio Douro</p></div></div>
+            <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Transfer Aeroporto</h3><p>Serviço Privado</p></div></div>
+            <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Prova de Vinhos</h3><p>Quinta Local</p></div></div>
+            <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Pequeno-almoço</h3><p>Servido no Quarto</p></div></div>
+        </div>
+    </section>
+</main>

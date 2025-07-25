@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Lista de Reservas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>Reservas</h1>
+        <p>Veja todas as reservas para os seus alojamentos e serviços.</p>
+    </div>
+
+    <div class="reservations-filter-bar">
+        <input type="text" class="filter-search-input" placeholder="Pesquisar por hóspede ou anúncio..." />
+        <select class="filter-select">
+            <option>Todos os estados</option>
+            <option>Confirmada</option>
+            <option>Pendente</option>
+            <option>Cancelada</option>
+        </select>
+        <input type="date" class="filter-date-input" />
+        <button class="filter-apply-btn">Aplicar Filtros</button>
+    </div>
+
+    <div class="reservations-table-container">
+        <table class="reservations-table">
+            <thead>
+                <tr>
+                    <th>Hóspede</th>
+                    <th>Datas</th>
+                    <th>Anúncio</th>
+                    <th>Estado</th>
+                    <th>Total</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>João Silva</td>
+                    <td>18 Jul - 22 Jul 2025</td>
+                    <td>Apartamento Vista Mar</td>
+                    <td><span class="status-badge confirmed">Confirmada</span></td>
+                    <td>450,00€</td>
+                    <td><a href="#" class="details-link">Ver Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>Maria Santos</td>
+                    <td>25 Jul - 28 Jul 2025</td>
+                    <td>Estúdio Moderno</td>
+                    <td><span class="status-badge pending">Pendente</span></td>
+                    <td>210,00€</td>
+                    <td><a href="#" class="details-link">Ver Detalhes</a></td>
+                </tr>
+
+                <tr>
+                    <td>Carlos Pereira</td>
+                    <td>02 Ago - 05 Ago 2025</td>
+                    <td>Passeio de Barco</td>
+                    <td><span class="status-badge confirmed">Confirmada</span></td>
+                    <td>80,00€</td>
+                    <td><a href="#" class="details-link">Ver Detalhes</a></td>
+                </tr>
+
+                <tr>
+                    <td>Ana Costa</td>
+                    <td>15 Jun - 16 Jun 2025</td>
+                    <td>Apartamento Vista Mar</td>
+                    <td><span class="status-badge cancelled">Cancelada</span></td>
+                    <td>110,00€</td>
+                    <td><a href="#" class="details-link">Ver Detalhes</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination-container">
+        <a href="#" class="pagination-btn">&laquo;</a>
+        <a href="#" class="pagination-btn active">1</a>
+        <a href="#" class="pagination-btn">2</a>
+        <a href="#" class="pagination-btn">3</a>
+        <a href="#" class="pagination-btn">&raquo;</a>
+    </div>
+
+</div>
