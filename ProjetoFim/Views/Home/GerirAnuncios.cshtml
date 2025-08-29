@@ -1,69 +1,118 @@
-﻿@model ProjetoFim.Models.AnunciosViewModel
+﻿@using ProjetoFim.Resources
+@model ProjetoFim.Models.AnunciosViewModel
+@using PagedList.Mvc;
 
 @{
-    ViewBag.Title = "Gerir Anúncios";
+    ViewBag.Title = Strings.GerirAnuncios_os_seus_an_ncios;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="admin-page-container">
     <div class="admin-page-header with-actions">
         <div>
-            <h1>Os Seus Anúncios</h1>
-            <p>Adicione, edite ou remova os seus quartos e serviços.</p>
+            <h1>@Strings.GerirAnuncios_os_seus_an_ncios</h1>
+            <p>@Strings.GerirAnuncios_adicione_edite_ou_remova_os_seus_quartos</p>
         </div>
-        <a id="btn-adicionar-novo" href="@Url.Action("AdicionarQuarto_Passo1", "Home")" class="add-new-btn"><i class="fas fa-plus"></i> Adicionar Novo</a>
+        <a id="btn-adicionar-novo" href="@Url.Action("AdicionarQuarto_Passo1", "Home")" class="add-new-btn">
+            <i class="fas fa-plus"></i> @Strings.GerirAnuncios_adicionar_novo
+        </a>
     </div>
 
     <div class="content-tabs">
-        <button class="content-tab-btn active" data-tab="quartos" data-add-url="@Url.Action("AdicionarQuarto_Passo1", "Home")">Quartos</button>
-        <button class="content-tab-btn" data-tab="servicos" data-add-url="@Url.Action("AdicionarServico", "Home")">Serviços</button>
+        <button class="content-tab-btn active" data-tab="quartos" data-add-url="@Url.Action("AdicionarQuarto_Passo1", "Home")">
+            @Strings.GerirAnuncios_quartos
+        </button>
+        <button class="content-tab-btn" data-tab="servicos" data-add-url="@Url.Action("AdicionarServico_Passo1", "Home")">
+            @Strings.GerirAnuncios_servi_os
+        </button>
     </div>
 
     <div id="quartos" class="tab-content active">
-        <div class="listings-grid">
+        <div class="manage-listings-grid">
             @foreach (var quarto in Model.Quartos)
             {
-                <div class="listing-card">
-                    <div class="listing-card-image"></div>
-                    <div class="listing-card-details">
+                var imagemPrincipal = quarto.Imagens?.OrderBy(i => i.Ordem).FirstOrDefault();
+                <div class="manage-card">
+                    <div class="manage-card__image">
+                        @if (imagemPrincipal != null)
+                        {
+                            <img src="@Url.Content(imagemPrincipal.Url)" alt="Imagem do quarto @quarto.Nome" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/images/placeholder-room.jpg" alt="@Strings.GerirAnuncios_sem_imagem_dispon_vel" />
+                        }
+                    </div>
+                    <div class="manage-card__details">
                         <h4>@quarto.Nome</h4>
                         <p>@quarto.Localizacao</p>
                     </div>
-                    <div class="listing-card-actions">
-                        <a href="@Url.Action("ModificarQuarto_Passo1", "Home", new { id = quarto.Id })" class="action-btn modify">Modificar</a>
-                        @using (Html.BeginForm("RemoverQuarto", "Home", new { id = quarto.Id }, FormMethod.Post))
+                    <div class="manage-card__actions">
+                        <a href="@Url.Action(Strings.GerirAnuncios_pr_visualizar,"Home", new { id = quarto.Id })" class="action-btn" target="_blank">
+                            @Strings.GerirAnuncios_pr_visualizar
+                        </a>
+                        <a href="@Url.Action(Strings.GerirAnuncios_modificar,"Home", new { id = quarto.Id })" class="action-btn modify">
+                            @Strings.GerirAnuncios_modificar
+                        </a>
+                        @using (Html.BeginForm(Strings.GerirAnuncios_remover, "Home", new { id = quarto.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
-                            <button type="submit" class="action-btn remove" onclick="return confirm('Tem a certeza?');">Remover</button>
+                            <button type="submit" class="action-btn remove" onclick="return confirm(@Strings.verificacao);">
+                                @Strings.GerirAnuncios_remover
+                            </button>
                         }
                     </div>
                 </div>
             }
+        </div>
+        <div class="pagination-container">
+            @Html.PagedListPager(Model.Quartos, pagina => Url.Action("GerirAnuncios", new { paginaQuartos = pagina, paginaServicos = Model.Servicos.PageNumber }))
         </div>
     </div>
 
     <div id="servicos" class="tab-content">
-        <div class="listings-grid">
+        <div class="manage-listings-grid">
             @foreach (var servico in Model.Servicos)
             {
-                <div class="listing-card">
-                    <div class="listing-card-image"></div>
-                    <div class="listing-card-details">
+                var imagemPrincipal = servico.Imagens?.OrderBy(i => i.Ordem).FirstOrDefault();
+                <div class="manage-card">
+                    <div class="manage-card__image">
+                        @if (imagemPrincipal != null)
+                        {
+                            <img src="@Url.Content(imagemPrincipal.Url)" alt="Imagem do serviço @servico.Nome" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/images/placeholder-service.jpg" alt="@Strings.GerirAnuncios_sem_imagem_dispon_vel" />
+                        }
+                    </div>
+                    <div class="manage-card__details">
                         <h4>@servico.Nome</h4>
                         <p>@servico.Localizacao</p>
                     </div>
-                    <div class="listing-card-actions">
-                        <a href="@Url.Action("ModificarServico", "Home", new { id = servico.Id })" class="action-btn modify">Modificar</a>
-                        @using (Html.BeginForm("RemoverServico", "Home", new { id = servico.Id }, FormMethod.Post))
+                    <div class="manage-card__actions">
+                        <a href="@Url.Action(Strings.GerirAnuncios_pr_visualizar,"Home", new { id = servico.Id })" class="action-btn" target="_blank">
+                            @Strings.GerirAnuncios_pr_visualizar
+                        </a>
+                        <a href="@Url.Action(Strings.GerirAnuncios_modificar,"Home", new { id = servico.Id })" class="action-btn modify">
+                            @Strings.GerirAnuncios_modificar
+                        </a>
+                        @using (Html.BeginForm(Strings.GerirAnuncios_remover, "Home", new { id = servico.Id }, FormMethod.Post))
                         {
                             @Html.AntiForgeryToken()
-                            <button type="submit" class="action-btn remove" onclick="return confirm('Tem a certeza?');">Remover</button>
+                            <button type="submit" class="action-btn remove" onclick="return confirm(@Strings.verificacao);">
+                                @Strings.GerirAnuncios_remover
+                            </button>
                         }
                     </div>
                 </div>
             }
         </div>
+        <div class="pagination-container">
+            @Html.PagedListPager(Model.Servicos, pagina => Url.Action("GerirAnuncios", new { paginaQuartos = Model.Quartos.PageNumber, paginaServicos = pagina }))
+        </div>
     </div>
+
 </div>
 
 @section scripts {
@@ -75,13 +124,11 @@
 
             tabButtons.forEach(button => {
                 button.addEventListener('click', function () {
-                    // Lógica para mudar de aba
                     tabButtons.forEach(btn => btn.classList.remove('active'));
                     tabContents.forEach(content => content.classList.remove('active'));
                     this.classList.add('active');
                     document.getElementById(this.dataset.tab).classList.add('active');
 
-                    // Lógica para mudar o link do botão "Adicionar Novo"
                     const newUrl = this.dataset.addUrl;
                     if (addNewBtn && newUrl) {
                         addNewBtn.href = newUrl;

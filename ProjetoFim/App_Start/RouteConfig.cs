@@ -14,6 +14,13 @@ namespace ProjetoFim
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "LocalizedDefault",
+                url: "{lang}/{controller}/{action}/{id}",
+                defaults: new { lang = "pt", controller = "Home", action = "Index", id = UrlParameter.Optional },
+                constraints: new { lang = "pt|en|es|fr" } 
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

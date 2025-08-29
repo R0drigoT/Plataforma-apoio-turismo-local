@@ -1,56 +1,70 @@
-﻿@{
-    ViewBag.Title = "Perfil";
+﻿@model ProjetoFim.Models.ApplicationUser
+@using System.Globalization
+@using ProjetoFim.Resources
+@{
+    ViewBag.Title = Strings.Perfil_o_meu_perfil;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var culturaEuro = new CultureInfo("pt-PT");
 }
 
 <div class="profile-page-container">
-    <aside class="profile-summary-card">
-        <div class="profile-pic-large"></div>
-        <a href="#" class="photo-update-link">Atualize a foto</a>
-
-        <div class="profile-card-actions">
-            <a href="@Url.Action("EditarPerfil", "Home")" class="profile-action-btn">
-                <i class="fas fa-user-edit"></i>
-                <span>Dados Pessoais</span>
-            </a>
-            <a href="@Url.Action("MetodosPagamento", "Home")" class="profile-action-btn">
-                <i class="fas fa-credit-card"></i>
-                <span>Metodos de pagamento</span>
-            </a>
-        </div>
-    </aside>
-
+    @Html.Partial("_ProfileSummaryCard", Model)
     <main class="profile-main-content">
-        <h1>Olá, Nome</h1>
-        <p class="member-since">Membro desde 2024</p>
-
+        <h1>@String.Format(@Strings.Perfil_ola , ", {0}", Model.UserName)</h1>
+        <p class="member-since">@Strings.Perfil_membro_desde_2025</p>
         <div class="reviews-summary">
-            <h3><i class="fas fa-star"></i> 2 Avaliações realizadas</h3>
-        </div>
-
-        <div class="profile-tabs-container">
-            <button class="profile-tab active">Quartos</button>
-            <button class="profile-tab">Serviços</button>
-            <a href="#" class="profile-tab-link">Últimas Avaliações</a>
+            <h3><i class="fas fa-star"></i> @Model.Avaliacoes.Count()@Strings.Perfil_avaliacoes_realizadas</h3>
         </div>
 
         <div class="review-list">
-            <div class="review-list-item">
-                <div class="review-item-image"></div>
-                <div class="review-item-details">
-                    <h4>Nome do alojamento</h4>
-                    <div class="rating">★★★★★</div>
-                </div>
-                <a href="#" class="saber-mais-btn">Saber mais</a>
-            </div>
-            <div class="review-list-item">
-                <div class="review-item-image"></div>
-                <div class="review-item-details">
-                    <h4>Nome do alojamento</h4>
-                    <div class="rating">★★★★★</div>
-                </div>
-                <a href="#" class="saber-mais-btn">Saber mais</a>
-            </div>
+            @if (!Model.Avaliacoes.Any())
+            {
+                <p>@Strings.Perfil_ainda_nao_fez_nenhuma_avaliacao</p>
+            }
+            else
+            {
+                foreach (var avaliacao in Model.Avaliacoes.OrderByDescending(a => a.DataAvaliacao))
+                {
+                    var nomeItem = avaliacao.Quarto?.Nome ?? avaliacao.Servico?.Nome ?? "Item Removido";
+                    var action = avaliacao.Quarto != null ? "DetalhesQuarto" : "DetalhesServico";
+                    var idItem = avaliacao.Quarto?.Id ?? avaliacao.Servico?.Id;
+
+                    <div class="review-list-item">
+                        @{
+                            var imagemUrl = avaliacao.Quarto?.Imagens.OrderBy(i => i.Ordem).FirstOrDefault()?.Url ?? "/Content/placeholder.jpg";
+                        }
+                        <div class="review-item-image" style="background-image: url('@Url.Content(imagemUrl)'); background-size: cover; background-position: center;">
+                        </div>
+                        <div class="review-item-details">
+                            <h4>@nomeItem</h4>
+                            <div class="review-rating">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="fas fa-star @(i <= avaliacao.Classificacao ? "filled" : "")"></i>
+                                }
+                            </div>
+                        </div>
+                        <a href="@Url.Action(action, "Home", new { id = idItem })" class="saber-mais-btn">@Strings.Perfil_saber_mais</a>
+                    </div>
+                }
+            }
         </div>
     </main>
 </div>
+<style>
+    .profile-pic-large.placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        color: #555;
+    }
+
+    .review-rating .fa-star {
+        color: #ccc;
+    }
+
+        .review-rating .fa-star.filled {
+            color: #ffc107;
+        }
+</style>

@@ -1,51 +1,69 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml"; // USA O LAYOUT DE ANÓNIMO
-    ViewBag.Title = "Página Inicial";
+﻿@model IEnumerable<ProjetoFim.Models.Quarto>
+@using ProjetoFim.Resources
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Homepage";
 }
 
 <main>
     <section class="search-section">
         <div class="search-tabs">
-            <button class="tab-link">Encontrar</button>
-            <button class="tab-link active">Quartos</button>
-            <button class="tab-link" onclick="location.href='@Url.Action("Servicos", "Home")'">Serviços</button>
+            <button class="tab-link">@Strings.Search_Tab_Find</button>
+            <button class="tab-link active">@Strings.Search_Tab_Rooms</button>
+            <button class="tab-link" onclick="location.href='@Url.Action("Servicos", "Home")'">@Strings.Search_Tab_Services</button>
         </div>
-        <div class="search-bar">
-            <div class="search-input"><label>Localização</label><input type="text" placeholder="Diga-nos onde vai"></div>
-            <div class="search-input"><label>Check In</label><input type="date"></div>
-            <div class="search-input"><label>Check Out</label><input type="date"></div>
-            <div class="search-input"><label>Hóspedes</label><input type="text" placeholder="Hóspedes"></div>
-            <button class="search-button" onclick="location.href='@Url.Action("ResultadosPesquisa", "Home")'"><i class="fas fa-search"></i></button>
-        </div>
+        <form action="@Url.Action("ResultadosPesquisa", "Home")" method="get" class="search-bar">
+            <div class="search-input">
+                <label>@Strings.Search_Label_Location</label>
+                <input type="text" name="localizacao" placeholder="@Strings.ResultadosPesquisa_diga_nos_onde_vai">
+            </div>
+            <div class="search-input">
+                <label>@Strings.Search_Label_CheckIn</label>
+                <input type="date" name="checkIn">
+            </div>
+            <div class="search-input">
+                <label>@Strings.Search_Label_CheckOut</label>
+                <input type="date" name="checkOut">
+            </div>
+            <div class="search-input">
+                <label>@Strings.Search_Label_Guests</label>
+                <input type="number" name="hospedes" placeholder="@Strings.ResultadosPesquisa_hospedes" min="1">
+            </div>
+            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+        </form>
     </section>
 
-    <section class="rooms-section">
-        <h2>Quartos com as melhor avaliações</h2>
-        <div class="rooms-grid">
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Suite Vista Mar</h3><p>Algarve</p></div></div></a>
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Quarto Aconchegante</h3><p>Lisboa</p></div></div></a>
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Estúdio Moderno</h3><p>Porto</p></div></div></a>
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><h3>Casa de Campo</h3><p>Gerês</p></div></div></a>
-        </div>
-    </section>
-
-    <section class="rooms-section">
-        <h2>Quartos recém adicionados</h2>
-        <div class="rooms-grid">
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Loft Urbano</h3><p>Coimbra</p></div></div></a>
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Tenda de Luxo</h3><p>Alentejo</p></div></div></a>
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Apartamento Central</h3><p>Braga</p></div></div></a>
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Bungalow na Praia</h3><p>Madeira</p></div></div></a>
-        </div>
-    </section>
-
-    <section class="rooms-section">
-        <h2>Serviços mais requisitados</h2>
-        <div class="rooms-grid">
-            <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Passeio de Barco</h3><p>Rio Douro</p></div></div>
-            <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Transfer Aeroporto</h3><p>Serviço Privado</p></div></div>
-            <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Prova de Vinhos</h3><p>Quinta Local</p></div></div>
-            <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Pequeno-almoço</h3><p>Servido no Quarto</p></div></div>
-        </div>
-    </section>
+    @if (Model != null && Model.Any())
+    {
+        <section class="rooms-section">
+            <h2>@Strings.Homepage_TopRated</h2>
+            <div class="rooms-grid">
+                @foreach (var quarto in Model)
+                {
+                    var imagemUrl = quarto.Imagens.OrderBy(i => i.Ordem).FirstOrDefault()?.Url ?? "/Content/placeholder.jpg";
+                    <a href="@Url.Action("DetalhesQuarto", "Home", new { id = quarto.Id })" class="card-link">
+                        <div class="room-card">
+                            <div class="card-image" style="background-image: url('@Url.Content(imagemUrl)'); background-size: cover; background-position: center;">
+                                <i class="far fa-heart favorite-icon-card"></i>
+                            </div>
+                            <div class="card-info">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i> @quarto.AvaliacaoMedia.ToString("F1")
+                                </div>
+                                <h3>@quarto.Nome</h3>
+                                <p>@quarto.Localizacao</p>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </section>
+    }
+    else
+    {
+        <section class="rooms-section">
+            <p>@Strings.Reservas_ainda_nao_efetuou_nenhuma_reserva</p>
+        </section>
+    }
 </main>

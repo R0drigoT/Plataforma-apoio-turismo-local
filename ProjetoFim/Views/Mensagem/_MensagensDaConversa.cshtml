@@ -1,0 +1,35 @@
+﻿@model ProjetoFim.Models.Conversa
+@using Microsoft.AspNet.Identity
+@{
+    Layout = null;
+    var userId = User.Identity.GetUserId();
+}
+
+<div class="inbox-context-header">
+    <div class="context-details">
+        <h4>@Model.Assunto</h4>
+        <span>@Strings.Mensagem_conversa_com @Model.Utilizador.UserName</span>
+    </div>
+</div>
+
+<div class="message-history">
+    @foreach (var mensagem in Model.Mensagens.OrderBy(m => m.DataEnvio))
+    {
+        var classeCss = mensagem.RemetenteId == userId ? "sent" : "received";
+        <div class="message-bubble @classeCss">
+            <div class="message-content">
+                <p>@mensagem.Conteudo</p>
+                <small class="message-timestamp">@mensagem.DataEnvio.ToString("g")</small>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="message-input-area">
+    <form id="form-responder-mensagem" style="display: flex; width: 100%;">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="conversaId" value="@Model.Id" />
+        <input type="text" name="conteudo" placeholder="@Strings._MensagensDaConversa_escrever" required />
+        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+    </form>
+</div>

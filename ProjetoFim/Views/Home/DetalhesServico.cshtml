@@ -1,87 +1,361 @@
-﻿@{
-    ViewBag.Title = "Detalhes do Serviço";
+﻿@using ProjetoFim.Resources
+@model ProjetoFim.Models.Servico
+@using System.Globalization
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = Model.Nome;
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var culturaEuro = new CultureInfo("pt-PT");
+    bool isPreview = ViewBag.IsPreviewMode ?? false;
 }
 
-<div class="room-details-container">
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+}
 
+<div class="room-details-container" data-servico-id="@Model.Id">
     <section class="details-header">
-        <h1>Passeio de Barco no Douro</h1>
-        <div class="image-gallery">
-            <div class="main-image"></div>
-            <div class="thumbnail-grid">
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-                <div class="thumbnail"></div>
-            </div>
+        <h1>@Model.Nome</h1>
+        <div class="room-main-info">
+            <span class="rating-summary"><i class="fas fa-star"></i> @Model.AvaliacaoMedia.ToString("F1") (@Model.Avaliacoes.Count() @Strings.Menu_Reviews)</span>
+            <span class="info-separator">·</span>
+            <span class="location-text">@ViewBag.Cidade</span>
         </div>
-        <div class="location-summary">
-            <div class="profile-pic-small"></div>
-            <div>
-                <p><strong>Avaliação ★ 5.0</strong> A partir de 50€</p>
-                <p>Prestador: Nome da Empresa</p>
-            </div>
+        <div class="image-gallery">
+            @if (Model.Imagens != null && Model.Imagens.Any())
+            {
+                var imagensOrdenadas = Model.Imagens.OrderBy(i => i.Ordem).ToList();
+                <div class="main-image">
+                    <img id="main-gallery-image" src="@Url.Content(imagensOrdenadas.First().Url)" alt="@Model.Nome" />
+                </div>
+
+                if (imagensOrdenadas.Count > 1)
+                {
+                    <div class="thumbnail-grid">
+                        @foreach (var imagem in imagensOrdenadas)
+                        {
+                            <div class="thumbnail">
+                                <img class="thumbnail-image" src="@Url.Content(imagem.Url)" alt="@("Miniatura de " + Model.Nome)" style="cursor: pointer;" />
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="main-image" style="background-color: #e9ecef;"></div>
+            }
         </div>
     </section>
 
-    <div class="details-body">
-        <div class="details-main-content">
-            <div class="title-actions">
-                <h2>Detalhes</h2>
-                <div class="actions">
-                    <i class="far fa-heart"></i>
-                    <i class="fas fa-share-alt"></i>
+    <div class="details-main-grid">
+        <div class="details-body">
+            <div class="details-main-content">
+                <div class="title-actions">
+                    <h2>@Strings.DetalhesServico_detalhes</h2>
+                    <div class="actions">
+                        @if (User.Identity.IsAuthenticated && !isPreview)
+                        {
+                            using (Html.BeginForm("ToggleFavorito", "Favorito", FormMethod.Post, new { id = "form-favorito", style = "display: inline;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="quartoId" value="@Model.Id" />
+                                <button type="submit" id="toggle-favorito-btn" class="favorite-btn">
+                                    <i class="fa-heart @(ViewBag.IsFavorito ? "fas" : "far")"></i>
+                                </button>
+                            }
+                        }
+                        @if (!isPreview)
+                        {
+                            <i class="fas fa-share-alt" id="share-button" style="cursor: pointer;"></i>
+                        }
+                    </div>
+                </div>
+                <p class="description">@Model.Descricao</p>
+                <hr>
+                <div class="amenities-grid">
                 </div>
             </div>
-            <p class="description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
+            @if (!isPreview)
+            {
+                <aside class="booking-box">
+                    @using (Html.BeginForm("CriarReservaServico", "Reserva", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="servicoId" value="@Model.Id" />
 
-            <hr>
+                        if (Model.DescontoPercentagem > 0)
+                        {
+                            var precoComDesconto = Model.Preco * (1 - (Model.DescontoPercentagem / 100.0m));
+                            <h3>
+                                <span style="text-decoration: line-through; color: #999; font-size: 18px;">@Model.Preco.ToString("C", culturaEuro)</span>
+                                @precoComDesconto.ToString("C", culturaEuro) <small>@Strings.DetalhesServico_por_pessoa</small>
+                            </h3>
+                        }
+                        else
+                        {
+                            <h3>@Model.Preco.ToString("C", culturaEuro) <small>@Strings.DetalhesServico_por_pessoa</small></h3>
+                        }
 
-            <h3>O que está incluído</h3>
-            <div class="amenities-grid">
-                <div class="amenity-item"><i class="fas fa-user-tie"></i> Guia Turístico</div>
-                <div class="amenity-item"><i class="fas fa-wine-glass"></i> Bebidas incluídas</div>
-                <div class="amenity-item"><i class="fas fa-camera"></i> Paragens para fotos</div>
-                <div class="amenity-item"><i class="fas fa-shield-alt"></i> Seguro de acidentes</div>
-                <div class="amenity-item"><i class="fas fa-car"></i> Transporte</div>
-                <div class="amenity-item"><i class="fas fa-info-circle"></i> Briefing de segurança</div>
-            </div>
-            <button class="show-all-btn">Mostrar Todos os Itens</button>
-
-            <hr>
-
-            <h3>Localização</h3>
-            <div class="map-placeholder">
-                <p>Mapa do ponto de encontro</p>
-            </div>
-
-            <hr>
-
-            <h3>Reviews ★ 5.0</h3>
-            <div class="sub-ratings">
-            </div>
-            <div class="reviews-grid">
-            </div>
+                        <div class="booking-inputs">
+                            <div class="booking-input full-width">
+                                <label>@Strings.DetalhesServico_data</label>
+                                <input type="text" id="servico-datepicker" name="dataReserva" required placeholder="@Strings.DetalhesServico_selecione_a_data">
+                            </div>
+                            <div class="booking-input full-width">
+                                <label>@Strings.DetalhesServico_participantes</label>
+                                <input type="number" name="numParticipantes" value="1" min="1" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="reserve-btn">@Strings.DetalhesServico_reservar_agora</button>
+                        <p id="openContactHostBtn" class="contact-host" style="cursor: pointer;"><i class="fas fa-comment-dots"></i> @Strings.DetalhesServico_contactar_prestador</p>
+                    }
+                </aside>
+            }
         </div>
+    </div>
+    <hr />
+    <h3>@Strings.DetalhesServico_localiza_o</h3>
+    <div id="map" style="height: 400px; border-radius: 12px; margin-top: 20px;"></div>
+    <div class="reviews-section">
+        <hr />
+        <h3><i class="fas fa-star"></i> @Model.AvaliacaoMedia.ToString("F1") (@Model.Avaliacoes.Count() @Strings.Menu_Reviews)</h3>
+        <div class="reviews-grid">
+            @if (!Model.Avaliacoes.Any())
+            {
+                <p>@Strings.DetalhesServico_este_servi_o_ainda_n_o_tem_avalia_es</p>
+            }
+            else
+            {
+                var utilizadorId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null;
 
-        <aside class="booking-box">
-            <h3>50€ <small>por pessoa</small></h3>
-            <div class="booking-inputs">
-                <div class="booking-input full-width">
-                    <label>Data</label>
-                    <input type="date">
-                </div>
-                <div class="booking-input full-width">
-                    <label>Participantes</label>
-                    <input type="text" value="1 pessoa">
-                </div>
+                var avaliacoesOrdenadas = Model.Avaliacoes
+                                               .OrderBy(a => a.UtilizadorId == utilizadorId ? 0 : 1)
+                                               .ThenByDescending(a => a.DataAvaliacao);
+
+                var avaliacoesParaMostrar = (bool)(ViewBag.ShowAllReviews ?? false) ?
+                                            avaliacoesOrdenadas.ToList() :
+                                            avaliacoesOrdenadas.Take(4).ToList();
+
+                foreach (var avaliacao in avaliacoesParaMostrar)
+                {
+                    <div class="review-item" id="avaliacao-@avaliacao.Id">
+                        <div class="review-author">
+                            @if (string.IsNullOrEmpty(avaliacao.Utilizador.CaminhoFotoPerfil))
+                            {
+                                <div class="profile-pic-small placeholder">
+                                    <span>@avaliacao.Utilizador.UserName.Substring(0, 1).ToUpper()</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="profile-pic-small" style="background-image: url('@Url.Content(avaliacao.Utilizador.CaminhoFotoPerfil)');"></div>
+                            }
+                            <div>
+                                <strong>@avaliacao.Utilizador.UserName</strong>
+                                <small>@avaliacao.DataAvaliacao.ToString("MMMM yyyy", culturaEuro)</small>
+                            </div>
+
+                            @if (User.Identity.IsAuthenticated && (avaliacao.UtilizadorId == User.Identity.GetUserId() || User.IsInRole("Admin")))
+                            {
+                                using (Html.BeginForm("Apagar", "Avaliacao", new { id = avaliacao.Id }, FormMethod.Post, new { @class = "form-apagar-avaliacao" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="delete-review-btn">@Strings.DetalhesServico_apagar</button>
+                                }
+                            }
+                        </div>
+                        <div class="review-rating">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="fas fa-star @(i <= avaliacao.Classificacao ? "filled" : "")"></i>
+                            }
+                        </div>
+                        <p class="review-comment">@avaliacao.Comentario</p>
+                    </div>
+                }
+                if (!(ViewBag.ShowAllReviews ?? false) && Model.Avaliacoes.Count() > 4)
+                {
+                    <a href="@Url.Action("DetalhesServico", "Home", new { id = Model.Id, showAllReviews = true })" class="show-all-btn">@Strings.DetalhesServico_mostrar_todas_as_avalia_es</a>
+                }
+            }
+        </div>
+        @if (!isPreview)
+        {
+            <div class="leave-review-form">
+                <h4>@Strings.DetalhesServico_deixe_a_sua_avalia_o</h4>
+                @if (TempData["ErroAvaliacao"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["ErroAvaliacao"]</div>
+                }
+                @if (TempData["SucessoAvaliacao"] != null)
+                {
+                    <div class="alert alert-success">@TempData["SucessoAvaliacao"]</div>
+                }
+
+                @using (Html.BeginForm("CriarParaServico", "Avaliacao", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("servicoId", Model.Id)
+
+                    <div class="form-group">
+                        <label>@Strings.DetalhesServico_a_sua_classifica_o</label>
+                        <div class="star-rating-input">
+                            <i class="fas fa-star" data-value="1"></i>
+                            <i class="fas fa-star" data-value="2"></i>
+                            <i class="fas fa-star" data-value="3"></i>
+                            <i class="fas fa-star" data-value="4"></i>
+                            <i class="fas fa-star" data-value="5"></i>
+                            <input type="hidden" name="classificacao" id="classificacaoInput" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comentario">@Strings.DetalhesServico_o_seu_coment_rio</label>
+                        <textarea name="comentario" rows="4" placeholder="@Strings.DetalhesServico_descreva_a_sua_experi_ncia" maxlength="500"></textarea>
+                    </div>
+                    <button type="submit" class="submit-review-btn">@Strings.DetalhesServico_submeter_avalia_o</button>
+                }
             </div>
-            <button class="reserve-btn">Reservar Agora</button>
-            <p class="contact-host"><i class="fas fa-comment-dots"></i> Contactar Prestador</p>
-        </aside>
+        }
     </div>
 </div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        $(document).ready(function () {
+            @if (TempData["SucessoAvaliacao"] != null)
+            {
+                <text>
+                showErrorModal("@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SucessoAvaliacao"].ToString()))");
+                </text>
+            }
+            @if (TempData["ErroAvaliacao"] != null)
+            {
+                <text>
+                showErrorModal("@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["ErroAvaliacao"].ToString()))");
+                </text>
+            }
+
+            const mapContainer = document.getElementById('map');
+            const lat = @(Model.Latitude?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "null");
+            const lon = @(Model.Longitude?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "null");
+            const localizacaoTexto = "@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Localizacao))";
+
+            if (mapContainer) {
+                if (lat != null && lon != null) {
+                    const map = L.map('map').setView([lat, lon], 15);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                    L.marker([lat, lon]).addTo(map).bindPopup(localizacaoTexto).openPopup();
+                } else {
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${localizacaoTexto}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data && data.length > 0) {
+                                const geoLat = data[0].lat;
+                                const geoLon = data[0].lon;
+                                const map = L.map('map').setView([geoLat, geoLon], 13);
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                                L.marker([geoLat, geoLon]).addTo(map).bindPopup(localizacaoTexto).openPopup();
+                            } else {
+                                mapContainer.style.display = 'none';
+                            }
+                        });
+                }
+            }
+
+            $('.booking-box form').on('submit', function (e) {
+                if ($('#servico-datepicker').val() === '') {
+                    e.preventDefault();
+                    showErrorModal("@ProjetoFim.Resources.Strings.Servicos_selecione_data_por_favor");
+                    return false;
+                }
+            });
+
+            const formAvaliacao = document.querySelector('.leave-review-form form');
+            if (formAvaliacao) {
+                formAvaliacao.addEventListener('submit', function (e) {
+                    const classificacaoInput = document.getElementById('classificacaoInput');
+                    if (!classificacaoInput.value || classificacaoInput.value === '0') {
+                        e.preventDefault();
+                        showErrorModal("@ProjetoFim.Resources.Strings.Avaliacoes_selecione_classificacao");
+                        return false;
+                    }
+                });
+            }
+
+            $('#form-favorito-servico').on('submit', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var token = form.find('input[name="__RequestVerificationToken"]').val();
+                var servicoId = form.find('input[name="servicoId"]').val();
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { __RequestVerificationToken: token, servicoId: servicoId },
+                    success: function (response) {
+                        if (response.success) {
+                            var icon = $('#toggle-favorito-servico-btn').find('.fa-heart');
+                            if (response.isFavorito) {
+                                icon.removeClass('far').addClass('fas');
+                            } else {
+                                icon.removeClass('fas').addClass('far');
+                            }
+                        }
+                    }
+                });
+            });
+
+            var servicoId = @Model.Id;
+            var url = '@Url.Action("GetDatasOcupadasServico", "Home")?id=' + servicoId;
+            $.getJSON(url, function (datasOcupadas) {
+                flatpickr("#servico-datepicker", {
+                    dateFormat: "Y-m-d",
+                    altInput: true,
+                    altFormat: "d/m/Y",
+                    minDate: "today",
+                    disable: datasOcupadas
+                });
+            });
+
+            $('.star-rating-input .fa-star').on('click', function () {
+                var ratingValue = $(this).data('value');
+                $('#classificacaoInput').val(ratingValue);
+                $('.star-rating-input .fa-star').each(function () {
+                    if ($(this).data('value') <= ratingValue) {
+                        $(this).css('color', '#ffc107');
+                    } else {
+                        $(this).css('color', '#ccc');
+                    }
+                });
+            });
+
+            $(document).on('submit', '.form-apagar-avaliacao', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                showConfirmationModal('@ProjetoFim.Resources.Strings.GerirAvaliacoes_confirmar_apagar', function () {
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: 'POST',
+                        data: form.serialize(),
+                        success: function (response) {
+                            if (response.success) {
+                                form.closest('.review-item').fadeOut('slow');
+                            } else {
+                                showErrorModal('@ProjetoFim.Resources.Strings.GerirAvaliacoes_erro ' + response.message);
+                            }
+                        },
+                        error: function () {
+                            showErrorModal('@ProjetoFim.Resources.Strings.Aviso_erro_comunicacao');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
+

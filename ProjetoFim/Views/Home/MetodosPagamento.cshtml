@@ -1,38 +1,27 @@
-﻿@{
-    ViewBag.Title = "Métodos de pagamento";
+﻿@model ProjetoFim.Models.ApplicationUser
+@using System.Globalization
+@using ProjetoFim.Resources
+
+@{
+    ViewBag.Title = Strings.MetodosPagamento_titulo;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="profile-page-container">
-    <aside class="profile-summary-card">
-        <div class="profile-pic-large"></div>
-        <a href="#" class="photo-update-link">Atualize a foto</a>
-
-        <div class="profile-card-actions">
-            <a href="@Url.Action("EditarPerfil", "Home")" class="profile-action-btn">
-                <i class="fas fa-user-edit"></i>
-                <span>Dados Pessoais</span>
-            </a>
-            <a href="@Url.Action("MetodosPagamento", "Home")" class="profile-action-btn active">
-                <i class="fas fa-credit-card"></i>
-                <span>Metodos de pagamento</span>
-            </a>
-        </div>
-    </aside>
-
+    @Html.Partial("_ProfileSummaryCard", Model)
     <main class="profile-main-content">
-        <h1 class="page-title">Métodos de pagamento</h1>
-        <p class="page-description">Adicione ou exclua métodos de pagamento de forma segura e facilite as reservas.</p>
+        <h1 class="page-title">@Strings.MetodosPagamento_titulo</h1>
+        <p class="page-description">@Strings.MetodosPagamento_descricao</p>
 
         <div id="payment-methods-list">
             <hr class="section-divider">
             <div class="payment-method-item">
                 <div class="payment-method-details">
-                    <h4>Cartões de pagamento</h4>
-                    <p>Pague com um novo cartão</p>
+                    <h4>@Strings.MetodosPagamento_cartoes_pagamento</h4>
+                    <p>@Strings.MetodosPagamento_pague_com_novo_cartao</p>
                 </div>
                 <div class="payment-method-action">
-                    <a href="#" id="show-add-card-form-btn">Adicionar cartão</a>
+                    <a href="#" id="show-add-card-form-btn">@Strings.MetodosPagamento_adicionar_cartao</a>
                 </div>
             </div>
             <hr class="section-divider">
@@ -40,24 +29,24 @@
 
         <div id="add-card-form" class="add-card-container">
             <div class="add-card-header">
-                <h4>Cartões de pagamento</h4>
-                <a href="#" id="cancel-add-card-btn" class="form-btn-cancel">Cancelar</a>
+                <h4>@Strings.MetodosPagamento_cartoes_pagamento</h4>
+                <a href="#" id="cancel-add-card-btn" class="form-btn-cancel">@Strings.Confirm_Cancel</a>
             </div>
             <form class="profile-edit-form">
                 <div class="form-group">
-                    <label for="card-holder-name">Nome do titular do cartão *</label>
+                    <label for="card-holder-name">@Strings.MetodosPagamento_nome_titular_cartao *</label>
                     <input type="text" id="card-holder-name" />
                 </div>
                 <div class="form-group">
-                    <label for="card-number-full">Número do cartão *</label>
+                    <label for="card-number-full">@Strings.MetodosPagamento_numero_cartao *</label>
                     <input type="text" id="card-number-full" placeholder="xxxx xxxx xxxx xxxx" />
                 </div>
                 <div class="form-group">
-                    <label for="card-expiry">Data de validade *</label>
+                    <label for="card-expiry">@Strings.MetodosPagamento_data_validade *</label>
                     <input type="text" id="card-expiry" placeholder="MM / AA" style="max-width: 150px;" />
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="form-btn-save">Guardar</button>
+                    <button type="submit" class="form-btn-save">@Strings.MetodosPagamento_guardar</button>
                 </div>
             </form>
         </div>

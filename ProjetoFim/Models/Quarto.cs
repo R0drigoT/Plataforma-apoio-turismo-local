@@ -1,55 +1,65 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ProjetoFim.Models
 {
     public class Quarto
     {
-        public Quarto()
-        {
-            this.Comodidades = new HashSet<Comodidade>();
-            this.Imagens = new HashSet<Imagem>();
-        }
-
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "O nome é obrigatório.")]
+        [Required(ErrorMessageResourceType = typeof(Resources.Strings),
+                  ErrorMessageResourceName = "Quarto_Nome_Obrigatorio")]
+        [Display(Name = "Quarto_Nome", ResourceType = typeof(Resources.Strings))]
         public string Nome { get; set; }
 
+        [StringLength(1000,
+            ErrorMessageResourceType = typeof(Resources.Strings),
+            ErrorMessageResourceName = "Quarto_Descricao_Limite")]
+        [Display(Name = "Quarto_Descricao", ResourceType = typeof(Resources.Strings))]
         public string Descricao { get; set; }
 
-        [Required(ErrorMessage = "A localização é obrigatória.")]
+        [Required(ErrorMessageResourceType = typeof(Resources.Strings),
+                  ErrorMessageResourceName = "Quarto_Localizacao_Obrigatoria")]
+        [Display(Name = "Quarto_Localizacao", ResourceType = typeof(Resources.Strings))]
         public string Localizacao { get; set; }
 
-        [Required(ErrorMessage = "O preço é obrigatório.")]
-        [DisplayName("Preço por Noite")]
+        [Required(ErrorMessageResourceType = typeof(Resources.Strings),
+                  ErrorMessageResourceName = "Quarto_Preco_Obrigatorio")]
+        [Display(Name = "Quarto_PrecoPorNoite", ResourceType = typeof(Resources.Strings))]
         public decimal PrecoPorNoite { get; set; }
 
-        [Required(ErrorMessage = "O número de hóspedes é obrigatório.")]
-        [DisplayName("Nº de Hóspedes")]
+        [Required(ErrorMessageResourceType = typeof(Resources.Strings),
+                  ErrorMessageResourceName = "Quarto_Hospedes_Obrigatorio")]
+        [Display(Name = "Quarto_NumeroHospedes", ResourceType = typeof(Resources.Strings))]
         public int NumeroHospedes { get; set; }
 
-        // --- PROPRIEDADES DE INSTALAÇÕES ---
-        [DisplayName("Camas de Casal")]
+        [Display(Name = "Quarto_CamasCasal", ResourceType = typeof(Resources.Strings))]
         public int NumeroCamasCasal { get; set; }
 
-        [DisplayName("Camas de Solteiro")]
+        [Display(Name = "Quarto_CamasSolteiro", ResourceType = typeof(Resources.Strings))]
         public int NumeroCamasSolteiro { get; set; }
 
-        [DisplayName("Casas de Banho")]
+        [Display(Name = "Quarto_CasasDeBanho", ResourceType = typeof(Resources.Strings))]
         public int NumeroCasasDeBanho { get; set; }
 
-        [DisplayName("Estacionamento")]
+        [Display(Name = "Quarto_Desconto", ResourceType = typeof(Resources.Strings))]
+        public int DescontoPercentagem { get; set; }
+
+        [Display(Name = "Quarto_Estacionamento", ResourceType = typeof(Resources.Strings))]
         public bool TemEstacionamento { get; set; }
 
-        // --- PROPRIEDADES DE NAVEGAÇÃO ---
+        [Display(Name = "Quarto_Latitude", ResourceType = typeof(Resources.Strings))]
+        public double? Latitude { get; set; }
 
-        // Um Quarto pode ter uma coleção de Imagens
+        [Display(Name = "Quarto_Longitude", ResourceType = typeof(Resources.Strings))]
+        public double? Longitude { get; set; }
+
+        public double AvaliacaoMedia { get; set; }
+
+        public virtual ICollection<Avaliacao> Avaliacoes { get; set; }
         public virtual ICollection<Imagem> Imagens { get; set; }
-
-        // Um Quarto pode ter uma coleção de Comodidades
         public virtual ICollection<Comodidade> Comodidades { get; set; }
+        public virtual ICollection<QuartoTrad> Traducoes { get; set; }
     }
 }

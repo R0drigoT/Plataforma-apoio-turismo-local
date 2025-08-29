@@ -1,74 +1,96 @@
-﻿@{
+﻿@model ProjetoFim.Models.ServicosViewModel
+@using ProjetoFim.Resources
+@{
+    ViewBag.Title = Strings.Servicos_servicos;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Serviços";
 }
 
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
 <main>
     <section class="search-section">
         <div class="search-tabs">
-            <button class="tab-link">Encontrar</button>
-            <button class="tab-link" onclick="location.href='@Url.Action("Homepage", "Home")'">Quartos</button>
-            <button class="tab-link active">Serviços</button>
+            <button class="tab-link">@Strings.Servicos_encontrar</button>
+            <button class="tab-link" onclick="location.href='@Url.Action("Homepage", "Home")'">@Strings.Servicos_quartos</button>
+            <button class="tab-link active">@Strings.Servicos_servicos</button>
         </div>
-        <div class="search-bar">
-            <div class="search-input"><label>Localização</label><input type="text" placeholder="Onde procura o serviço?"></div>
-            <div class="search-input"><label>Data</label><input type="date"></div>
-            <div class="search-input"><label>Tipo de Serviço</label><input type="text" placeholder="Ex: Passeio de barco"></div>
-            <button class="search-button" onclick="location.href='@Url.Action("ResultadosServicos", "Home")'"><i class="fas fa-search"></i></button>
+        <form action="@Url.Action("ResultadosServicos", "Home")" method="get" class="search-bar">
+            <div class="search-input">
+                <label>@Strings.Servicos_localizacao</label>
+                <input type="text" name="localizacao" placeholder="@Strings.Servicos_onde_procura_o_servico">
+            </div>
+            <div class="search-input">
+                <label>@Strings.Servicos_data</label>
+                <input type="text" id="servicos-datepicker" name="data" placeholder="@Strings.Servicos_dd_mm_aaaa">
+            </div>
+            <div class="search-input">
+                <label>@Strings.Servicos_tipo_de_servico</label>
+                <input type="text" name="tipoServico" placeholder="@Strings.Servicos_ex_passeio_de_barco">
+            </div>
+            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+        </form>
+    </section>
+
+    <section class="rooms-section">
+        <div class="section-header">
+            <h2>@Strings.Servicos_servicos_mais_requisitados</h2>
+            <div class="scroll-buttons">
+                <button class="scroll-btn prev" data-target="mais-requisitados-grid">&lt;</button>
+                <button class="scroll-btn next" data-target="mais-requisitados-grid">&gt;</button>
+            </div>
+        </div>
+        <div class="rooms-grid" id="mais-requisitados-grid">
+            @Html.Partial("_ListaServicosCard", Model.ServicosMaisRequisitados)
         </div>
     </section>
 
     <section class="rooms-section">
-        <h2>Serviços mais requisitados</h2>
-        <div class="rooms-grid">
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Passeio de Barco</h3><p>Rio Douro</p></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Transfer Aeroporto</h3><p>Serviço Privado</p></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Prova de Vinhos</h3><p>Quinta Local</p></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Pequeno-almoço</h3><p>Servido no Quarto</p></div></div>
-            </a>
+        <div class="section-header">
+            <h2>@Strings.Servicos_servicos_recem_adicionados</h2>
+            <div class="scroll-buttons">
+                <button class="scroll-btn prev" data-target="recem-adicionados-grid">&lt;</button>
+                <button class="scroll-btn next" data-target="recem-adicionados-grid">&gt;</button>
+            </div>
+        </div>
+        <div class="rooms-grid" id="recem-adicionados-grid">
+            @Html.Partial("_ListaServicosCard", Model.ServicosRecemAdicionados)
         </div>
     </section>
 
     <section class="rooms-section">
-        <h2>Serviços com desconto</h2>
-        <div class="rooms-grid">
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><h3>Tour a Sintra</h3><p>Dia inteiro</p><div class="price-tag"><span class="original-price">€80</span><span class="discount-price">€60</span></div></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Aluguer de Bicicleta</h3><p>24 horas</p><div class="price-tag"><span class="original-price">€25</span><span class="discount-price">€18</span></div></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Aula de Surf</h3><p>Praia de Carcavelos</p><div class="price-tag"><span class="original-price">€50</span><span class="discount-price">€40</span></div></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Jantar com Fado</h3><p>Alfama, Lisboa</p><div class="price-tag"><span class="original-price">€75</span><span class="discount-price">€65</span></div></div></div>
-            </a>
+        <div class="section-header">
+            <h2>@Strings.Servicos_servicos_com_desconto</h2>
+            <div class="scroll-buttons">
+                <button class="scroll-btn prev" data-target="com-desconto-grid">&lt;</button>
+                <button class="scroll-btn next" data-target="com-desconto-grid">&gt;</button>
+            </div>
         </div>
-    </section>
-
-    <section class="rooms-section">
-        <h2>Serviços de Fotografia</h2>
-        <div class="rooms-grid">
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Sessão Fotográfica</h3><p>Casal</p></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><h3>Fotografia de Drone</h3><p>Paisagens</p></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div><h3>Book Pessoal</h3><p>Estúdio ou Exterior</p></div></div>
-            </a>
-            <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-                <div class="room-card"><div class="card-image"><i class="far fa-heart"></i></div><div class="card-info"><div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><h3>Cobertura de Evento</h3><p>Aniversários</p></div></div>
-            </a>
+        <div class="rooms-grid" id="com-desconto-grid">
+            @Html.Partial("_ListaServicosCard", Model.ServicosComDesconto)
         </div>
     </section>
 </main>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            flatpickr("#servicos-datepicker", {
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "d/m/Y",
+                minDate: "today"
+            });
+            document.querySelectorAll('.scroll-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const targetId = this.dataset.target;
+                    const grid = document.getElementById(targetId);
+                    const scrollAmount = this.classList.contains('prev') ? -300 : 300;
+                    grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+}

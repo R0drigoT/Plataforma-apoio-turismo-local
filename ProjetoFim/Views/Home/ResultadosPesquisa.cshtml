@@ -1,68 +1,74 @@
-﻿@{
+﻿@model IEnumerable<ProjetoFim.Models.Quarto>
+@using ProjetoFim.Resources
+@{
+    ViewBag.Title = Strings.ResultadosPesquisa_resultados_da_pesquisa_de_quartos;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Resultados da Pesquisa";
 }
-
-<div class="search-results-page">
-    <div class="results-column">
-        <div class="results-header">
-            <h3>10 resultados encontrados</h3>
-            <button class="filter-btn"><i class="fas fa-filter"></i> Filtros</button>
-        </div>
-        <div class="results-filters">
-            <div class="filter-input">
-                <label>Localização</label>
-                <input type="text" placeholder="Para onde vais?">
-            </div>
-            <div class="filter-input">
-                <label>Check In</label>
-                <input type="date">
-            </div>
-            <div class="filter-input">
-                <label>Check Out</label>
-                <input type="date">
-            </div>
-            <div class="filter-input">
-                <label>Hóspedes</label>
-                <input type="text" placeholder="Quantos?">
-            </div>
-            <button class="search-icon-btn"><i class="fas fa-search"></i></button>
-        </div>
-
-        <div class="results-list">
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link">
-                <div class="result-card">
-                    <div class="result-card-image">
-                        <div class="image-overlay-info">
-                            <div class="overlay-pic"></div>
-                            <div>
-                                <div class="rating">★★★★★</div>
-                                <div>localização</div>
-                                <div>A partir de 50€</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="result-card-details">
-                        <h4>Nome do Quarto</h4>
-                        <p>Localização</p>
-                        <div class="result-card-icons">
-                            <span><i class="fas fa-bed"></i> 3</span>
-                            <span><i class="fas fa-bath"></i> 1</span>
-                            <span><i class="fas fa-ruler-combined"></i> 2</span>
-                            <span><i class="fas fa-users"></i> 0</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="result-card"><div class="result-card-image"><div class="image-overlay-info"><div class="overlay-pic"></div><div><div class="rating">★★★★☆</div><div>Outra Localização</div><div>A partir de 75€</div></div></div></div><div class="result-card-details"><h4>Outro Nome de Quarto</h4><p>Localização Secundária</p><div class="result-card-icons"><span><i class="fas fa-bed"></i> 2</span><span><i class="fas fa-bath"></i> 1</span><span><i class="fas fa-ruler-combined"></i> 1</span><span><i class="fas fa-users"></i> 0</span></div></div></div></a>
-            <a href="@Url.Action("DetalhesQuarto", "Home")" class="card-link"><div class="result-card"><div class="result-card-image"><div class="image-overlay-info"><div class="overlay-pic"></div><div><div class="rating">★★★★★</div><div>Mais uma Localização</div><div>A partir de 90€</div></div></div></div><div class="result-card-details"><h4>Alojamento de Luxo</h4><p>Localização de Topo</p><div class="result-card-icons"><span><i class="fas fa-bed"></i> 5</span><span><i class="fas fa-bath"></i> 3</span><span><i class="fas fa-ruler-combined"></i> 4</span><span><i class="fas fa-users"></i> 0</span></div></div></div></a>
-
-        </div>
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
+<div class="service-results-container">
+    <div class="results-header">
+        <h3>@Model.Count() resultado(s) encontrado(s)</h3>
+        <button class="filter-btn"><i class="fas fa-filter"></i> @Strings.ResultadosPesquisa_filtros</button>
     </div>
 
-    <div class="map-column">
-        <div class="map-sticky-container">
-            <p>Mapa Fixo Aqui</p>
-        </div>
+    <section class="search-section">
+        <form action="@Url.Action("ResultadosPesquisa", "Home")" method="get" class="search-bar">
+            <div class="search-input">
+                <label>@Strings.Search_Label_Location</label>
+                <input type="text" name="localizacao" placeholder="@Strings.ResultadosPesquisa_diga_nos_onde_vai">
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosPesquisa_check_in</label>
+                <input type="text" name="checkIn" id="homepage-checkin-picker" placeholder="@Strings.ResultadosPesquisa_dd_mm_aaaa">
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosPesquisa_check_out</label>
+                <input type="text" name="checkOut" id="homepage-checkout-picker" placeholder="@Strings.ResultadosPesquisa_dd_mm_aaaa">
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosPesquisa_hospedes</label>
+                <input type="number" name="hospedes" placeholder="@Strings.ResultadosPesquisa_hospedes" min="1">
+            </div>
+            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+        </form>
+    </section>
+
+    <div class="services-results-grid">
+        @if (!Model.Any())
+        {
+            <p>@Strings.ResultadosPesquisa_nenhum_servico_encontrado_com_os_criteri</p>
+        }
+        else
+        {
+            @Html.Partial("_ListaQuartosCard", Model)
+        }
     </div>
 </div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var checkoutPicker = flatpickr("#resultados-checkout-picker", {
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "d/m/Y",
+                minDate: new Date().fp_incr(1)
+            });
+
+            flatpickr("#resultados-checkin-picker", {
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "d/m/Y",
+                minDate: "today",
+                onChange: function (selectedDates, dateStr, instance) {
+                    if (selectedDates.length > 0) {
+                        checkoutPicker.set('minDate', new Date(selectedDates[0]).fp_incr(1));
+                    }
+                }
+            });
+        });
+    </script>
+}

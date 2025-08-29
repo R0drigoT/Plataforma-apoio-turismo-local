@@ -1,63 +1,72 @@
 ﻿@model ProjetoFim.Models.Quarto
-
+@using ProjetoFim.Resources
 @{
-    // Lógica para definir o título e a Action do formulário dinamicamente
     bool isEditing = Model != null && Model.Id > 0;
     ViewBag.Title = isEditing ? "Modificar Quarto - Passo 1" : "Adicionar Quarto - Passo 1";
     string formAction = isEditing ? "ModificarQuarto_Passo1" : "AdicionarQuarto_Passo1";
 }
 
+@section styles {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+}
+
 <div class="admin-page-container">
     <div class="admin-page-header">
         <h1>@(isEditing ? "Modificar Quarto" : "Adicionar Novo Quarto")</h1>
-        <p>Passo 1 de 5: Informações Básicas</p>
+        <p>@Strings.adicionarquarto_passo1_passo_1_de_5_informacoes_basicas</p>
     </div>
 
-    @using (Html.BeginForm(formAction, "Home", FormMethod.Post))
+    @{
+        object routeVals = null;
+        if (isEditing) { routeVals = new { id = Model.Id }; }
+    }
+
+    @using (Html.BeginForm(formAction, "Home", routeVals, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-
-        @* Se estivermos a editar, precisamos de incluir o ID num campo escondido *@
         if (isEditing)
-        {
-            @Html.HiddenFor(model => model.Id)
-        }
+        { @Html.HiddenFor(model => model.Id) }
 
-        <div class="form-horizontal">
-            <p>Comece por preencher os detalhes fundamentais do seu espaço.</p>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <p>@Strings.adicionarquarto_passo1_comece_por_preencher_os_detalhes_fundame</p>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control", rows = 5 })
-                    @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Localizacao, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Localizacao, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Localizacao, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Próximo: Instalações" class="btn-primary" style="margin-top: 20px;" />
-                    @Html.ActionLink("Cancelar", "GerirAnuncios", null, new { @class = "btn-cancel-form" })
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
             </div>
         </div>
-    }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control", rows = 5, maxlength = 700 })
+                @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Localizacao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Localizacao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Localizacao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Latitude, new { id = "Latitude" })
+        @Html.HiddenFor(model => model.Longitude, new { id = "Longitude" })
+
+        @Html.Partial("_MapSelector", Model)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 form-actions">
+                @Html.ActionLink(Strings.Confirm_Cancel, "GerirAnuncios", null, new { @class = "btn-cancel-form" })
+                <input type="submit" value="@Strings.Auth_Continue" class="btn-primary" />
+            </div>
+        </div>
+    </div>
+}
 </div>

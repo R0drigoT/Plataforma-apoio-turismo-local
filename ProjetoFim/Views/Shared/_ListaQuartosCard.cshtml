@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ProjetoFim.Models.Quarto>
+@using Microsoft.AspNet.Identity
+@using System.Globalization
+@{
+    var culturaEuro = new CultureInfo("pt-PT");
+    var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@foreach (var quarto in Model)
+{
+    var imagemUrl = quarto.Imagens.OrderBy(i => i.Ordem).FirstOrDefault()?.Url ?? "/Content/placeholder-image.jpg";
+    var t = quarto.Traducoes?.FirstOrDefault(x => x.Cultura == lang)
+        ?? quarto.Traducoes?.FirstOrDefault(x => x.Cultura == "pt");
+    var nomeTrad = t?.Nome ?? quarto.Nome;
+    <div class="room-card">
+        <a href="@Url.Action("DetalhesQuarto", "Home", new { id = quarto.Id })" class="card-link">
+            <div class="card-image" style="background-image: url('@Url.Content(imagemUrl)'); background-size: cover; background-position: center;">
+            </div>
+            <div class="card-info">
+                <div class="rating">
+                    <i class="fas fa-star"></i> @quarto.AvaliacaoMedia.ToString("F1")
+                </div>
+                <h3>@nomeTrad</h3>
+                @{
+                    var cidadeQuarto = quarto.Localizacao;
+                    if (cidadeQuarto.Contains(','))
+                    {
+                        var partes = cidadeQuarto.Split(',');
+                        if (partes.Length >= 4)
+                        {
+                            cidadeQuarto = partes[partes.Length - 4].Trim();
+                        }
+                    }
+                }
+                <p>@cidadeQuarto</p>
+                <div class="price-tag">
+                    @if (quarto.DescontoPercentagem > 0)
+                    {
+                        var precoComDesconto = quarto.PrecoPorNoite * (1 - (quarto.DescontoPercentagem / 100.0m));
+                        <span class="original-price">@quarto.PrecoPorNoite.ToString("C", culturaEuro)</span>
+                        <span class="discount-price">@precoComDesconto.ToString("C", culturaEuro)</span>
+                    }
+                    else
+                    {
+                        <span>@quarto.PrecoPorNoite.ToString("C", culturaEuro)</span>
+                    }
+                </div>
+            </div>
+        </a>
+    </div>
+}

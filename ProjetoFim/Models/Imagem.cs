@@ -10,11 +10,12 @@ namespace ProjetoFim.Models
 
         [Required]
         public string Url { get; set; }
-
-        // Chave estrangeira para o Quarto a que esta imagem pertence
-        public int QuartoId { get; set; }
-
+        public int Ordem { get; set; }
+        public int? QuartoId { get; set; } 
         [ForeignKey("QuartoId")]
         public virtual Quarto Quarto { get; set; }
+        public int? ServicoId { get; set; }
+        [ForeignKey("ServicoId")]
+        public virtual Servico Servico { get; set; }
     }
 }

@@ -1,76 +1,47 @@
-﻿@{
-    ViewBag.Title = "Editar Perfil";
+﻿@model ProjetoFim.Models.ApplicationUser
+@using System.Globalization
+@using ProjetoFim.Resources
+@{
+    ViewBag.Title = Strings.Menu_Profile;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="profile-page-container">
-    <aside class="profile-summary-card">
-        <div class="profile-pic-large"></div>
-        <a href="#" class="photo-update-link">Atualize a foto</a>
-
-        <div class="profile-card-actions">
-            <a href="@Url.Action("EditarPerfil", "Home")" class="profile-action-btn active">
-                <i class="fas fa-user-edit"></i>
-                <span>Dados Pessoais</span>
-            </a>
-            <a href="@Url.Action("MetodosPagamento", "Home")" class="profile-action-btn">
-                <i class="fas fa-credit-card"></i>
-                <span>Metodos de pagamento</span>
-            </a>
-        </div>
-    </aside>
-
+    @Html.Partial("_ProfileSummaryCard", Model)
     <main class="profile-main-content">
-        <h1>Olá, Nome</h1>
-        <p class="member-since">Membro desde 2024</p>
 
-        <form class="profile-edit-form">
-            <div class="form-group">
-                <label for="nome-completo">Nome</label>
-                <input type="text" id="nome-completo" placeholder="O seu nome completo" />
-            </div>
+        <h1>@Strings.Menu_Profile</h1>
+        <p class="member-since">@Strings.Perfil_membro_desde_2025.Replace("2025", Model.LockoutEndDateUtc.GetValueOrDefault(DateTime.Now).Year.ToString())</p>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" placeholder="O seu endereço de e-mail" />
-            </div>
+        @using (Html.BeginForm("EditarPerfil", "Home", FormMethod.Post, new { @class = "profile-edit-form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
 
             <div class="form-group">
-                <label for="telefone">Telefone</label>
-                <input type="tel" id="telefone" placeholder="O seu número de telefone" />
-            </div>
-
-            <div class="form-row">
-                <div class="form-group half-width">
-                    <label for="data-nascimento">Data de nascimento</label>
-                    <input type="date" id="data-nascimento" />
-                </div>
-                <div class="form-group half-width">
-                    <label for="nacionalidade">Nacionalidade</label>
-                    <select id="nacionalidade">
-                        <option>Portugal</option>
-                        <option>Brasil</option>
-                        <option>Angola</option>
-                        <option>Espanha</option>
-                        <option>França</option>
-                    </select>
-                </div>
+                <label class="control-label col-md-3">@Strings.EditarPerfil_nome_de_utilizador</label>
+                @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
             </div>
 
             <div class="form-group">
-                <label for="sexo">Sexo</label>
-                <select id="sexo">
-                    <option>Masculino</option>
-                    <option>Feminino</option>
-                    <option>Prefiro não indicar</option>
-                </select>
+                <label class="control-label col-md-3">@Strings.EditarPerfil_email</label>
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
             </div>
 
+            <div class="form-group">
+                <label class="control-label col-md-3">@Strings.EditarPerfil_telefone</label>
+                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control", placeholder = @Strings.EditarPerfil_o_seu_n_mero_de_telefone })
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3">@Strings.EditarPerfil_data_de_nascimento</label>
+                @Html.TextBoxFor(model => model.DataDeNascimento, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+            </div>
 
             <div class="form-actions">
-                <a href="@Url.Action("Perfil", "Home")" class="form-btn-cancel">Cancelar</a>
-                <button type="submit" class="form-btn-save">Salvar</button>
+                <a href="@Url.Action("Perfil", "Home")" class="form-btn-cancel">@Strings.EditarPerfil_cancelar</a>
+                <button type="submit" class="form-btn-save">@Strings.EditarPerfil_salvar</button>
             </div>
-        </form>
+        }
     </main>
 </div>

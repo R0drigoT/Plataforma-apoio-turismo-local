@@ -1,0 +1,12 @@
+﻿@model ProjetoFim.Models.Mensagem
+@using Microsoft.AspNet.Identity
+@{
+    var userId = User.Identity.GetUserId();
+    var classeCss = Model.RemetenteId == userId ? "sent" : "received";
+}
+<div class="message-bubble @classeCss">
+    <div class="message-content">
+        <p>@Model.Conteudo</p>
+        <small class="message-timestamp">@Model.DataEnvio.ToString("g")</small>
+    </div>
+</div>

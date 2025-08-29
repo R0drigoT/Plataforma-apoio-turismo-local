@@ -1,0 +1,171 @@
+﻿@model ProjetoFim.Models.Reserva
+@using System.Globalization
+@using ProjetoFim.Resources
+
+@{
+    ViewBag.Title = Strings.DetalhesReserva_titulo + " #" + Model.Id.ToString("D5");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var detalhe = Model.DetalhesReserva.FirstOrDefault();
+    var culturaEuro = new CultureInfo("pt-PT");
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@ViewBag.Title</h1>
+        <p>@Strings.DetalhesReserva_reserva_feita_por <strong>@Model.Utilizador.UserName</strong> @Strings.DetalhesReserva_em @Model.DataCriacao.ToString("g")</p>
+    </div>
+    <div class="details-grid">
+        <div class="detail-card">
+            <h4>@Strings.DetalhesReserva_item_reservado</h4>
+            @if (detalhe?.Quarto != null)
+            {
+                <p><strong>@Strings.DetalhesReserva_tipo:</strong> @Strings.DetalhesReserva_quarto</p>
+                <p><strong>@Strings.DetalhesReserva_nome:</strong> @detalhe.Quarto.Nome</p>
+                <p><strong>@Strings.DetalhesReserva_localizacao:</strong> @detalhe.Quarto.Localizacao</p>
+            }
+            else if (detalhe?.Servico != null)
+            {
+                <p><strong>@Strings.DetalhesReserva_tipo:</strong> @Strings.DetalhesReserva_servico</p>
+                <p><strong>@Strings.DetalhesReserva_nome:</strong> @detalhe.Servico.Nome</p>
+                <p><strong>@Strings.DetalhesReserva_localizacao:</strong> @detalhe.Servico.Localizacao</p>
+            }
+        </div>
+        <div class="detail-card">
+            <h4>@Strings.DetalhesReserva_datas_duracao</h4>
+            <p><strong>@Strings.DetalhesReserva_checkin:</strong> @detalhe.DataInicio.Value.ToLongDateString()</p>
+            @if (detalhe.QuartoId != null)
+            {
+                <p><strong>@Strings.DetalhesReserva_checkout:</strong> @detalhe.DataFim.Value.ToLongDateString()</p>
+                <p><strong>@Strings.DetalhesReserva_duracao:</strong> @((detalhe.DataFim.Value - detalhe.DataInicio.Value).Days) @Strings.DetalhesReserva_noites</p>
+            }
+        </div>
+        <div class="detail-card">
+            <h4>@Strings.DetalhesReserva_financeiro</h4>
+            <p><strong>@Strings.DetalhesReserva_total:</strong> @Model.ValorTotal.ToString("C", culturaEuro)</p>
+            <p><strong>@Strings.DetalhesReserva_estado:</strong> <span class="status-badge @Model.Estado.ToLower()">@Model.Estado</span></p>
+        </div>
+        <div class="detail-card">
+            <h4>@Strings.DetalhesReserva_acoes</h4>
+            <div class="management-actions">
+                @if (Model.Estado == "Pendente")
+                {
+                    using (Html.BeginForm("AlterarEstado", "Reserva", new { id = Model.Id, novoEstado = "Confirmada" }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn-action confirm">@Strings.DetalhesReserva_confirmar</button>
+                    }
+                    using (Html.BeginForm("AlterarEstado", "Reserva", new { id = Model.Id, novoEstado = "Cancelada" }, FormMethod.Post, new { id = "form-cancelar-forcado" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn-action cancel">@Strings.DetalhesReserva_rejeitar</button>
+                    }
+                }
+                @if (Model.Estado == "Cancelamento Pedido")
+                {
+                    using (Html.BeginForm("AlterarEstado", "Reserva", new { id = Model.Id, novoEstado = "Cancelada" }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn-action cancel">@Strings.DetalhesReserva_aprovar_cancelamento</button>
+                    }
+                    using (Html.BeginForm("AlterarEstado", "Reserva", new { id = Model.Id, novoEstado = "Rejeitado" }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn-action">@Strings.DetalhesReserva_rejeitar_cancelamento</button>
+                    }
+                }
+                @if (Model.Estado == "Confirmada")
+                {
+                    using (Html.BeginForm("AlterarEstado", "Reserva", new { id = Model.Id, novoEstado = "Cancelada" }, FormMethod.Post, new { id = "form-cancelar-forcado" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn-action cancel">@Strings.DetalhesReserva_cancelar</button>
+                    }
+                    using (Html.BeginForm("AlterarEstado", "Reserva", new { id = Model.Id, novoEstado = "Concluída" }, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn-action">@Strings.DetalhesReserva_marcar_concluida</button>
+                    }
+                }
+
+                <a href="@Url.Action("VerOuCriarConversa", "Mensagem", new { reservaId = Model.Id })" class="btn-action message">
+                    @Strings.DetalhesReserva_conversa
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const formCancelar = document.getElementById('form-cancelar-forcado');
+
+            if (formCancelar) {
+                formCancelar.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    showConfirmationModal('@Strings.DetalhesReserva_confirmacao_cancelar', function () {
+                        formCancelar.submit();
+                    });
+                });
+            }
+            @if (TempData["ErroGestao"] != null)
+            {
+                <text>
+                    showErrorModal("@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["ErroGestao"].ToString()))");
+                </text>
+            }
+
+            @if (TempData["SucessoGestao"] != null)
+            {
+                <text>
+                    showErrorModal("@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SucessoGestao"].ToString()))");
+                </text>
+            }
+        });
+    </script>
+}
+
+<style>
+    .details-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .detail-card {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .management-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-action {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background: #f0f0f0;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        color: #333;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+        .btn-action.confirm {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .btn-action.cancel {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+</style>

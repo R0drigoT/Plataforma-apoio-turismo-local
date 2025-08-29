@@ -1,5 +1,5 @@
 ﻿@model ProjetoFim.Models.Quarto
-
+@using ProjetoFim.Resources
 @{
     bool isEditing = Model != null && Model.Id > 0;
     ViewBag.Title = isEditing ? "Modificar Quarto - Passo 5" : "Adicionar Quarto - Passo 5";
@@ -10,14 +10,14 @@
 <div class="admin-page-container">
     <div class="admin-page-header">
         <h1>@(isEditing ? "Modificar Quarto" : "Adicionar Novo Quarto")</h1>
-        <p>Passo 5 de 5: Preço e Disponibilidade</p>
+        <p>@Strings.adicionarquarto_passo5_passo_5_de_5_preco_e_disponibilidade</p>
     </div>
 
     @using (Html.BeginForm(formAction, "Home", new { id = Model?.Id }, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
-            <p>Estamos quase a terminar. Defina o preço por noite para o seu espaço.</p>
+            <p>@Strings.adicionarquarto_passo5_estamos_quase_a_terminar_defina_o_preco_</p>
             <hr />
 
             <div class="form-group">
@@ -26,16 +26,46 @@
                     <div class="price-input-group">
                         @Html.EditorFor(model => model.PrecoPorNoite, new { htmlAttributes = new { @class = "form-control", placeholder = "0.00" } })
                         <span>€</span>
+                        @Html.ValidationMessageFor(model => model.PrecoPorNoite, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
-                <div class="col-md-offset-4 col-md-8">
-                    <input type="submit" value="@(isEditing ? "Salvar Alterações" : "Publicar Anúncio")" class="btn-primary" style="margin-top: 20px;" />
-                    @Html.ActionLink("Voltar", backAction, "Home", new { id = Model?.Id }, new { @class = "btn-cancel-form" })
+                @Html.LabelFor(model => model.DescontoPercentagem, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    <div class="price-input-group">
+                        @Html.EditorFor(model => model.DescontoPercentagem, new { htmlAttributes = new { @class = "form-control", placeholder = "0", type = "number", min = "0", max = "100" } })
+                        <span>%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 form-actions">
+                    @Html.ActionLink(Strings.Confirm_Cancel, backAction, "Home", new { id = Model?.Id }, new { @class = "btn-cancel-form" })
+                    <input type="submit" value="@(isEditing ? "Salvar Alterações" : "Publicar Anúncio")" class="btn-primary" />
                 </div>
             </div>
         </div>
     }
 </div>
+
+@section scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector("form");
+            if (form) {
+                form.addEventListener("submit", function (e) {
+                    const precoInput = document.getElementById("PrecoPorNoite");
+                    const precoValue = precoInput.value.replace(',', '.');
+                    const preco = parseFloat(precoValue);
+                    if (isNaN(preco) || preco <= 0) {
+                        e.preventDefault();
+                        showErrorModal("@Strings.Quarto_defina_preco_valido");
+                        return false;
+                    }
+                });
+            }
+        });
+    </script>
+}
+

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProjetoFim
 {
-    // Gestor de Utilizadores
+
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store) : base(store) { }
@@ -16,12 +16,10 @@ namespace ProjetoFim
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
-            // Pode configurar a lógica de validação de utilizadores e passwords aqui
             return manager;
         }
     }
 
-    // Gestor de SignIn
     public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
     {
         public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)

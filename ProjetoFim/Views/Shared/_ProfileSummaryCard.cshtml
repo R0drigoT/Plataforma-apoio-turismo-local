@@ -1,0 +1,35 @@
+﻿@model ProjetoFim.Models.ApplicationUser
+@using ProjetoFim.Resources
+
+<aside class="profile-summary-card">
+    @if (string.IsNullOrEmpty(Model.CaminhoFotoPerfil))
+    {
+        <div class="profile-pic-large placeholder">
+            <span>@Model.UserName.Substring(0, 1).ToUpper()</span>
+        </div>
+    }
+    else
+    {
+        <div class="profile-pic-large" style="background-image: url('@Url.Content(Model.CaminhoFotoPerfil)');"></div>
+    }
+
+    @using (Html.BeginForm("UploadFotoPerfil", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", id = "formFoto" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="file" name="ficheiroFoto" id="inputFoto" style="display: none;" onchange="this.form.submit()" accept="image/*" />
+    }
+    <a href="#" class="photo-update-link" onclick="document.getElementById('inputFoto').click(); return false;">
+        @Strings.ProfileSummary_atualizar_foto
+    </a>
+
+    <div class="profile-card-actions">
+        <a href="@Url.Action("EditarPerfil", "Home")" class="profile-action-btn @(ViewContext.RouteData.Values["action"].ToString() == "EditarPerfil" ? "active" : "")">
+            <i class="fas fa-user-edit"></i>
+            <span>@Strings.ProfileSummary_dados_pessoais</span>
+        </a>
+        <a href="@Url.Action("MetodosPagamento", "Home")" class="profile-action-btn @(ViewContext.RouteData.Values["action"].ToString() == "MetodosPagamento" ? "active" : "")">
+            <i class="fas fa-credit-card"></i>
+            <span>@Strings.MetodosPagamento_titulo</span>
+        </a>
+    </div>
+</aside>

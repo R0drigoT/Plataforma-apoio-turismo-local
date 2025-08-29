@@ -1,0 +1,102 @@
+﻿@model IEnumerable<ProjetoFim.Models.Conversa>
+
+@{
+    ViewBag.Title = Strings.Index_as_minhas_mensagens;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-container full-height no-padding">
+    <div class="messages-container">
+        <div class="conversations-list">
+            <div class="inbox-list-header">
+                <h1>@Strings.Index_todas_as_mensagens</h1>
+                @using (Html.BeginForm("Index", "Mensagem", FormMethod.Get, new { @class = "inbox-filters" }))
+                {
+                    <input type="text" name="pesquisa" placeholder="@Strings.Index_pesquisar" class="filter-search-input" />
+                    <select name="filtro" onchange="this.form.submit()">
+                        <option value="todas" @(ViewBag.FiltroAtivo == "todas" ? "selected" : "")>@Strings.Index_todas_as_mensagens</option>
+                        <option value="nao-lidas" @(ViewBag.FiltroAtivo == "nao-lidas" ? "selected" : "")>@Strings.Index_nao_lidas</option>
+                    </select>
+                    <button type="submit" style="display: none;"></button>
+                }
+            </div>
+            <div class="conversations-scroll-area">
+                @if (!Model.Any())
+                {
+                    <p style="padding: 20px;">@Strings.Index_nao_existem_conversas_para_mostrar</p>
+                }
+                else
+                {
+                    foreach (var conversa in Model)
+                    {
+                        <div class="conversation-item" data-conversa-id="@conversa.Id" style="cursor: pointer;">
+                            @{
+                                var imagemUrl = conversa.Quarto?.Imagens.OrderBy(i => i.Ordem).FirstOrDefault()?.Url;
+                            }
+                            @if (imagemUrl != null)
+                            {
+                                <div class="convo-profile-pic" style="background-image: url('@Url.Content(imagemUrl)');"></div>
+                            }
+                            else
+                            {
+                                <div class="convo-profile-pic placeholder">
+                                    <i class="fas fa-comment-dots"></i>
+                                </div>
+                            }
+                            <div class="convo-details">
+                                <strong>@conversa.Assunto</strong>
+                                <span class="convo-dates">@conversa.DataCriacao.ToShortDateString()</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="message-view">
+            <div class="message-placeholder">
+                <h1>@Strings.Index_mensagem</h1>
+                <p>@Strings.Index_selecione_uma_conversa_para_ver_as_mensa</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+    $(document).ready(function () {
+
+        $('.conversation-item').on('click', function () {
+            $('.conversation-item').removeClass('active');
+            $(this).addClass('active');
+            var conversaId = $(this).data('conversa-id');
+            var url = '@Url.Action("VerConversa", "Mensagem")/' + conversaId;
+            $('.message-view').load(url);
+        });
+
+        $(document).on('submit', '#form-responder-mensagem', function (e) {
+            e.preventDefault();
+            var form = $(this);
+            var url = '@Url.Action("Responder", "Mensagem")';
+            var input = form.find('input[name="conteudo"]');
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: form.serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        $('.message-history').append(response.message);
+                        input.val('');
+                        $('.message-history').scrollTop($('.message-history')[0].scrollHeight);
+                    } else {
+                        alert("@Strings.GerirAvaliacoes_erro " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("@Strings.Mensagens_precisa_estar_logado");
+                }
+            });
+        });
+    });
+    </script>
+}

@@ -82,6 +82,12 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -148,7 +154,14 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AvaliacaoController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\FavoritoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MensagemController.cs" />
+    <Compile Include="Controllers\ReservaController.cs" />
+    <Compile Include="Filters\CultureActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -168,8 +181,93 @@
     <Compile Include="Migrations\202507212200148_AdicionarAspNetIdentity.Designer.cs">
       <DependentUpon>202507212200148_AdicionarAspNetIdentity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202508011633246_CriarTabelasDeReserva.cs" />
+    <Compile Include="Migrations\202508011633246_CriarTabelasDeReserva.Designer.cs">
+      <DependentUpon>202508011633246_CriarTabelasDeReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508051705005_AdicionarTabelaFavoritos.cs" />
+    <Compile Include="Migrations\202508051705005_AdicionarTabelaFavoritos.Designer.cs">
+      <DependentUpon>202508051705005_AdicionarTabelaFavoritos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508051823433_AdicionarTabelasDeMensagem.cs" />
+    <Compile Include="Migrations\202508051823433_AdicionarTabelasDeMensagem.Designer.cs">
+      <DependentUpon>202508051823433_AdicionarTabelasDeMensagem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508071506508_AdicionarOrdemAImagens.cs" />
+    <Compile Include="Migrations\202508071506508_AdicionarOrdemAImagens.Designer.cs">
+      <DependentUpon>202508071506508_AdicionarOrdemAImagens.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508081534447_AdicionarFavoritosDeServico.cs" />
+    <Compile Include="Migrations\202508081534447_AdicionarFavoritosDeServico.Designer.cs">
+      <DependentUpon>202508081534447_AdicionarFavoritosDeServico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508081733370_AdicionarRelacaoConversaProdutos.cs" />
+    <Compile Include="Migrations\202508081733370_AdicionarRelacaoConversaProdutos.Designer.cs">
+      <DependentUpon>202508081733370_AdicionarRelacaoConversaProdutos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508142119122_AdicionarSistemaDeAvaliacoes.cs" />
+    <Compile Include="Migrations\202508142119122_AdicionarSistemaDeAvaliacoes.Designer.cs">
+      <DependentUpon>202508142119122_AdicionarSistemaDeAvaliacoes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508142246137_AdicionarDescontoAoQuarto.cs" />
+    <Compile Include="Migrations\202508142246137_AdicionarDescontoAoQuarto.Designer.cs">
+      <DependentUpon>202508142246137_AdicionarDescontoAoQuarto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508150005545_AdicionarDescontoAServicos.cs" />
+    <Compile Include="Migrations\202508150005545_AdicionarDescontoAServicos.Designer.cs">
+      <DependentUpon>202508150005545_AdicionarDescontoAServicos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508151441007_AdicionarAvaliacoesAServicos.cs" />
+    <Compile Include="Migrations\202508151441007_AdicionarAvaliacoesAServicos.Designer.cs">
+      <DependentUpon>202508151441007_AdicionarAvaliacoesAServicos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508151537453_TornarQuartoIdOpcionalEmAvaliacao.cs" />
+    <Compile Include="Migrations\202508151537453_TornarQuartoIdOpcionalEmAvaliacao.Designer.cs">
+      <DependentUpon>202508151537453_TornarQuartoIdOpcionalEmAvaliacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508151701504_TornarFavoritosPolimorficos.cs" />
+    <Compile Include="Migrations\202508151701504_TornarFavoritosPolimorficos.Designer.cs">
+      <DependentUpon>202508151701504_TornarFavoritosPolimorficos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508151717103_AdicionarFotoDePerfilAoUser.cs" />
+    <Compile Include="Migrations\202508151717103_AdicionarFotoDePerfilAoUser.Designer.cs">
+      <DependentUpon>202508151717103_AdicionarFotoDePerfilAoUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508152107289_AdicionarTabelaNotificacao.cs" />
+    <Compile Include="Migrations\202508152107289_AdicionarTabelaNotificacao.Designer.cs">
+      <DependentUpon>202508152107289_AdicionarTabelaNotificacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508211806180_AdicionarImagensAServicos.cs" />
+    <Compile Include="Migrations\202508211806180_AdicionarImagensAServicos.Designer.cs">
+      <DependentUpon>202508211806180_AdicionarImagensAServicos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508242350392_AdicionarLimiteCaracteresDescricao.cs" />
+    <Compile Include="Migrations\202508242350392_AdicionarLimiteCaracteresDescricao.Designer.cs">
+      <DependentUpon>202508242350392_AdicionarLimiteCaracteresDescricao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508250015500_AdicionarCoordenadasAosAnuncios.cs" />
+    <Compile Include="Migrations\202508250015500_AdicionarCoordenadasAosAnuncios.Designer.cs">
+      <DependentUpon>202508250015500_AdicionarCoordenadasAosAnuncios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202508261505552_AddQuartoServicoTrad.cs" />
+    <Compile Include="Migrations\202508261505552_AddQuartoServicoTrad.Designer.cs">
+      <DependentUpon>202508261505552_AddQuartoServicoTrad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BookingStates.cs" />
+    <Compile Include="Models\QuartoTrad.cs" />
+    <Compile Include="Models\ServicoViewModel.cs" />
+    <Compile Include="Models\ServicosViewModel.cs" />
+    <Compile Include="Models\Notificacao.cs" />
+    <Compile Include="Models\Avaliacao.cs" />
+    <Compile Include="Models\Mensagem.cs" />
+    <Compile Include="Models\Conversa.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="Models\DetalhesReserva.cs" />
+    <Compile Include="Models\Favorito.cs" />
+    <Compile Include="Models\Reserva.cs" />
+    <Compile Include="Models\HomepageViewModel.cs" />
     <Compile Include="Models\AnunciosViewModel.cs" />
     <Compile Include="Models\Comodidade.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -177,7 +275,19 @@
     <Compile Include="Models\Quarto.cs" />
     <Compile Include="Models\QuartoViewModel.cs" />
     <Compile Include="Models\Servico.cs" />
+    <Compile Include="Models\ServicoTrad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Strings.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\NotificacaoService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +307,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -234,14 +345,13 @@
     <Content Include="Views\Home\DetalhesServico.cshtml" />
     <Content Include="Views\Home\DetalhesQuarto.cshtml" />
     <Content Include="Views\Home\Calendario.cshtml" />
-    <Content Include="Views\Home\CaixaDeEntrada.cshtml" />
+    <Content Include="Views\Mensagem\CaixaDeEntrada.cshtml" />
     <Content Include="Views\Home\Favoritos.cshtml" />
     <Content Include="Views\Home\Estatisticas.cshtml" />
     <Content Include="Views\Home\EditarPerfil.cshtml" />
-    <Content Include="Views\Home\EditarPerfil - Cópia .cshtml" />
     <Content Include="Views\Home\HistoricoTransacoes.cshtml" />
     <Content Include="Views\Home\GerirAnuncios.cshtml" />
-    <Content Include="Views\Home\Mensagens.cshtml" />
+    <Content Include="Views\Mensagem\Index.cshtml" />
     <Content Include="Views\Home\Perfil.cshtml" />
     <Content Include="Views\Home\ResultadosServicos.cshtml" />
     <Content Include="Views\Home\Servicos.cshtml" />
@@ -259,12 +369,25 @@
     <Content Include="Views\Home\AdicionarQuarto_Passo3.cshtml" />
     <Content Include="Views\Home\AdicionarQuarto_Passo4.cshtml" />
     <Content Include="Views\Home\AdicionarQuarto_Passo5.cshtml" />
-    <Content Include="Views\Home\ModificarServico.cshtml" />
-    <Content Include="Views\Home\AdicionarServico.cshtml" />
+    <Content Include="Views\Reserva\Confirmacao.cshtml" />
+    <Content Include="Views\Mensagem\_MensagensDaConversa.cshtml" />
+    <Content Include="Views\Reserva\Detalhes.cshtml" />
+    <Content Include="Views\Home\ListaAvaliacoes.cshtml" />
+    <Content Include="Views\Shared\_SingleMensagem.cshtml" />
+    <Content Include="Views\Shared\_ListaQuartosCard.cshtml" />
+    <Content Include="Views\Shared\_ProfileSummaryCard.cshtml" />
+    <Content Include="Views\Shared\_ListaServicosCard.cshtml" />
+    <Content Include="Views\Home\AdicionarServico_Passo1.cshtml" />
+    <Content Include="Views\Home\AdicionarServico_Passo2.cshtml" />
+    <Content Include="Views\Home\AdicionarServico_Passo3.cshtml" />
+    <Content Include="Views\Shared\_MapSelector.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Account\" />
+    <Folder Include="Views\Avaliacao\" />
+    <Folder Include="Views\Favorito\" />
+    <Folder Include="Views\Manage\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -305,6 +428,70 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202507212200148_AdicionarAspNetIdentity.resx">
       <DependentUpon>202507212200148_AdicionarAspNetIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508011633246_CriarTabelasDeReserva.resx">
+      <DependentUpon>202508011633246_CriarTabelasDeReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508051705005_AdicionarTabelaFavoritos.resx">
+      <DependentUpon>202508051705005_AdicionarTabelaFavoritos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508051823433_AdicionarTabelasDeMensagem.resx">
+      <DependentUpon>202508051823433_AdicionarTabelasDeMensagem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508071506508_AdicionarOrdemAImagens.resx">
+      <DependentUpon>202508071506508_AdicionarOrdemAImagens.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508081534447_AdicionarFavoritosDeServico.resx">
+      <DependentUpon>202508081534447_AdicionarFavoritosDeServico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508081733370_AdicionarRelacaoConversaProdutos.resx">
+      <DependentUpon>202508081733370_AdicionarRelacaoConversaProdutos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508142119122_AdicionarSistemaDeAvaliacoes.resx">
+      <DependentUpon>202508142119122_AdicionarSistemaDeAvaliacoes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508142246137_AdicionarDescontoAoQuarto.resx">
+      <DependentUpon>202508142246137_AdicionarDescontoAoQuarto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508150005545_AdicionarDescontoAServicos.resx">
+      <DependentUpon>202508150005545_AdicionarDescontoAServicos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508151441007_AdicionarAvaliacoesAServicos.resx">
+      <DependentUpon>202508151441007_AdicionarAvaliacoesAServicos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508151537453_TornarQuartoIdOpcionalEmAvaliacao.resx">
+      <DependentUpon>202508151537453_TornarQuartoIdOpcionalEmAvaliacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508151701504_TornarFavoritosPolimorficos.resx">
+      <DependentUpon>202508151701504_TornarFavoritosPolimorficos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508151717103_AdicionarFotoDePerfilAoUser.resx">
+      <DependentUpon>202508151717103_AdicionarFotoDePerfilAoUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508152107289_AdicionarTabelaNotificacao.resx">
+      <DependentUpon>202508152107289_AdicionarTabelaNotificacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508211806180_AdicionarImagensAServicos.resx">
+      <DependentUpon>202508211806180_AdicionarImagensAServicos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508242350392_AdicionarLimiteCaracteresDescricao.resx">
+      <DependentUpon>202508242350392_AdicionarLimiteCaracteresDescricao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508250015500_AdicionarCoordenadasAosAnuncios.resx">
+      <DependentUpon>202508250015500_AdicionarCoordenadasAosAnuncios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202508261505552_AddQuartoServicoTrad.resx">
+      <DependentUpon>202508261505552_AddQuartoServicoTrad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.es.resx" />
+    <EmbeddedResource Include="Resources\Strings.fr.resx" />
+    <EmbeddedResource Include="Resources\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

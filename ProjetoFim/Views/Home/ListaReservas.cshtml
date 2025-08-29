@@ -1,83 +1,150 @@
-﻿@{
-    ViewBag.Title = "Lista de Reservas";
+﻿@model PagedList.IPagedList<ProjetoFim.Models.Reserva>
+@using PagedList.Mvc
+@using ProjetoFim.Resources
+@using ProjetoFim.Models 
+
+@{
+    ViewBag.Title = Strings.ListaReservas_titulo;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@using System.Globalization
+@{
+    var culturaEuro = new CultureInfo("pt-PT");
+}
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
 <div class="admin-page-container">
     <div class="admin-page-header">
-        <h1>Reservas</h1>
-        <p>Veja todas as reservas para os seus alojamentos e serviços.</p>
+        <h1>@Strings.ListaReservas_reservas</h1>
+        <p>@Strings.ListaReservas_veja_todas_as_reservas</p>
     </div>
 
-    <div class="reservations-filter-bar">
-        <input type="text" class="filter-search-input" placeholder="Pesquisar por hóspede ou anúncio..." />
-        <select class="filter-select">
-            <option>Todos os estados</option>
-            <option>Confirmada</option>
-            <option>Pendente</option>
-            <option>Cancelada</option>
-        </select>
-        <input type="date" class="filter-date-input" />
-        <button class="filter-apply-btn">Aplicar Filtros</button>
-    </div>
+    @using (Html.BeginForm("ListaReservas", "Home", FormMethod.Get, new { @class = "reservations-filter-bar" }))
+    {
+        @Html.TextBox("pesquisa", (string)ViewBag.PesquisaAtual, new { @class = "filter-search-input", placeholder = Strings.ListaReservas_placeholder_pesquisar })
+
+        
+            var estadoAtual = (string)ViewBag.EstadoAtual ?? "ALL";
+            var opcoesEstado = new List<SelectListItem> {
+        new SelectListItem { Value = "ALL", Text = Strings.ListaReservas_estado_todos, Selected = estadoAtual == "ALL" },
+        new SelectListItem { Value = BookingStates.Pending, Text = Strings.ListaReservas_estado_pendente, Selected = estadoAtual == BookingStates.Pending },
+        new SelectListItem { Value = BookingStates.Confirmed, Text = Strings.ListaReservas_estado_confirmada, Selected = estadoAtual == BookingStates.Confirmed },
+        new SelectListItem { Value = BookingStates.Cancelled, Text = Strings.ListaReservas_estado_cancelada, Selected = estadoAtual == BookingStates.Cancelled },
+        new SelectListItem { Value = BookingStates.CancellationRequested, Text = Strings.ListaReservas_estado_cancelamento_pedido, Selected = estadoAtual == BookingStates.CancellationRequested },
+        new SelectListItem { Value = BookingStates.Completed, Text = Strings.ListaReservas_estado_concluida, Selected = estadoAtual == BookingStates.Completed },
+    };
+        
+        @Html.DropDownList("estado", opcoesEstado, new { @class = "filter-select" })
+
+
+        <input type="text" name="data" id="reservas-datepicker" class="filter-date-input" value="@(((DateTime?)ViewBag.DataAtual)?.ToString("yyyy-MM-dd"))" placeholder="dd/mm/aaaa" />
+
+        <button type="submit" class="filter-apply-btn">@Strings.ListaReservas_aplicar_filtros</button>
+    }
 
     <div class="reservations-table-container">
         <table class="reservations-table">
             <thead>
                 <tr>
-                    <th>Hóspede</th>
-                    <th>Datas</th>
-                    <th>Anúncio</th>
-                    <th>Estado</th>
-                    <th>Total</th>
-                    <th>Ações</th>
+                    <th>@Strings.ListaReservas_hospede</th>
+                    <th>@Strings.ListaReservas_datas</th>
+                    <th>@Strings.ListaReservas_anuncio</th>
+                    <th>@Strings.ListaReservas_estado</th>
+                    <th>@Strings.ListaReservas_total</th>
+                    <th>@Strings.ListaReservas_acoes</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>João Silva</td>
-                    <td>18 Jul - 22 Jul 2025</td>
-                    <td>Apartamento Vista Mar</td>
-                    <td><span class="status-badge confirmed">Confirmada</span></td>
-                    <td>450,00€</td>
-                    <td><a href="#" class="details-link">Ver Detalhes</a></td>
-                </tr>
-                <tr>
-                    <td>Maria Santos</td>
-                    <td>25 Jul - 28 Jul 2025</td>
-                    <td>Estúdio Moderno</td>
-                    <td><span class="status-badge pending">Pendente</span></td>
-                    <td>210,00€</td>
-                    <td><a href="#" class="details-link">Ver Detalhes</a></td>
-                </tr>
+                @foreach (var reserva in Model)
+                {
+                    var detalhe = reserva.DetalhesReserva.FirstOrDefault();
+                    var s = reserva.Estado; 
+                    string label =
+                        s == BookingStates.Pending ? Strings.ListaReservas_estado_pendente :
+                        s == BookingStates.Confirmed ? Strings.ListaReservas_estado_confirmada :
+                        s == BookingStates.CancellationRequested ? Strings.ListaReservas_estado_cancelamento_pedido :
+                        s == BookingStates.Completed ? Strings.ListaReservas_estado_concluida :
+                                                                   Strings.ListaReservas_estado_cancelada;
 
-                <tr>
-                    <td>Carlos Pereira</td>
-                    <td>02 Ago - 05 Ago 2025</td>
-                    <td>Passeio de Barco</td>
-                    <td><span class="status-badge confirmed">Confirmada</span></td>
-                    <td>80,00€</td>
-                    <td><a href="#" class="details-link">Ver Detalhes</a></td>
-                </tr>
-
-                <tr>
-                    <td>Ana Costa</td>
-                    <td>15 Jun - 16 Jun 2025</td>
-                    <td>Apartamento Vista Mar</td>
-                    <td><span class="status-badge cancelled">Cancelada</span></td>
-                    <td>110,00€</td>
-                    <td><a href="#" class="details-link">Ver Detalhes</a></td>
-                </tr>
+                    string badgeClass =
+                        s == BookingStates.Pending ? "status-badge pending" :
+                        s == BookingStates.Confirmed ? "status-badge confirmada" :
+                        s == BookingStates.CancellationRequested ? "status-badge cancelamento-pedido" :
+                        s == BookingStates.Completed ? "status-badge concluida" :
+                                                                   "status-badge cancelada";
+                    <tr>
+                        <td>@reserva.Utilizador.UserName</td>
+                        <td>@($"{detalhe?.DataInicio:dd MMM} - {detalhe?.DataFim:dd MMM yyyy}")</td>
+                        <td>@(detalhe?.Quarto?.Nome ?? Strings.ListaReservas_servico)</td>
+                        <td><span class="@badgeClass">@label</span></td>
+                        <td>@reserva.ValorTotal.ToString("C", culturaEuro)</td>
+                        <td>
+                            <a href="@Url.Action("Detalhes", "Reserva", new { id = reserva.Id })" class="details-link">
+                                @Strings.ListaReservas_ver_detalhes
+                            </a>
+                        </td>
+                    </tr>
+                }
             </tbody>
+
         </table>
     </div>
 
     <div class="pagination-container">
-        <a href="#" class="pagination-btn">&laquo;</a>
-        <a href="#" class="pagination-btn active">1</a>
-        <a href="#" class="pagination-btn">2</a>
-        <a href="#" class="pagination-btn">3</a>
-        <a href="#" class="pagination-btn">&raquo;</a>
+        @Html.PagedListPager(Model, pagina => Url.Action("ListaReservas",
+            new { pagina, pesquisa = ViewBag.PesquisaAtual, estado = ViewBag.EstadoAtual, data = ViewBag.DataAtual }))
     </div>
-
 </div>
+<style>
+    .status-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+
+        .status-badge.pendente {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .status-badge.confirmada {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .status-badge.cancelada {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        /* NOVOS */
+        .status-badge.concluida {
+            background-color: #6c757d; /* cinzento */
+            color: #fff;
+        }
+
+        .status-badge.cancelamento-pedido {
+            background-color: #fd7e14; /* laranja */
+            color: #fff;
+        }
+
+</style>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr("#reservas-datepicker", {
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "d/m/Y",
+                minDate: null,
+                maxDate: null,
+            });
+        });
+    </script>
+}

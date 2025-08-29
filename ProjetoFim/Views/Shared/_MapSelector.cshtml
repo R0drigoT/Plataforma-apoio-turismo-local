@@ -1,0 +1,96 @@
+﻿@model dynamic
+
+<div class="form-group">
+    <label class="control-label col-md-2">Localização no Mapa</label>
+    <div class="col-md-10">
+        <div id="map-selector" style="height:300px;border-radius:8px;z-index:1;"></div>
+        <small>Clique no mapa ou arraste o pino para definir a localização.</small>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const mapEl = document.getElementById('map-selector');
+        const txtEl = document.getElementById('Localizacao');   // <- id padrão do EditorFor
+        const latEl = document.getElementById('Latitude');      // <- HiddenFor com id="Latitude"
+        const lonEl = document.getElementById('Longitude');     // <- HiddenFor com id="Longitude"
+
+        // Guarda: elementos necessários presentes?
+        if (!mapEl || !txtEl || !latEl || !lonEl) return;
+
+        // Evitar reinicializações quando se volta ao histórico/navegação AJAX
+        if (mapEl.dataset.initialized) return;
+
+        // Carrega Leaflet se ainda não existir
+        function loadLeaflet(cb) {
+            if (window.L) { cb(); return; }
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+            document.head.appendChild(link);
+
+            const s = document.createElement('script');
+            s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+            s.onload = cb;
+            document.head.appendChild(s);
+        }
+
+        function init() {
+            if (mapEl.dataset.initialized) return; // dupla proteção
+            mapEl.dataset.initialized = '1';
+
+            let lat = parseFloat(latEl.value);
+            let lon = parseFloat(lonEl.value);
+            if (isNaN(lat) || isNaN(lon)) {
+                lat = 38.7223;   // Lisboa (fallback)
+                lon = -9.1393;
+                latEl.value = lat;
+                lonEl.value = lon;
+            }
+
+            const map = L.map(mapEl).setView([lat, lon], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap'
+            }).addTo(map);
+
+            let marker = L.marker([lat, lon], { draggable: true }).addTo(map);
+
+            const updateAll = (latlng) => {
+                latEl.value = latlng.lat;
+                lonEl.value = latlng.lng;
+
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng.lat}&lon=${latlng.lng}`)
+                    .then(r => r.json())
+                    .then(d => { if (d && d.display_name) txtEl.value = d.display_name; })
+                    .catch(() => { });
+            };
+
+            marker.on('dragend', e => updateAll(e.target.getLatLng()));
+            map.on('click', e => { marker.setLatLng(e.latlng); updateAll(e.latlng); });
+
+            // Texto -> mapa (geocoding)
+            txtEl.addEventListener('blur', function () {
+                const q = this.value ? this.value.trim() : '';
+                if (!q) return;
+
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data && data.length) {
+                            const newLat = parseFloat(data[0].lat);
+                            const newLon = parseFloat(data[0].lon);
+                            if (isNaN(newLat) || isNaN(newLon)) return;
+
+                            map.setView([newLat, newLon], 13);
+                            marker.setLatLng([newLat, newLon]);
+                            latEl.value = newLat;
+                            lonEl.value = newLon;
+                        }
+                    })
+                    .catch(() => { });
+            });
+        }
+
+        loadLeaflet(init);
+    })();
+</script>

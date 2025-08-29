@@ -6,10 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+// ++ recursos
+using ProjetoFim.Resources;
 
 namespace ProjetoFim.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -34,49 +36,48 @@ namespace ProjetoFim.Controllers
             private set => _userManager = value;
         }
 
-        // POST: /Account/Login (Serve para Utilizadores e Admins)
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Dados de login inválidos.";
+                TempData["LoginError"] = Strings.Account_Login_InvalidData; // "Dados de login inválidos."
                 return RedirectToAction("Index", "Home");
             }
 
             var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, shouldLockout: false);
 
-            switch (result)
+            if (result == SignInStatus.Success)
             {
-                case SignInStatus.Success:
-                    var user = await UserManager.FindByNameAsync(model.Username);
-                    if (user != null && await UserManager.IsInRoleAsync(user.Id, "Admin"))
-                    {
-                        return RedirectToAction("Dashboard", "Home");
-                    }
-                    return RedirectToAction("Homepage", "Home");
+                var user = await UserManager.FindByNameAsync(model.Username);
 
-                case SignInStatus.Failure:
-                default:
-                    TempData["ErrorMessage"] = "Tentativa de login inválida.";
+                if (!await UserManager.IsInRoleAsync(user.Id, "Admin"))
+                {
+                    return RedirectToAction("Homepage", "Home");
+                }
+                else
+                {
+                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                     return RedirectToAction("Index", "Home");
+                }
             }
+            TempData["LoginError"] = Strings.Account_Login_InvalidAttempt; // "Tentativa de login inválida..."
+            return RedirectToAction("Index", "Home");
         }
 
-        // POST: /Account/Registar
         [HttpPost]
         [AllowAnonymous]
         public async Task<JsonResult> Registar(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Username, Email = model.Username, DataDeNascimento = model.DateOfBirth };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, DataDeNascimento = model.DateOfBirth };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    // Atribui a role "Cliente" ao novo utilizador
                     await UserManager.AddToRoleAsync(user.Id, "Cliente");
 
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -91,7 +92,37 @@ namespace ProjetoFim.Controllers
             return Json(new { success = false, errors = modelErrors });
         }
 
-        // POST: /Account/Logout
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AdminLogin(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["LoginError"] = Strings.Account_Login_InvalidData; // "Dados de login inválidos."
+                return RedirectToAction("Index", "Home");
+            }
+            var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, shouldLockout: false);
+
+            if (result == SignInStatus.Success)
+            {
+                var user = await UserManager.FindByNameAsync(model.Username);
+                if (await UserManager.IsInRoleAsync(user.Id, "Admin"))
+                {
+                    return RedirectToAction("Dashboard", "Home");
+                }
+                else
+                {
+                    AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    TempData["LoginError"] = Strings.Account_Admin_Only; // "Apenas administradores..."
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            TempData["LoginError"] = Strings.Account_Admin_InvalidAttempt; // "Tentativa de login inválida (admin)..."
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Logout()

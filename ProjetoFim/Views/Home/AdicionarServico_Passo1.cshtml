@@ -1,0 +1,124 @@
+﻿@model ProjetoFim.Models.Servico
+@using ProjetoFim.Resources
+@{
+    bool isEditing = Model != null && Model.Id > 0;
+    ViewBag.Title = isEditing ? "Modificar Serviço" : "Adicionar Serviço";
+    string formAction = isEditing ? "ModificarServico_Passo1" : "AdicionarServico_Passo1";
+
+    object routeVals = null;
+    if (isEditing) { routeVals = new { id = Model.Id }; }
+}
+
+@section styles {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@ViewBag.Title</h1>
+        <p>@Strings.adicionarservico_passo1_passo_1_de_3_informacoes_basicas</p>
+    </div>
+
+    @using (Html.BeginForm(formAction, "Home", routeVals, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        if (isEditing)
+        { @Html.HiddenFor(m => m.Id) }
+
+    <div class="form-horizontal">
+        <p>@Strings.adicionarservico_passo1_comece_por_preencher_os_detalhes_do_serv</p>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control", rows = 5, maxlength = 700 })
+                @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Localizacao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Localizacao, new { @class = "form-control", id = "Localizacao" })
+                @Html.ValidationMessageFor(model => model.Localizacao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Latitude, new { id = "Latitude" })
+        @Html.HiddenFor(model => model.Longitude, new { id = "Longitude" })
+
+        @Html.Partial("_MapSelector", Model)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 form-actions">
+                @Html.ActionLink(Strings.Confirm_Cancel, "GerirAnuncios", null, new { @class = "btn-cancel-form" })
+                <input type="submit" value="@Strings.Auth_Continue" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+</div>
+
+@section scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mapContainer = document.getElementById('map-selector');
+            const localizacaoInput = document.getElementById('Localizacao');
+
+            if (mapContainer && localizacaoInput) {
+                let lat = parseFloat(document.getElementById('Latitude').value);
+                let lon = parseFloat(document.getElementById('Longitude').value);
+
+                if (isNaN(lat) || isNaN(lon)) {
+                    lat = 38.7223; lon = -9.1393;
+                    document.getElementById('Latitude').value = lat;
+                    document.getElementById('Longitude').value = lon;
+                }
+
+                if (mapContainer._leaflet_id) { mapContainer._leaflet_id = null; }
+                const map = L.map('map-selector').setView([lat, lon], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                let marker = L.marker([lat, lon], { draggable: true }).addTo(map);
+
+                function updateLocation(latlng) {
+                    document.getElementById('Latitude').value = latlng.lat;
+                    document.getElementById('Longitude').value = latlng.lng;
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng.lat}&lon=${latlng.lng}`)
+                        .then(r => r.json())
+                        .then(data => { if (data && data.display_name) { localizacaoInput.value = data.display_name; } });
+                }
+
+                marker.on('dragend', (e) => updateLocation(e.target.getLatLng()));
+                map.on('click', (e) => { marker.setLatLng(e.latlng); updateLocation(e.latlng); });
+
+                localizacaoInput.addEventListener('blur', function () {
+                    const address = this.value;
+                    if (address) {
+                        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+                            .then(r => r.json())
+                            .then(data => {
+                                if (data && data.length > 0) {
+                                    const newLat = data[0].lat, newLon = data[0].lon;
+                                    map.setView([newLat, newLon], 13);
+                                    marker.setLatLng([newLat, newLon]);
+                                    document.getElementById('Latitude').value = newLat;
+                                    document.getElementById('Longitude').value = newLon;
+                                }
+                            });
+                    }
+                });
+            }
+        });
+    </script>
+}

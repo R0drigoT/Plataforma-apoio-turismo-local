@@ -1,72 +1,59 @@
-﻿@{
+﻿@model IEnumerable<ProjetoFim.Models.Servico>
+@using ProjetoFim.Resources
+@{
+    ViewBag.Title = Strings.ResultadosServicos_resultados_da_pesquisa_de_servicos;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Resultados da Pesquisa de Serviços";
 }
-
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
 <div class="service-results-container">
     <div class="results-header">
-        <h3>10 resultados encontrados</h3>
-        <button class="filter-btn"><i class="fas fa-filter"></i> Filtros</button>
+        <h3>@Model.Count() resultado(s) encontrado(s)</h3>
+        <button class="filter-btn"><i class="fas fa-filter"></i> @Strings.ResultadosServicos_filtros</button>
     </div>
 
-    <div class="results-filters">
-        <div class="filter-input">
-            <label>Localização</label>
-            <input type="text" placeholder="Onde procura o serviço?">
-        </div>
-        <div class="filter-input">
-            <label>Datas</label>
-            <input type="date">
-        </div>
-        <div class="filter-input">
-            <label>Tipo de Serviço</label>
-            <input type="text" placeholder="Ex: Passeio de barco">
-        </div>
-        <button class="search-icon-btn"><i class="fas fa-search"></i></button>
-    </div>
+    <section class="search-section" style="margin-top: 0;">
+        @using (Html.BeginForm("ResultadosServicos", "Home", FormMethod.Get, new { @class = "search-bar" }))
+        {
+            <div class="search-input">
+                <label>@Strings.ResultadosServicos_localizacao</label>
+                @Html.TextBox("localizacao", (string)ViewBag.Localizacao, new { placeholder = @Strings.ResultadosServicos_onde_procura_o_servico })
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosServicos_data</label>
+                <input type="text" name="data" id="resultados-servico-datepicker" value="@(((DateTime?)ViewBag.Data)?.ToString("yyyy-MM-dd"))" placeholder="@Strings.ResultadosServicos_dd_mm_aaaa">
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosServicos_tipo_de_servico</label>
+                @Html.TextBox("tipoServico", (string)ViewBag.TipoServico, new { placeholder = @Strings.ResultadosServicos_ex_passeio_de_barco })
+            </div>
+            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+        }
+    </section>
 
     <div class="services-results-grid">
-
-        <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-            <div class="service-card">
-                <div class="service-card-image">
-                    <i class="far fa-heart"></i>
-                </div>
-                <div class="service-card-info">
-                    <div class="rating">★★★★★</div>
-                    <h4>Nome do Serviço</h4>
-                    <p>Localização</p>
-                    <p class="price"><strong>Valor</strong></p>
-                </div>
-            </div>
-        </a>
-
-        <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-            <div class="service-card">
-                <div class="service-card-image">
-                    <i class="far fa-heart"></i>
-                </div>
-                <div class="service-card-info">
-                    <div class="rating">★★★★☆</div>
-                    <h4>Tour Guiado</h4>
-                    <p>Lisboa</p>
-                    <p class="price"><strong>Valor</strong></p>
-                </div>
-            </div>
-        </a>
-
-        <a href="@Url.Action("DetalhesServico", "Home")" class="card-link">
-            <div class="service-card">
-                <div class="service-card-image">
-                    <i class="far fa-heart"></i>
-                </div>
-                <div class="service-card-info">
-                    <div class="rating">★★★★★</div>
-                    <h4>Aula de Culinária</h4>
-                    <p>Porto</p>
-                    <p class="price"><strong>Valor</strong></p>
-                </div>
-            </div>
-        </a>
-
+        @if (!Model.Any())
+        {
+            <p>@Strings.ResultadosServicos_nenhum_servico_encontrado_com_os_criteri</p>
+        }
+        else
+        {
+            @Html.Partial("_ListaServicosCard", Model)
+        }
     </div>
+</div>
+
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr("#resultados-servico-datepicker", {
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "d/m/Y",
+                minDate: "today"
+            });
+        });</script>
+}

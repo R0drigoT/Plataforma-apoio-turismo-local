@@ -1,73 +1,51 @@
-﻿@{
+﻿@using ProjetoFim.Resources
+@using Microsoft.AspNet.Identity
+@using System.Globalization
+@{
     ViewBag.Title = "Estatísticas";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var culturaEuro = new CultureInfo("pt-PT");
 }
-
 <div class="admin-page-container">
     <div class="admin-page-header">
-        <h1>Estatísticas de Desempenho</h1>
-        <p>Analise os dados dos seus anúncios e reservas.</p>
-    </div>
-
-    <div class="stats-filter-bar">
-        <label for="period-select">Mostrar dados para:</label>
-        <select id="period-select" class="filter-select">
-            <option>Últimos 30 dias</option>
-            <option>Este Mês</option>
-            <option>Últimos 90 dias</option>
-            <option>Este Ano</option>
-            <option>Desde o Início</option>
-        </select>
+        <h1>@ViewBag.Title</h1>
+        <p>Analise o desempenho da sua plataforma.</p>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card large">
-            <h4>Ganhos Totais</h4>
-            <div class="stat-value">1,250.30€</div>
-            <div class="chart-placeholder">
-                <p>Gráfico de Linha de Ganhos</p>
-            </div>
-        </div>
-
-        <div class="stat-card large">
-            <h4>Taxa de Ocupação Média</h4>
-            <div class="stat-value">78%</div>
-            <div class="chart-placeholder">
-                <p>Gráfico de Barras de Ocupação</p>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <h4>Total de Reservas</h4>
-            <div class="stat-value">27</div>
-        </div>
-
-        <div class="stat-card">
-            <h4>Total de Noites Reservadas</h4>
-            <div class="stat-value">89</div>
-        </div>
-
-        <div class="stat-card">
-            <h4>Avaliação Média</h4>
-            <div class="stat-value">4.9 ★</div>
-        </div>
+        <div class="stat-card"><h4>@Strings.Estatisticas_ganhos_totais</h4><span class="stat-value">@(((decimal)ViewBag.TotalGanhos).ToString("C", culturaEuro))</span></div>
+        <div class="stat-card"><h4>@Strings.Estatisticas_total_de_reservas</h4><span class="stat-value">@ViewBag.TotalReservas</span></div>
+        <div class="stat-card"><h4>@Strings.Estatisticas_valor_m_dio_reserva</h4><span class="stat-value">@(((decimal)ViewBag.MediaPorReserva).ToString("C", culturaEuro))</span></div>
     </div>
 
-    <div class="top-performing-panel">
-        <h2>Anúncios com Melhor Desempenho</h2>
-        <div class="performance-list">
-            <div class="performance-item">
-                <span>1. Apartamento Vista Mar</span>
-                <strong>680,50€</strong>
-            </div>
-            <div class="performance-item">
-                <span>2. Estúdio Moderno</span>
-                <strong>450,00€</strong>
-            </div>
-            <div class="performance-item">
-                <span>3. Passeio de Barco</span>
-                <strong>120,00€</strong>
-            </div>
-        </div>
+    <div class="stat-card large">
+        <h4>@Strings.Estatisticas_ganhos_nos_ltimos_6_meses</h4>
+        <canvas id="ganhosChart"></canvas>
     </div>
 </div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('ganhosChart');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: @Html.Raw(Json.Encode(ViewBag.LabelsMeses)),
+                    datasets: [{
+                        label: '@ProjetoFim.Resources.Strings.Estatisticas_ganhos_euro_label',
+                        data: @Html.Raw(Json.Encode(ViewBag.GanhosMensaisData)),
+                        borderWidth: 1,
+                        backgroundColor: 'rgba(0, 123, 255, 0.5)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
+        });
+    </script>
+}
