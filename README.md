@@ -13,7 +13,7 @@ Plataforma de Apoio ao Turismo Local
 
 
 
-Plataforma web desenvolvida em ASP.NET MVC (C#) para apoiar a gestão de alojamentos locais, permitindo divulgar anúncios, gerir reservas e oferecer ao cliente uma experiência simples e consistente de pesquisa e compra.
+Plataforma web desenvolvida em ASP.NET MVC (C#) para apoiar a gestão de alojamentos e serviços locais, permitindo divulgar anúncios, gerir reservas e oferecer ao cliente uma experiência simples e consistente de pesquisa e compra.
 
 Funcionalidades Principais
 
