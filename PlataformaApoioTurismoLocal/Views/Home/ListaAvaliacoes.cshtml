@@ -1,0 +1,91 @@
+﻿@model PagedList.IPagedList<ProjetoFim.Models.Avaliacao>
+@using PagedList.Mvc;
+@using ProjetoFim.Resources
+@{
+    ViewBag.Title = Strings.GerirAvaliacoes_titulo;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var lang =
+        (string)ViewContext.RouteData.Values["lang"]
+        ?? Request["lang"]
+        ?? System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+
+    Func<string, string> norm = s => string.IsNullOrWhiteSpace(s) ? null : s.Trim();
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@Strings.GerirAvaliacoes_titulo</h1>
+        <p>@Strings.ListaAvaliacoes_veja_e_gira_todas_as_avalia_es_deixadas_</p>
+    </div>
+
+    <div class="reservations-table-container">
+        <table class="reservations-table">
+            <thead>
+                <tr>
+                    <th>@Strings.ListaAvaliacoes_classifica_o</th>
+                    <th>@Strings.ListaAvaliacoes_coment_rio</th>
+                    <th>@Strings.ListaAvaliacoes_an_ncio</th>
+                    <th>@Strings.ListaAvaliacoes_utilizador</th>
+                    <th>@Strings.ListaAvaliacoes_data</th>
+                    <th>@Strings.ListaAvaliacoes_a_es</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var tQuarto = item.Quarto?.Traducoes?.FirstOrDefault(x => x.Cultura == lang)
+                               ?? item.Quarto?.Traducoes?.FirstOrDefault(x => x.Cultura == "pt");
+                    var tServico = item.Servico?.Traducoes?.FirstOrDefault(x => x.Cultura == lang)
+                                ?? item.Servico?.Traducoes?.FirstOrDefault(x => x.Cultura == "pt");
+
+                    var nomeTraduzido = norm(tQuarto?.Nome)
+                                     ?? norm(tServico?.Nome)
+                                     ?? norm(item.Quarto?.Nome)
+                                     ?? norm(item.Servico?.Nome)
+                                     ?? "";
+
+                    <tr>
+                        <td>@item.Classificacao ★</td>
+                        <td>@item.Comentario</td>
+                        <td>@nomeTraduzido</td>
+                        <td>@item.Utilizador.UserName</td>
+                        <td>@item.DataAvaliacao.ToShortDateString()</td>
+                        <td>
+                            @using (Html.BeginForm("Apagar", "Avaliacao", new { id = item.Id }, FormMethod.Post, new { @class = "form-apagar-avaliacao", onsubmit = "return submitDelete(this);" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="delete-review-btn">@Strings.ListaAvaliacoes_apagar</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="pagination-container">
+    @Html.PagedListPager(Model, pagina => Url.Action("ListaAvaliacoes", new { pagina }))
+</div>
+
+<script>
+  function submitDelete(formEl) {
+    if (!confirm('@Strings.GerirAvaliacoes_confirmar_apagar')) return false;
+
+    const formData = new FormData(formEl);
+    fetch(formEl.action, { method: 'POST', body: formData, credentials: 'same-origin' })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.success) {
+          const row = formEl.closest('tr');
+          if (row) { row.style.opacity = '0'; setTimeout(() => row.remove(), 300); }
+        } else {
+          alert('@Strings.GerirAvaliacoes_erro' + (data && data.message ? (' ' + data.message) : ''));
+        }
+      })
+      .catch(() => { alert('@Strings.Aviso_erro_comunicacao'); });
+
+    return false;
+  }
+</script>

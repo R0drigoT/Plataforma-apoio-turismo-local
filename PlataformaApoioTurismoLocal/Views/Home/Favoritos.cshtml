@@ -1,0 +1,74 @@
+﻿@using ProjetoFim.Resources
+@model IEnumerable<ProjetoFim.Models.Favorito>
+
+@{
+    ViewBag.Title = Strings.Favoritos_favoritos;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-container">
+    <h1>@Strings.Favoritos_favoritos</h1>
+
+    @if (!Model.Any())
+    {
+        <p class="muted">@Strings.Favoritos_ainda_n_o_adicionou_nenhum_alojamento_ao</p>
+    }
+    else
+    {
+<div class="favorites-grid">
+    @foreach (var favorito in Model)
+    {
+        var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+        var tQuarto = favorito.Quarto?.Traducoes?.FirstOrDefault(x => x.Cultura == lang)
+                    ?? favorito.Quarto?.Traducoes?.FirstOrDefault(x => x.Cultura == "pt");
+        var tServico = favorito.Servico?.Traducoes?.FirstOrDefault(x => x.Cultura == lang)
+                    ?? favorito.Servico?.Traducoes?.FirstOrDefault(x => x.Cultura == "pt");
+
+        string nomeItem = tQuarto?.Nome ?? tServico?.Nome
+                       ?? favorito.Quarto?.Nome ?? favorito.Servico?.Nome;
+
+        string localizacaoCompleta = favorito.Quarto?.Localizacao ?? favorito.Servico?.Localizacao;
+        string cidade = localizacaoCompleta;
+
+        if (!string.IsNullOrEmpty(localizacaoCompleta) && localizacaoCompleta.Contains(','))
+        {
+            var partes = localizacaoCompleta.Split(',');
+            if (partes.Length >= 4)
+            {
+                cidade = partes[partes.Length - 4].Trim();
+            }
+        }
+
+        if (favorito.Quarto != null)
+        {
+            var imagemUrl = favorito.Quarto.Imagens.OrderBy(i => i.Ordem).FirstOrDefault()?.Url ?? "/Content/placeholder.jpg";
+            <a href="@Url.Action("DetalhesQuarto", "Home", new { id = favorito.Quarto.Id })" class="favorite-card">
+                <div class="favorite-card-image" style="background-image: url('@Url.Content(imagemUrl)'); background-size: cover; background-position: center;"></div>
+                <button class="remove-favorite-btn">&times;</button>
+                <div class="favorite-card-info">
+                    <strong>@(tQuarto?.Nome ?? favorito.Quarto.Nome)</strong>
+                    <span>@cidade</span>
+                </div>
+            </a>
+        }
+        else if (favorito.Servico != null)
+        {
+            var imagemUrl = favorito.Servico.Imagens
+       .OrderBy(i => i.Ordem)
+       .FirstOrDefault()?.Url ?? "/Content/placeholder.jpg";
+
+    <a href="@Url.Action("DetalhesServico", "Home", new { id = favorito.Servico.Id })" class="favorite-card">
+        <div class="favorite-card-image"
+             style="background-image: url('@Url.Content(imagemUrl)'); background-size: cover; background-position: center;"></div>
+        <button class="remove-favorite-btn">&times;</button>
+        <div class="favorite-card-info">
+            <strong>@(tServico?.Nome ?? favorito.Servico.Nome)</strong>
+            <span>@cidade</span>
+        </div>
+    </a>
+}
+}
+
+</div>
+    }
+</div>

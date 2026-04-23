@@ -1,0 +1,195 @@
+﻿@using ProjetoFim.Models
+@using ProjetoFim.Resources
+@using System.Globalization
+@using System.Threading
+@using System.Collections.Generic   
+
+@{
+    var utilizador = ViewBag.Utilizador as ApplicationUser;
+
+    var quarto = ViewBag.Quarto as Quarto;
+    var servico = ViewBag.Servico as Servico;
+
+    DateTime? vbDataInicio = null;
+    DateTime? vbDataFim = null;
+
+    if (ViewBag.DataInicio != null)
+    {
+        if (ViewBag.DataInicio is DateTime)
+        {
+            vbDataInicio = (DateTime)ViewBag.DataInicio;
+        }
+        else
+        {
+            vbDataInicio = ViewBag.DataInicio as DateTime?;
+        }
+    }
+    if (ViewBag.DataFim != null)
+    {
+        if (ViewBag.DataFim is DateTime)
+        {
+            vbDataFim = (DateTime)ViewBag.DataFim;
+        }
+        else
+        {
+            vbDataFim = ViewBag.DataFim as DateTime?;
+        }
+    }
+
+    DateTime? dataInicio = vbDataInicio;
+    DateTime? dataFim = vbDataFim;       
+    DateTime? dataReserva = vbDataInicio;     
+    int? numHospedes = ViewBag.NumHospedes as int?;
+    int? numeroNoites = ViewBag.NumeroNoites as int?;
+    int? numParticipantes = ViewBag.NumParticipantes as int?;
+
+    var precoTotal = (decimal)(ViewBag.PrecoTotal ?? 0m);
+    var precoUnitario = (decimal)(ViewBag.PrecoUnitario ?? 0m);
+
+    var culturaEuro = new CultureInfo("pt-PT");
+    bool hasQuarto = quarto != null;
+    bool hasServico = servico != null;
+
+    ViewBag.Title = Strings.PaginaReserva_finalizar_reserva;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+    string nomeItem = null;
+    if (hasQuarto)
+    {
+        var tQ = (quarto.Traducoes ?? new List<QuartoTrad>())
+                    .FirstOrDefault(t => t.Cultura == lang)
+                 ?? (quarto.Traducoes ?? new List<QuartoTrad>())
+                    .FirstOrDefault(t => t.Cultura == "pt");
+        nomeItem = tQ?.Nome ?? quarto.Nome;
+    }
+    else if (hasServico)
+    {
+        var tS = (servico.Traducoes ?? new List<ServicoTrad>())
+                    .FirstOrDefault(t => t.Cultura == lang)
+                 ?? (servico.Traducoes ?? new List<ServicoTrad>())
+                    .FirstOrDefault(t => t.Cultura == "pt");
+        nomeItem = tS?.Nome ?? servico.Nome;
+    }
+
+    string localizacao = hasQuarto ? quarto.Localizacao : (hasServico ? servico.Localizacao : "");
+    var imagens = hasQuarto ? quarto.Imagens : (hasServico ? servico.Imagens : null);
+    var imagemUrl = imagens?.OrderBy(i => i.Ordem).FirstOrDefault()?.Url ?? "/Content/placeholder.jpg";
+    var avaliacao = hasQuarto ? quarto.AvaliacaoMedia : (hasServico ? servico.AvaliacaoMedia : 0.0);
+}
+
+
+<div class="booking-page-wrapper">
+    @using (Html.BeginForm(hasServico ? "CriarReservaServico" : "Criar", "Reserva", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        
+        if (hasQuarto)
+        {
+            <input type="hidden" name="quartoId" value="@quarto.Id" />
+            <input type="hidden" name="dataInicio" value="@(dataInicio?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))" />
+            <input type="hidden" name="dataFim" value="@(dataFim?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))" />
+            if (numHospedes.HasValue)
+            {
+                <input type="hidden" name="numHospedes" value="@numHospedes.Value" />
+            }
+        }
+        else if (hasServico)
+        {
+            <input type="hidden" name="servicoId" value="@servico.Id" />
+            <input type="hidden" name="dataReserva" value="@(dataReserva?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture))" />
+            if (numParticipantes.HasValue)
+            {
+                <input type="hidden" name="numParticipantes" value="@numParticipantes.Value" />
+            }
+        }
+        else
+        {
+            <div class="alert alert-danger" style="margin-bottom:16px">
+                @Strings.Aviso_erro_comunicacao
+            </div>
+        }
+
+
+        <div class="booking-page-container">
+            <main class="booking-form-column">
+                <div class="form-section">
+                    <h2>@Strings.PaginaPagamento_como_gostaria_de_pagar</h2>
+                    <p>@Strings.PaginaPagamento_preencha_os_seus_dados_e_os_detalhes_de_</p>
+                </div>
+
+                <div class="form-section">
+                    <h4>@Strings.PaginaPagamento_os_seus_dados</h4>
+                    <div class="booking-form">
+                        <div class="form-group">
+                            <label>@Strings.PaginaPagamento_nome_completo</label>
+                            <input type="text" value="@(utilizador?.UserName ?? "")" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" value="@(utilizador?.Email ?? "")" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>@Strings.PaginaPagamento_detalhes_do_pagamento</h4>
+                    <p>@Strings.PaginaPagamento_funcionalidade_pagamento_futuro</p>
+                </div>
+
+                <div class="form-actions-final">
+                    <button type="submit" class="submit-booking-btn primary">
+                        @Strings.PaginaPagamento_concluir_reserva
+                    </button>
+                </div>
+            </main>
+
+            <aside class="booking-summary-column">
+                <div class="booking-summary-box">
+                    <div class="room-choice-summary">
+                        <div class="summary-image" style="background-image: url('@Url.Content(imagemUrl)');"></div>
+                        <div>
+                            <h4>@nomeItem</h4>
+                            <p>@localizacao</p>
+                            <p class="rating"><i class="fas fa-star"></i> @avaliacao.ToString("F1")</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <h4>@Strings.PaginaPagamento_sum_rio_do_pre_o</h4>
+
+                    <ul class="price-summary-list">
+                        @if (hasQuarto)
+                        {
+                            <li class="price-item">
+                                <span>
+                                    @precoUnitario.ToString("C", culturaEuro) x @numeroNoites @Strings.Reservas_dias
+                                </span>
+                                <span>@precoTotal.ToString("C", culturaEuro)</span>
+                            </li>
+                        }
+                        else if (hasServico)
+                        {
+                            <li class="price-item">
+                                <span>
+                                    @precoUnitario.ToString("C", culturaEuro) x @(numParticipantes ?? 1) @Strings.DetalhesServico_participantes
+                                </span>
+                                <span>@precoTotal.ToString("C", culturaEuro)</span>
+                            </li>
+                        }
+
+                        <li class="price-item">
+                            <span>@Strings.PaginaPagamento_impostos_e_taxas</span>
+                            <span>@Strings.PaginaPagamento_a_calcular</span>
+                        </li>
+                    </ul>
+
+                    <div class="price-total">
+                        <span>@Strings.PaginaPagamento_pre_o_total</span>
+                        <strong>@precoTotal.ToString("C", culturaEuro)</strong>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    }
+</div>

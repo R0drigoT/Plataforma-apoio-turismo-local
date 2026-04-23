@@ -1,0 +1,167 @@
+﻿@model PagedList.IPagedList<ProjetoFim.Models.Reserva>
+@using PagedList.Mvc
+@using ProjetoFim.Resources
+@using ProjetoFim.Models 
+
+@{
+    ViewBag.Title = Strings.ListaReservas_titulo;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using System.Globalization
+@{
+    var culturaEuro = new CultureInfo("pt-PT");
+}
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+}
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@Strings.ListaReservas_reservas</h1>
+        <p>@Strings.ListaReservas_veja_todas_as_reservas</p>
+    </div>
+
+    @using (Html.BeginForm("ListaReservas", "Home", FormMethod.Get, new { @class = "reservations-filter-bar" }))
+    {
+        @Html.TextBox("pesquisa", (string)ViewBag.PesquisaAtual, new { @class = "filter-search-input", placeholder = Strings.ListaReservas_placeholder_pesquisar })
+
+        
+            var estadoAtual = (string)ViewBag.EstadoAtual ?? "ALL";
+            var opcoesEstado = new List<SelectListItem> {
+        new SelectListItem { Value = "ALL", Text = Strings.ListaReservas_estado_todos, Selected = estadoAtual == "ALL" },
+        new SelectListItem { Value = BookingStates.Pending, Text = Strings.ListaReservas_estado_pendente, Selected = estadoAtual == BookingStates.Pending },
+        new SelectListItem { Value = BookingStates.Confirmed, Text = Strings.ListaReservas_estado_confirmada, Selected = estadoAtual == BookingStates.Confirmed },
+        new SelectListItem { Value = BookingStates.Cancelled, Text = Strings.ListaReservas_estado_cancelada, Selected = estadoAtual == BookingStates.Cancelled },
+        new SelectListItem { Value = BookingStates.CancellationRequested, Text = Strings.ListaReservas_estado_cancelamento_pedido, Selected = estadoAtual == BookingStates.CancellationRequested },
+        new SelectListItem { Value = BookingStates.Completed, Text = Strings.ListaReservas_estado_concluida, Selected = estadoAtual == BookingStates.Completed },
+    };
+        
+        @Html.DropDownList("estado", opcoesEstado, new { @class = "filter-select" })
+
+
+        <input type="text" name="data" id="reservas-datepicker" class="filter-date-input" value="@(((DateTime?)ViewBag.DataAtual)?.ToString("yyyy-MM-dd"))" placeholder="dd/mm/aaaa" />
+
+        <button type="submit" class="filter-apply-btn">@Strings.ListaReservas_aplicar_filtros</button>
+    }
+
+    <div class="reservations-table-container">
+        <table class="reservations-table">
+            <thead>
+                <tr>
+                    <th>@Strings.ListaReservas_hospede</th>
+                    <th>@Strings.ListaReservas_datas</th>
+                    <th>@Strings.ListaReservas_anuncio</th>
+                    <th>@Strings.ListaReservas_estado</th>
+                    <th>@Strings.ListaReservas_total</th>
+                    <th>@Strings.ListaReservas_acoes</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reserva in Model)
+                {
+                    var detalhe = reserva.DetalhesReserva.FirstOrDefault();
+                    var s = reserva.Estado; 
+                    string label =
+                        s == BookingStates.Pending ? Strings.ListaReservas_estado_pendente :
+                        s == BookingStates.Confirmed ? Strings.ListaReservas_estado_confirmada :
+                        s == BookingStates.CancellationRequested ? Strings.ListaReservas_estado_cancelamento_pedido :
+                        s == BookingStates.Completed ? Strings.ListaReservas_estado_concluida :
+                                                                   Strings.ListaReservas_estado_cancelada;
+
+                    string badgeClass =
+                        s == BookingStates.Pending ? "status-badge pendente" :
+                        s == BookingStates.Confirmed ? "status-badge confirmada" :
+                        s == BookingStates.CancellationRequested ? "status-badge cancelamento-pedido" :
+                        s == BookingStates.Completed ? "status-badge concluida" :
+                                                                   "status-badge cancelada";
+                    <tr>
+                        @{
+                            var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+
+                            var tQ = detalhe?.Quarto?.Traducoes?
+                                                    .FirstOrDefault(x => x.Cultura == lang)
+                                             ?? detalhe?.Quarto?.Traducoes?
+                                                    .FirstOrDefault(x => x.Cultura == "pt");
+
+                            var tS = detalhe?.Servico?.Traducoes?
+                                        .FirstOrDefault(x => x.Cultura == lang)
+                                 ?? detalhe?.Servico?.Traducoes?
+                                        .FirstOrDefault(x => x.Cultura == "pt");
+
+                            var listingName =
+                                tQ?.Nome
+                                ?? tS?.Nome
+                                ?? detalhe?.Quarto?.Nome
+                                ?? detalhe?.Servico?.Nome
+                                ?? Strings.ListaReservas_item_removido;
+                        }
+
+                        <td>@reserva.Utilizador.UserName</td>
+                        <td>@($"{detalhe?.DataInicio:dd MMM} - {detalhe?.DataFim:dd MMM yyyy}")</td>
+                        <td>@listingName</td>
+                        <td><span class="@badgeClass">@label</span></td>
+                        <td>@reserva.ValorTotal.ToString("C", culturaEuro)</td>
+                        <td>
+                            <a href="@Url.Action("Detalhes", "Reserva", new { id = reserva.Id })" class="details-link">
+                                @Strings.ListaReservas_ver_detalhes
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="pagination-container">
+        @Html.PagedListPager(Model, pagina => Url.Action("ListaReservas",
+            new { pagina, pesquisa = ViewBag.PesquisaAtual, estado = ViewBag.EstadoAtual, data = ViewBag.DataAtual }))
+    </div>
+</div>
+<style>
+    .status-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+
+        .status-badge.pendente,
+        .status-badge.cancelamento-pedido {
+            background-color: #ffc107; 
+            color: #fff;
+        }
+
+        .status-badge.confirmada {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .status-badge.cancelada {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .status-badge.concluida {
+            background-color: #6c757d; 
+            color: #fff;
+        }
+
+
+</style>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr("#reservas-datepicker", {
+                dateFormat: "Y-m-d",
+                altInput: true,
+                altFormat: "d/m/Y",
+                minDate: null,
+                maxDate: null,
+            });
+        });
+    </script>
+}

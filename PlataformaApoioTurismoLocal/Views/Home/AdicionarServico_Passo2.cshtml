@@ -1,0 +1,118 @@
+﻿@model ProjetoFim.Models.Servico
+@using ProjetoFim.Resources
+@{
+    bool isEditing = Model.Id > 0;
+    ViewBag.Title = (isEditing ? Strings.Service_Edit : Strings.Service_Add) + " - " + Strings.Service_Gallery_Label;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page-container">
+    <h2>@(isEditing ? Strings.Service_Edit : Strings.Service_Add)</h2>
+    <p>@Strings.adicionarservico_passo2_passo_2_de_3_galeria_de_fotos</p>
+    <hr />
+
+    @using (Html.BeginForm(isEditing ? "ModificarServico_Passo2" : "AdicionarServico_Passo2", "Home", new { id = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data", id = "form-passo2" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ordemDasImagens" id="ordemDasImagens" />
+
+        <div class="form-group">
+            <label class="control-label col-md-2">@Strings.adicionarservico_passo2_adicionar_novas_imagens</label>
+            <div class="col-md-10">
+                <div class="photo-upload-zone">
+                    <input type="file" name="ficheiros" id="file-input" multiple accept="image/*" style="display: none;" />
+                    <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                    <p><strong>@Strings.adicionarquarto_passo4_arraste_e_largue_as_suas_fotos_aqui</strong></p>
+                    <p class="small-text">@Strings.adicionarquarto_passo4_ou</p>
+                    <button type="button" id="browse-btn" class="btn btn-primary">@Strings.adicionarquarto_passo4_selecione_os_ficheiros</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">@Strings.adicionarservico_passo2_pre_visualizacao</label>
+            <div class="col-md-10 image-preview-grid" id="image-preview-grid">
+                @if (isEditing && Model.Imagens != null && Model.Imagens.Any())
+                {
+                    foreach (var imagem in Model.Imagens.OrderBy(i => i.Ordem))
+                    {
+                        <div class="preview-item existing-image" data-image-id="@imagem.Id">
+                            <img src="@Url.Content(imagem.Url)" alt="Imagem do serviço" />
+                            <div class="delete-overlay">
+                                <input type="checkbox" name="imagensParaApagar" value="@imagem.Id" id="delete-@imagem.Id" />
+                                <label for="delete-@imagem.Id">@Strings.adicionarquarto_passo4_apagar</label>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 form-actions">
+                @Html.ActionLink(Strings.Confirm_Cancel, isEditing ? "ModificarServico_Passo1" : "AdicionarServico_Passo1",
+                                 "Home", new { id = Model.Id }, new { @class = "btn-cancel-form" })
+                <input type="submit" value="@Strings.Auth_Continue" class="btn-primary" />
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const uploadZone = document.querySelector('.photo-upload-zone');
+            const fileInput = document.getElementById('file-input');
+            const browseBtn = document.getElementById('browse-btn');
+            const previewGrid = document.getElementById('image-preview-grid');
+
+            browseBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+            uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('dragging'); });
+            uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragging'));
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragging');
+                fileInput.files = e.dataTransfer.files;
+                handleFiles(fileInput.files);
+            });
+
+            function handleFiles(files) {
+                previewGrid.querySelectorAll('.new-image').forEach(item => item.remove());
+                for (const file of files) {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const previewItem = document.createElement('div');
+                            previewItem.className = 'preview-item new-image';
+                            previewItem.innerHTML = `<img src="${e.target.result}" alt="${file.name}" />`;
+                            previewGrid.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+            new Sortable(previewGrid, { animation: 150, ghostClass: 'sortable-ghost' });
+
+            const form = document.getElementById('form-passo2');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    const existentes = previewGrid.querySelectorAll('.existing-image input[name="imagensParaApagar"]:not(:checked)').length;
+                    const novas = fileInput.files.length;
+                    const total = existentes + novas;
+                    if (total < 1) {
+                        e.preventDefault();
+                        alert("@Strings.GerirAvaliacoes_erro @Strings.Anuncio_precisa_uma_imagem");
+                        return false;
+                    }
+                    const imageIds = [];
+                    previewGrid.querySelectorAll('.existing-image').forEach(item => imageIds.push(item.dataset.imageId));
+                    document.getElementById('ordemDasImagens').value = imageIds.join(',');
+                });
+            }
+        });
+    </script>
+}

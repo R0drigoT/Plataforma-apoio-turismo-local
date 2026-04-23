@@ -1,0 +1,139 @@
+﻿@model IEnumerable<ProjetoFim.Models.Quarto>
+@using ProjetoFim.Resources
+@{
+    ViewBag.Title = Strings.ResultadosPesquisa_resultados_da_pesquisa_de_quartos;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var total = Model?.Count() ?? 0;
+}
+
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .filters-panel {
+            display: none;
+            margin: 10px 0;
+            padding: 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            background: #fff
+        }
+
+            .filters-panel.show {
+                display: block
+            }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(2,minmax(0,1fr));
+            gap: 12px
+        }
+
+        .filters-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px
+        }
+    </style>
+}
+
+<div class="service-results-container">
+    <div class="results-header">
+        <h3>@string.Format(Strings.ResultadosPesquisa_resultados_encontrados, total)</h3>
+        <button type="button" id="toggleFiltersQ" class="filter-btn">
+            <i class="fas fa-filter"></i> @Strings.ResultadosPesquisa_filtros
+        </button>
+    </div>
+
+    <section class="search-section">
+        <form action="@Url.Action("ResultadosPesquisa", "Home")" method="get" class="search-bar">
+            <div class="search-input">
+                <label>@Strings.Search_Label_Location</label>
+                <input type="text" name="localizacao" placeholder="@Strings.ResultadosPesquisa_diga_nos_onde_vai" value="@Request["localizacao"]">
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosPesquisa_check_in</label>
+                <input type="text" name="checkIn" id="resultados-checkin-picker" placeholder="@Strings.ResultadosPesquisa_dd_mm_aaaa" value="@Request["checkIn"]">
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosPesquisa_check_out</label>
+                <input type="text" name="checkOut" id="resultados-checkout-picker" placeholder="@Strings.ResultadosPesquisa_dd_mm_aaaa" value="@Request["checkOut"]">
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosPesquisa_hospedes</label>
+                <input type="number" name="hospedes" placeholder="@Strings.ResultadosPesquisa_hospedes" min="1" value="@Request["hospedes"]">
+            </div>
+            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+        </form>
+    </section>
+
+    <form action="@Url.Action("ResultadosPesquisa","Home")" method="get" id="filtersFormQ" class="filters-panel">
+
+        <input type="hidden" name="localizacao" value="@Request["localizacao"]" />
+        <input type="hidden" name="checkIn" value="@Request["checkIn"]" />
+        <input type="hidden" name="checkOut" value="@Request["checkOut"]" />
+        <input type="hidden" name="hospedes" value="@Request["hospedes"]" />
+
+        <div class="filters-grid">
+            <div>
+                <label>@Strings.Filtros_preco_min</label>
+                <input type="number" step="1" name="precoMin" value="@Request["precoMin"]" class="form-control">
+            </div>
+            <div>
+                <label>@Strings.Filtros_preco_max</label>
+                <input type="number" step="1" name="precoMax" value="@Request["precoMax"]" class="form-control">
+            </div>
+            <div>
+                <label>@Strings.Filtros_classificacao_min</label>
+                <input type="number" step="1" min="1" max="5" name="minRating" value="@Request["minRating"]" class="form-control">
+            </div>
+            <div>
+                <label>@Strings.Filtros_capacidade</label>
+                <input type="number" min="1" name="capacidade" value="@Request["capacidade"]" class="form-control">
+            </div>
+        </div>
+        <div class="filters-actions">
+            <button type="submit" class="modal-btn">@Strings.Filtros_aplicar</button>
+            <a href="@Url.Action("ResultadosPesquisa","Home")" class="btn-cancel-form">@Strings.Filtros_limpar</a>
+        </div>
+    </form>
+
+    <div class="services-results-grid">
+        @if (!Model.Any())
+        {
+            <p>@Strings.ResultadosPesquisa_nenhum_servico_encontrado_com_os_criteri</p>
+        }
+        else
+        {
+            @Html.Partial("_ListaQuartosCard", Model)
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+   
+            var btn = document.getElementById('toggleFiltersQ');
+            var panel = document.getElementById('filtersFormQ');
+            if (btn && panel) {
+                btn.addEventListener('click', function () { panel.classList.toggle('show'); });
+            }
+
+ 
+            var checkoutPicker = flatpickr("#resultados-checkout-picker", {
+                dateFormat: "Y-m-d",
+                altInput: true, altFormat: "d/m/Y",
+                minDate: new Date().fp_incr(1)
+            });
+            flatpickr("#resultados-checkin-picker", {
+                dateFormat: "Y-m-d",
+                altInput: true, altFormat: "d/m/Y",
+                minDate: "today",
+                onChange: function (selected) {
+                    if (selected && selected.length) checkoutPicker.set('minDate', new Date(selected[0]).fp_incr(1));
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,55 @@
+﻿@model ProjetoFim.Models.Quarto
+@using ProjetoFim.Resources
+@{
+    bool isEditing = Model != null && Model.Id > 0;
+    ViewBag.Title = (isEditing ? Strings.Room_Edit : Strings.Room_Add) + " - " + Strings.Wizard_Step3;
+    string formAction = isEditing ? "ModificarQuarto_Passo3" : "AdicionarQuarto_Passo3";
+    string backAction = isEditing ? "ModificarQuarto_Passo2" : "AdicionarQuarto_Passo2";
+    var todasAsComodidades = ViewBag.TodasAsComodidades as List<ProjetoFim.Models.Comodidade>;
+    var selecionadas = (ViewBag.ComodidadesSelecionadas as HashSet<int>) ?? new HashSet<int>();
+}
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@(isEditing ? Strings.Room_Edit : Strings.Room_Add)</h1>
+        <p>@Strings.adicionarquarto_passo3_passo_3_de_5_comodidades</p>
+    </div>
+
+    @using (Html.BeginForm(formAction, "Home", new { id = Model?.Id }, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <p>@Strings.adicionarquarto_passo3_selecione_todas_as_comodidades_que_o_seu</p>
+            <hr />
+
+            <div class="amenities-selection-grid">
+                @if (todasAsComodidades != null)
+                {
+                    foreach (var comodidade in todasAsComodidades)
+                    {
+                        bool isChecked = selecionadas.Contains(comodidade.Id)
+                           || (Model?.Comodidades?.Any(c => c.Id == comodidade.Id) ?? false);
+
+                        <div class="amenity-box">
+                            <input type="checkbox"
+                                   name="comodidadesSelecionadas"
+                                   value="@comodidade.Id"
+                                   id="comodidade-@comodidade.Id"
+                                   @(isChecked ? "checked" : "") />
+                            <label for="comodidade-@comodidade.Id">
+                                <i class="@comodidade.IconeCss"></i>
+                                <span>@comodidade.Nome</span>
+                            </label>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 form-actions">
+                    @Html.ActionLink(Strings.Confirm_Cancel, backAction, "Home", new { id = Model?.Id }, new { @class = "btn-cancel-form" })
+                    <input type="submit" value="@Strings.Auth_Continue" class="btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+</div>

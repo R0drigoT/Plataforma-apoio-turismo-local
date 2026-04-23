@@ -1,0 +1,146 @@
+﻿@model ProjetoFim.Models.Quarto
+@using ProjetoFim.Resources
+@{
+    bool isEditing = Model != null && Model.Id > 0;
+    ViewBag.Title = (isEditing ? Strings.Room_Edit : Strings.Room_Add) + " - " + Strings.Wizard_Step4;
+    string formAction = isEditing ? "ModificarQuarto_Passo4" : "AdicionarQuarto_Passo4";
+    string backAction = isEditing ? "ModificarQuarto_Passo3" : "AdicionarQuarto_Passo3";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@(isEditing ? Strings.Room_Edit : Strings.Room_Add)</h1>
+        <p>@Strings.adicionarquarto_passo4_passo_4_de_5_galeria_de_fotos</p>
+    </div>
+
+    @using (Html.BeginForm(formAction, "Home", new { id = Model?.Id }, FormMethod.Post, new { enctype = "multipart/form-data", id = "form-passo4" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ordemDasImagens" id="ordemDasImagens" />
+
+        <div>
+            <p>@Strings.adicionarquarto_passo4_carregue_novas_fotos_ou_arraste_as_exist</p>
+            <hr />
+
+            <div class="photo-upload-zone">
+                <input type="file" name="files" id="file-input" multiple accept="image/*" style="display: none;" />
+                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <p><strong>@Strings.adicionarquarto_passo4_arraste_e_largue_as_suas_fotos_aqui</strong></p>
+                <p class="small-text">@Strings.adicionarquarto_passo4_ou</p>
+                <button type="button" id="browse-btn" class="btn-secondary">@Strings.adicionarquarto_passo4_selecione_os_ficheiros</button>
+            </div>
+
+            <h4>@Strings.adicionarquarto_passo4_pre_visualizacao_pode_arrastar_para_reor</h4>
+            <div id="image-preview-grid" class="image-preview-grid">
+                @if (Model?.Imagens != null && Model.Imagens.Any())
+                {
+                    foreach (var imagem in Model.Imagens.OrderBy(i => i.Ordem))
+                    {
+                        <div class="preview-item existing-image" data-image-id="@imagem.Id">
+                            <img src="@Url.Content(imagem.Url)" alt="Imagem do quarto" />
+                            <div class="delete-overlay">
+                                <input type="checkbox" name="imagensParaApagar" value="@imagem.Id" id="delete-@imagem.Id" />
+                                <label for="delete-@imagem.Id">@Strings.adicionarquarto_passo4_apagar</label>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 form-actions">
+                    @Html.ActionLink(Strings.Confirm_Cancel, backAction, "Home", new { id = Model?.Id }, new { @class = "btn-cancel-form" })
+                    <input type="submit" value="@Strings.Auth_Continue" class="btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const uploadZone = document.querySelector('.photo-upload-zone');
+            const fileInput = document.getElementById('file-input');
+            const browseBtn = document.getElementById('browse-btn');
+            const previewGrid = document.getElementById('image-preview-grid');
+
+            browseBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+            uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('dragging'); });
+            uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragging'));
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragging');
+                fileInput.files = e.dataTransfer.files;
+                handleFiles(fileInput.files);
+            });
+
+            function handleFiles(files) {
+                for (const file of files) {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const previewItem = document.createElement('div');
+                            previewItem.className = 'preview-item new-image';
+                            previewItem.innerHTML = `<img src="${e.target.result}" alt="${file.name}" />`;
+                            previewGrid.appendChild(previewItem);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+            }
+
+            new Sortable(previewGrid, { animation: 150, ghostClass: 'sortable-ghost' });
+
+            const form = document.getElementById('form-passo4');
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    const imagensExistentesRestantes = previewGrid.querySelectorAll('.existing-image input[name="imagensParaApagar"]:not(:checked)').length;
+                    const novasImagens = previewGrid.querySelectorAll('.new-image').length;
+                    const totalImagensFinal = imagensExistentesRestantes + novasImagens;
+
+                    if (totalImagensFinal < 1) {
+                        e.preventDefault();
+                        alert("@Strings.GerirAvaliacoes_erro @Strings.Anuncio_precisa_uma_imagem");
+                        return false;
+                    }
+
+                    const imageIds = [];
+                    previewGrid.querySelectorAll('.existing-image').forEach(item => { imageIds.push(item.dataset.imageId); });
+                    document.getElementById('ordemDasImagens').value = imageIds.join(',');
+                });
+            }
+        });
+    </script>
+}
+
+
+<style>
+    .existing-image {
+        position: relative;
+    }
+
+    .delete-overlay {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgba(0,0,0,0.6);
+        color: white;
+        padding: 5px;
+        border-radius: 4px;
+        font-size: 12px;
+        z-index: 10;
+    }
+
+        .delete-overlay label {
+            margin-left: 5px;
+        }
+
+    .sortable-ghost {
+        opacity: 0.4;
+        background: #c8ebfb;
+    }
+</style>

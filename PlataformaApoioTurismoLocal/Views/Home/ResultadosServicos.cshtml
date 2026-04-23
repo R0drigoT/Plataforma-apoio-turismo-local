@@ -1,0 +1,121 @@
+﻿@model IEnumerable<ProjetoFim.Models.Servico>
+@using ProjetoFim.Resources
+@{
+    ViewBag.Title = Strings.ResultadosServicos_resultados_da_pesquisa_de_servicos;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var total = Model?.Count() ?? 0;
+}
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .filters-panel {
+            display: none;
+            margin: 10px 0;
+            padding: 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 12px;
+            background: #fff
+        }
+
+            .filters-panel.show {
+                display: block
+            }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(2,minmax(0,1fr));
+            gap: 12px
+        }
+
+        .filters-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px
+        }
+    </style>
+}
+<div class="service-results-container">
+    <div class="results-header">
+        <h3>@string.Format(Strings.ResultadosServicos_resultados_encontrados, total)</h3>
+        <button type="button" id="toggleFiltersS" class="filter-btn">
+            <i class="fas fa-filter"></i> @Strings.ResultadosServicos_filtros
+        </button>
+    </div>
+
+    <section class="search-section" style="margin-top:0;">
+        @using (Html.BeginForm("ResultadosServicos", "Home", FormMethod.Get, new { @class = "search-bar" }))
+        {
+            <div class="search-input">
+                <label>@Strings.ResultadosServicos_localizacao</label>
+                @Html.TextBox("localizacao", (string)ViewBag.Localizacao, new { placeholder = Strings.ResultadosServicos_onde_procura_o_servico })
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosServicos_data</label>
+                <input type="text" name="data" id="resultados-servico-datepicker"
+                       value="@(((DateTime?)ViewBag.Data)?.ToString("yyyy-MM-dd"))"
+                       placeholder="@Strings.ResultadosServicos_dd_mm_aaaa">
+            </div>
+            <div class="search-input">
+                <label>@Strings.ResultadosServicos_tipo_de_servico</label>
+                @Html.TextBox("tipoServico", (string)ViewBag.TipoServico, new { placeholder = Strings.ResultadosServicos_ex_passeio_de_barco })
+            </div>
+            <button type="submit" class="search-button"><i class="fas fa-search"></i></button>
+        }
+    </section>
+
+    <form action="@Url.Action("ResultadosServicos","Home")" method="get" id="filtersFormS" class="filters-panel">
+
+        <input type="hidden" name="localizacao" value="@Request["localizacao"]" />
+        <input type="hidden" name="data" value="@Request["data"]" />
+        <input type="hidden" name="tipoServico" value="@Request["tipoServico"]" />
+
+        <div class="filters-grid">
+            <div>
+                <label>@Strings.Filtros_preco_min</label>
+                <input type="number" step="1" name="precoMin" value="@Request["precoMin"]" class="form-control">
+            </div>
+            <div>
+                <label>@Strings.Filtros_preco_max</label>
+                <input type="number" step="1" name="precoMax" value="@Request["precoMax"]" class="form-control">
+            </div>
+            <div>
+                <label>@Strings.Filtros_classificacao_min</label>
+                <input type="number" step="1" min="1" max="5" name="minRating" value="@Request["minRating"]" class="form-control">
+            </div>
+        </div>
+        <div class="filters-actions">
+            <button type="submit" class="modal-btn">@Strings.Filtros_aplicar</button>
+            <a href="@Url.Action("ResultadosServicos","Home")" class="btn-cancel-form">@Strings.Filtros_limpar</a>
+        </div>
+    </form>
+
+    <div class="services-results-grid">
+        @if (!Model.Any())
+        {
+            <p>@Strings.ResultadosServicos_nenhum_servico_encontrado_com_os_criteri</p>
+        }
+        else
+        {
+            @Html.Partial("_ListaServicosCard", Model)
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+         
+            var btn = document.getElementById('toggleFiltersS');
+            var panel = document.getElementById('filtersFormS');
+            if (btn && panel) {
+                btn.addEventListener('click', function () { panel.classList.toggle('show'); });
+            }
+            flatpickr("#resultados-servico-datepicker", {
+                dateFormat: "Y-m-d",
+                altInput: true, altFormat: "d/m/Y",
+                minDate: "today"
+            });
+        });
+    </script>
+}

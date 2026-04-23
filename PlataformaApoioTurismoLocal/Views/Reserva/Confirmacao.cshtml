@@ -1,0 +1,84 @@
+﻿@model ProjetoFim.Models.Reserva
+@using System.Globalization
+@using ProjetoFim.Resources
+@using System.Threading
+
+@{
+    ViewBag.Title = Strings.Confirmacao_titulo;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var detalhe = Model.DetalhesReserva.FirstOrDefault();
+    var culturaEuro = new CultureInfo("pt-PT");
+
+
+    var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+
+    var tQuarto = detalhe?.Quarto?.Traducoes?
+                    .FirstOrDefault(x => x.Cultura == lang)
+                 ?? detalhe?.Quarto?.Traducoes?
+                    .FirstOrDefault(x => x.Cultura == "pt");
+
+    var tServico = detalhe?.Servico?.Traducoes?
+                    .FirstOrDefault(x => x.Cultura == lang)
+                 ?? detalhe?.Servico?.Traducoes?
+                    .FirstOrDefault(x => x.Cultura == "pt");
+}
+
+<div class="page-container" style="text-align: center; max-width: 700px;">
+    <div style="font-size: 60px; color: #28a745; margin-bottom: 20px;">
+        <i class="fas fa-check-circle"></i>
+    </div>
+
+    <h1 class="page-title">@Strings.Confirmacao_sucesso</h1>
+    <p class="page-description" style="font-size: 18px;">
+        @Strings.Confirmacao_obrigado_email
+    </p>
+
+    <div class="booking-summary-box" style="margin-top: 30px; text-align: left;">
+        <h4>@Strings.Confirmacao_sumario</h4>
+
+        <ul class="price-summary-list">
+            <li class="price-item">
+                <span>@Strings.Confirmacao_id_reserva</span>
+                <strong>#@Model.Id.ToString("D5")</strong>
+            </li>
+
+            @if (detalhe != null && detalhe.Quarto != null)
+            {
+                <li class="price-item">
+                    <span>@Strings.Confirmacao_alojamento</span>
+                    <strong>@(tQuarto?.Nome ?? detalhe.Quarto.Nome)</strong>
+                </li>
+                <li class="price-item">
+                    <span>@Strings.Confirmacao_datas</span>
+                    <strong>@detalhe.DataInicio.Value.ToShortDateString() - @detalhe.DataFim.Value.ToShortDateString()</strong>
+                </li>
+            }
+            else if (detalhe != null && detalhe.Servico != null)
+            {
+                <li class="price-item">
+                    <span>@Strings.Confirmacao_servico</span>
+                    <strong>@(tServico?.Nome ?? detalhe.Servico.Nome)</strong>
+                </li>
+                <li class="price-item">
+                    <span>@Strings.Confirmacao_data</span>
+                    <strong>@detalhe.DataInicio.Value.ToShortDateString()</strong>
+                </li>
+            }
+        </ul>
+
+        <div class="price-total">
+            <span>@Strings.Confirmacao_preco_total_pago</span>
+            <strong>@Model.ValorTotal.ToString("C", culturaEuro)</strong>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+        <a href="@Url.Action("Homepage", "Home")" class="btn-primary" style="margin-right: 15px;">
+            @Strings.Confirmacao_voltar_homepage
+        </a>
+        <a href="@Url.Action("Reservas", "Home")" class="btn-secondary">
+            @Strings.Confirmacao_ver_minhas_reservas
+        </a>
+    </div>
+</div>

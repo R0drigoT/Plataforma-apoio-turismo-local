@@ -1,0 +1,155 @@
+﻿@using ProjetoFim.Resources
+@model ProjetoFim.Models.AnunciosViewModel
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = Strings.GerirAnuncios_os_seus_an_ncios;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header with-actions">
+        <div>
+            <h1>@Strings.GerirAnuncios_os_seus_an_ncios</h1>
+            <p>@Strings.GerirAnuncios_adicione_edite_ou_remova_os_seus_quartos</p>
+        </div>
+        <a id="btn-adicionar-novo" href="@Url.Action("AdicionarQuarto_Passo1", "Home")" class="add-new-btn">
+            <i class="fas fa-plus"></i> @Strings.GerirAnuncios_adicionar_novo
+        </a>
+       
+    </div>
+
+    <div class="content-tabs">
+        <button class="content-tab-btn active" data-tab="quartos" data-add-url="@Url.Action("AdicionarQuarto_Passo1", "Home")">
+            @Strings.GerirAnuncios_quartos
+        </button>
+        <button class="content-tab-btn" data-tab="servicos" data-add-url="@Url.Action("AdicionarServico_Passo1", "Home")">
+            @Strings.GerirAnuncios_servi_os
+        </button>
+    </div>
+
+    <div id="quartos" class="tab-content active">
+        <div class="manage-listings-grid">
+            @foreach (var quarto in Model.Quartos)
+            {
+                var imagemPrincipal = quarto.Imagens?.OrderBy(i => i.Ordem).FirstOrDefault();
+                <div class="manage-card">
+                    <div class="manage-card__image">
+                        @if (imagemPrincipal != null)
+                        {
+                            <img src="@Url.Content(imagemPrincipal.Url)" alt="Imagem do quarto @quarto.Nome" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/images/placeholder-room.jpg" alt="@Strings.GerirAnuncios_sem_imagem_dispon_vel" />
+                        }
+                    </div>
+                    <div class="manage-card__details">
+                        <h4>@quarto.Nome</h4>
+                        <p>@quarto.Localizacao</p>
+                    </div>
+                    <div class="manage-card__actions">
+                        <a href="@Url.Action("PrevisualizarQuarto", "Home", new { id = quarto.Id })"
+                           class="action-btn" target="_blank">
+                            @Strings.GerirAnuncios_pr_visualizar
+                        </a>
+
+                        <a href="@Url.Action("ModificarQuarto_Passo1", "Home", new { id = quarto.Id })"
+                           class="action-btn modify">
+                            @Strings.GerirAnuncios_modificar
+                        </a>
+
+                        @using (Html.BeginForm("RemoverQuarto", "Home", new { id = quarto.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit"
+                                    class="action-btn remove"
+                                    onclick="return confirm('@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.verificacao, true))');">
+                                @Strings.GerirAnuncios_remover
+                            </button>
+                        }
+                    </div>
+
+                </div>
+            }
+        </div>
+        <div class="pagination-container">
+            @Html.PagedListPager(Model.Quartos, pagina => Url.Action("GerirAnuncios", new { paginaQuartos = pagina, paginaServicos = Model.Servicos.PageNumber }))
+        </div>
+    </div>
+
+    <div id="servicos" class="tab-content">
+        <div class="manage-listings-grid">
+            @foreach (var servico in Model.Servicos)
+            {
+                var imagemPrincipal = servico.Imagens?.OrderBy(i => i.Ordem).FirstOrDefault();
+                <div class="manage-card">
+                    <div class="manage-card__image">
+                        @if (imagemPrincipal != null)
+                        {
+                            <img src="@Url.Content(imagemPrincipal.Url)" alt="Imagem do serviço @servico.Nome" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/images/placeholder-service.jpg" alt="@Strings.GerirAnuncios_sem_imagem_dispon_vel" />
+                        }
+                    </div>
+                    <div class="manage-card__details">
+                        <h4>@servico.Nome</h4>
+                        <p>@servico.Localizacao</p>
+                    </div>
+                    <div class="manage-card__actions">
+                        <a href="@Url.Action("PrevisualizarServico", "Home", new { id = servico.Id })"
+                           class="action-btn" target="_blank">
+                            @Strings.GerirAnuncios_pr_visualizar
+                        </a>
+
+                        <a href="@Url.Action("ModificarServico_Passo1", "Home", new { id = servico.Id })"
+                           class="action-btn modify">
+                            @Strings.GerirAnuncios_modificar
+                        </a>
+
+                        @using (Html.BeginForm("RemoverServico", "Home", new { id = servico.Id }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit"
+                                    class="action-btn remove"
+                                    onclick="return confirm('@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.verificacao, true))');">
+                                @Strings.GerirAnuncios_remover
+                            </button>
+                        }
+                    </div>
+
+                </div>
+            }
+        </div>
+        <div class="pagination-container">
+            @Html.PagedListPager(Model.Servicos, pagina => Url.Action("GerirAnuncios", new { paginaQuartos = Model.Quartos.PageNumber, paginaServicos = pagina }))
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tabButtons = document.querySelectorAll('.content-tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const addNewBtn = document.getElementById('btn-adicionar-novo');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    this.classList.add('active');
+                    document.getElementById(this.dataset.tab).classList.add('active');
+
+                    const newUrl = this.dataset.addUrl;
+                    if (addNewBtn && newUrl) {
+                        addNewBtn.href = newUrl;
+                    }
+                });
+            });
+        });
+    </script>
+}

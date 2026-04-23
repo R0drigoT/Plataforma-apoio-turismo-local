@@ -1,0 +1,478 @@
+﻿@using ProjetoFim.Resources
+@model ProjetoFim.Models.Quarto
+@using Microsoft.AspNet.Identity
+@using System.Globalization
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = Strings.detalhesquarto_detalhes;
+    var culturaEuro = new CultureInfo("pt-PT");
+    bool isPreview = ViewBag.IsPreviewMode ?? false;
+}
+@section styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+}
+
+<div class="room-details-container" data-quarto-id="@Model.Id">
+    <section class="details-header">
+        <h1>@(ViewBag.NomeTraduzido ?? Model?.Nome)</h1>
+        <div class="room-main-info">
+            <span class="rating-summary">
+                <i class="fas fa-star"></i> @Model.AvaliacaoMedia.ToString("F1") (@Model.Avaliacoes.Count() @Strings.Menu_Reviews)
+            </span>
+            <span class="info-separator">·</span>
+            <span class="location-text">@ViewBag.Cidade</span>
+        </div>
+        <div class="image-gallery">
+            @if (Model.Imagens != null && Model.Imagens.Any())
+            {
+                var imagensOrdenadas = Model.Imagens.OrderBy(i => i.Ordem).ToList();
+                <div class="main-image">
+                   <img id="main-gallery-image" src="@Url.Content(imagensOrdenadas.First().Url)" alt="@(ViewBag.NomeTraduzido ?? Model.Nome)" />
+                </div>
+                <div class="thumbnail-grid">
+                    @foreach (var imagem in imagensOrdenadas)
+                    {
+                        <div class="thumbnail">
+                           <img class="thumbnail-image" src="@Url.Content(imagem.Url)" alt="Miniatura de @(ViewBag.NomeTraduzido ?? Model.Nome)" style="cursor: pointer;" />
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="main-image" style="background-color: #e9ecef;"></div>
+            }
+        </div>
+    </section>
+    <div class="details-main-grid">
+        <div class="details-body">
+            <div class="details-main-content">
+                <div class="title-actions">
+                    <h2>@Strings.detalhesquarto_detalhes</h2>
+                    <div class="actions">
+                        @if (User.Identity.IsAuthenticated && !isPreview)
+                        {
+                            using (Html.BeginForm("ToggleFavorito", "Favorito", FormMethod.Post, new { id = "form-favorito", style = "display: inline;" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="quartoId" value="@Model.Id" />
+                                <button type="submit" id="toggle-favorito-btn" class="favorite-btn">
+                                    <i class="fa-heart @(ViewBag.IsFavorito ? "fas" : "far")"></i>
+                                </button>
+                            }
+                        }
+                        @if (!isPreview)
+                        {
+                            <i class="fas fa-share-alt" id="share-button" style="cursor: pointer;"></i>
+                        }
+                    </div>
+                </div>
+                <p class="description">@(ViewBag.DescricaoTraduzida ?? Model.Descricao)</p>
+                <hr>
+                <h3>@Strings.detalhesquarto_comodidades</h3>
+                <div class="amenities-grid">
+                    @if (Model.NumeroCamasCasal > 0)
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-bed"></i>
+                            @string.Format(Strings.detalhesquarto_camas_casal, Model.NumeroCamasCasal)
+                        </div>
+                    }
+
+                    @if (Model.NumeroCamasSolteiro > 0)
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-bed"></i>
+                            @string.Format(Strings.detalhesquarto_camas_solteiro, Model.NumeroCamasSolteiro)
+                        </div>
+                    }
+
+                    @if (Model.NumeroCasasDeBanho > 0)
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-bath"></i>
+                            @string.Format(Strings.detalhesquarto_casas_banho, Model.NumeroCasasDeBanho)
+                        </div>
+                    }
+
+                    @if (Model.TemEstacionamento)
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-parking"></i>
+                            @Strings.detalhesquarto_estacionamento_disponivel
+                        </div>
+                    }
+
+                    @if (Model.Comodidades.Any(c => c.Nome == "Wifi"))
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-wifi"></i>
+                            @Strings.detalhesquarto_wifi
+                        </div>
+                    }
+
+                    @if (Model.Comodidades.Any(c => c.Nome == "Televisão"))
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-tv"></i>
+                            @Strings.detalhesquarto_Tv
+                        </div>
+                    }
+
+                    @if (Model.Comodidades.Any(c => c.Nome == "Permitido animais"))
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-paw"></i>
+                            @Strings.detalhesquarto_pets
+                        </div>
+                    }
+                    @if (Model.Comodidades.Any(c => c.Nome == "Máquina de Lavar"))
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-shirt"></i>
+                            @Strings.detalhesquarto_ML
+                        </div>
+                    }
+
+                    @if (Model.Comodidades.Any(c => c.Nome == "Ar Condicionado"))
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-snowflake"></i>
+                            @Strings.detalhesquarto_AC
+                        </div>
+                    }
+
+                    @if (Model.Comodidades.Any(c => c.Nome == "Cozinha"))
+                    {
+                        <div class="amenity-item">
+                            <i class="fas fa-utensils"></i>
+                            @Strings.detalhesquarto_cozinha
+                        </div>
+                    }
+                </div>
+            </div>
+            @if (!isPreview)
+            {
+                <aside class="booking-box">
+                    @using (Html.BeginForm("PaginaPagamento", "Home", FormMethod.Get))
+                    {
+                        if (Model.DescontoPercentagem > 0)
+                        {
+                            var precoComDesconto = Model.PrecoPorNoite * (1 - (Model.DescontoPercentagem / 100.0m));
+                            <h3>
+                                <span style="text-decoration: line-through; color: #999; font-size: 18px;">@Model.PrecoPorNoite.ToString("C", culturaEuro)</span>
+                                @precoComDesconto.ToString("C", culturaEuro) <small>@Strings.detalhesquarto_noite</small>
+                            </h3>
+                        }
+                        else
+                        {
+                            <h3>@Model.PrecoPorNoite.ToString("C", culturaEuro) <small>@Strings.detalhesquarto_noite</small></h3>
+                        }
+
+                        @Html.Hidden("id", Model.Id)
+                        <div class="booking-inputs">
+                            <div class="date-inputs">
+                                <div class="booking-input">
+                                    <label>@Strings.detalhesquarto_check_in</label>
+                                    <input type="text" id="checkin-datepicker" name="dataInicio" required placeholder="@Strings.ResultadosPesquisa_dd_mm_aaaa">
+                                </div>
+                                <div class="booking-input">
+                                    <label>@Strings.detalhesquarto_check_out</label>
+                                    <input type="text" id="checkout-datepicker" name="dataFim" required placeholder="@Strings.ResultadosPesquisa_dd_mm_aaaa">
+                                </div>
+                            </div>
+                            <div class="booking-input full-width">
+                                <label>@Strings.detalhesquarto_hospedes</label>
+                                <input type="number"
+                                       id="num-hospedes"
+                                       name="numHospedes"
+                                       value="1"
+                                       min="1"
+                                       max="@Model.NumeroHospedes" />
+                                <small style="display:block;margin-top:4px;">
+                                    @string.Format("{0} {1}", @Strings.detalhesquarto_capacidade_maxima_reserva, @Model.NumeroHospedes)
+                                </small>
+                            </div>
+                        </div>
+                        <button type="submit" class="reserve-btn">@Strings.detalhesquarto_reservar_agora</button>
+                        <p id="openContactHostBtn" class="contact-host" style="cursor: pointer;"><i class="fas fa-comment-dots"></i> @Strings.detalhesquarto_contactar_anfitriao</p>
+                    }
+                </aside>
+            }
+        </div>
+    </div>
+    <hr />
+    <h3>@Strings.detalhesquarto_localizacao</h3>
+    <div id="map" style="height: 400px; border-radius: 12px; margin-top: 20px;"></div>
+    <div class="reviews-section">
+        <hr />
+        <h3><i class="fas fa-star"></i> @Model.AvaliacaoMedia.ToString("F1") (@Model.Avaliacoes.Count() @Strings.Menu_Reviews)</h3>
+        <div class="reviews-grid">
+            @if (!Model.Avaliacoes.Any())
+            {
+                <p>@Strings.detalhesquarto_este_alojamento_ainda_nao_tem_avaliacoes</p>
+            }
+            else
+            {
+                var utilizadorId = User.Identity.IsAuthenticated ? User.Identity.GetUserId() : null;
+
+                var avaliacoesOrdenadas = Model.Avaliacoes
+                                               .OrderBy(a => a.UtilizadorId == utilizadorId ? 0 : 1)
+                                               .ThenByDescending(a => a.DataAvaliacao);
+
+                var avaliacoesParaMostrar = (bool)(ViewBag.ShowAllReviews ?? false) ?
+                                            avaliacoesOrdenadas.ToList() :
+                                            avaliacoesOrdenadas.Take(4).ToList();
+
+                foreach (var avaliacao in avaliacoesParaMostrar)
+                {
+                    <div class="review-item" id="avaliacao-@avaliacao.Id">
+                        <div class="review-author">
+                            @if (string.IsNullOrEmpty(avaliacao.Utilizador.CaminhoFotoPerfil))
+                            {
+                                <div class="profile-pic-small placeholder">
+                                    <span>@avaliacao.Utilizador.UserName.Substring(0, 1).ToUpper()</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="profile-pic-small" style="background-image: url('@Url.Content(avaliacao.Utilizador.CaminhoFotoPerfil)');"></div>
+                            }
+                            <div>
+                                <strong>@avaliacao.Utilizador.UserName</strong>
+                                <small>@avaliacao.DataAvaliacao.ToString("MMMM yyyy", culturaEuro)</small>
+                            </div>
+
+                            @if (User.Identity.IsAuthenticated && (avaliacao.UtilizadorId == User.Identity.GetUserId() || User.IsInRole("Admin")))
+                            {
+                                using (Html.BeginForm("Apagar", "Avaliacao", new { id = avaliacao.Id }, FormMethod.Post, new { @class = "form-apagar-avaliacao" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="delete-review-btn">@Strings.DetalhesServico_apagar</button>
+                                }
+                            }
+                        </div>
+                        <div class="review-rating">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="fas fa-star @(i <= avaliacao.Classificacao ? "filled" : "")"></i>
+                            }
+                        </div>
+                        <p class="review-comment">@avaliacao.Comentario</p>
+                    </div>
+                }
+
+
+                if (!(ViewBag.ShowAllReviews ?? false) && Model.Avaliacoes.Count() > 4)
+                {
+                    string targetAction = isPreview ? "PrevisualizarQuarto" : "DetalhesQuarto";
+
+                    <a href="@Url.Action(targetAction, "Home", new { id = Model.Id, showAllReviews = true })" class="show-all-btn">@Strings.detalhesquarto_mostrar_todas_as_avaliacoes</a>
+                }
+            }
+        </div>
+        @if (!isPreview)
+        {
+            <div class="leave-review-form">
+                <h4>@Strings.detalhesquarto_deixe_a_sua_avaliacao</h4>
+                @using (Html.BeginForm("Criar", "Avaliacao", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("quartoId", Model.Id)
+
+                    <div class="form-group">
+                        <label>@Strings.detalhesquarto_a_sua_classificacao</label>
+                        <div class="star-rating-input">
+                            <i class="fas fa-star" data-value="1"></i>
+                            <i class="fas fa-star" data-value="2"></i>
+                            <i class="fas fa-star" data-value="3"></i>
+                            <i class="fas fa-star" data-value="4"></i>
+                            <i class="fas fa-star" data-value="5"></i>
+                            <input type="hidden" name="classificacao" id="classificacaoInput" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comentario">@Strings.detalhesquarto_o_seu_comentario</label>
+                        <textarea name="comentario" rows="4" placeholder="@Strings.DetalhesServico_descreva_a_sua_experi_ncia" maxlength="300"></textarea>
+                    </div>
+                    <button type="submit" class="submit-review-btn">@Strings.detalhesquarto_submeter_avaliacao</button>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            @if (TempData["SucessoAvaliacao"] != null)
+            {
+                <text>
+                showErrorModal('@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["SucessoAvaliacao"].ToString()))');
+                </text>
+            }
+            @if (TempData["ErroAvaliacao"] != null)
+            {
+                <text>
+                showErrorModal('@Html.Raw(HttpUtility.JavaScriptStringEncode(TempData["ErroAvaliacao"].ToString()))');
+                </text>
+            }
+
+            const bookingForm   = document.querySelector('.booking-box form');
+            const checkinInput  = document.getElementById('checkin-datepicker');
+            const checkoutInput = document.getElementById('checkout-datepicker');
+            const mapContainer  = document.getElementById('map');
+
+            const lat = @(Model.Latitude?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "null");
+            const lon = @(Model.Longitude?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "null");
+            const localizacaoTexto = '@Html.Raw(HttpUtility.JavaScriptStringEncode(Model.Localizacao))';
+
+            if (mapContainer) {
+                if (lat != null && lon != null) {
+                    const map = L.map('map').setView([lat, lon], 15);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                    L.marker([lat, lon]).addTo(map).bindPopup(localizacaoTexto).openPopup();
+                } else {
+                    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(localizacaoTexto)}`)
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data && data.length > 0) {
+                                const geoLat = data[0].lat;
+                                const geoLon = data[0].lon;
+                                const map = L.map('map').setView([geoLat, geoLon], 13);
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                                L.marker([geoLat, geoLon]).addTo(map).bindPopup(localizacaoTexto).openPopup();
+                            } else {
+                                mapContainer.style.display = 'none';
+                            }
+                        });
+                }
+            }
+
+            if (bookingForm) {
+                bookingForm.addEventListener('submit', function (e) {
+                    if (checkinInput.value === '' || checkoutInput.value === '') {
+                        e.preventDefault();
+                        showErrorModal('@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.DetalhesQuarto_datas_checkin_checkout))');
+                        return false;
+                    }
+                    const inputHospedes = document.getElementById('num-hospedes');
+        const maxHospedes = parseInt(inputHospedes.getAttribute('max') || '0', 10);
+        const valor = parseInt(inputHospedes.value || '0', 10);
+
+        if (valor < 1 || valor > maxHospedes) {
+            e.preventDefault();
+            showErrorModal('@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.detalhesquarto_hospedes))' + ': ' +
+                           '@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.detalhesquarto_capacidade_maxima))' + ' ' + maxHospedes);
+            return false;
+        }
+                });
+            }
+
+            const formAvaliacao = document.querySelector('.leave-review-form form');
+            if (formAvaliacao) {
+                formAvaliacao.addEventListener('submit', function (e) {
+                    const classificacaoInput = document.getElementById('classificacaoInput');
+                    if (!classificacaoInput.value || classificacaoInput.value === '0') {
+                        e.preventDefault();
+                        showErrorModal('@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.Avaliacoes_selecione_classificacao))');
+                        return false;
+                    }
+                });
+            }
+
+            $('#form-favorito').on('submit', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var token = form.find('input[name="__RequestVerificationToken"]').val();
+                var quartoId = form.find('input[name="quartoId"]').val();
+                var url = form.attr('action');
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { __RequestVerificationToken: token, quartoId: quartoId },
+                    success: function (response) {
+                        if (response.success) {
+                            var icon = $('#toggle-favorito-btn').find('.fa-heart');
+                            if (response.isFavorito) {
+                                icon.removeClass('far').addClass('fas');
+                            } else {
+                                icon.removeClass('fas').addClass('far');
+                            }
+                        }
+                    }
+                });
+            });
+
+            $('.star-rating-input .fa-star').on('click', function () {
+                var ratingValue = $(this).data('value');
+                $('#classificacaoInput').val(ratingValue);
+                $('.star-rating-input .fa-star').each(function () {
+                    $(this).css('color', ($(this).data('value') <= ratingValue) ? '#ffc107' : '#ccc');
+                });
+            });
+
+            $('.thumbnail-image').on('click', function () {
+                $('#main-gallery-image').attr('src', $(this).attr('src'));
+            });
+
+            var quartoId = @Model.Id;
+            var url = '@Url.Action("GetDatasOcupadas", "Home")/' + quartoId;
+
+            $.getJSON(url, function (datasOcupadas) {
+                var checkinPicker = flatpickr("#checkin-datepicker", {
+                    dateFormat: "Y-m-d",
+                    altInput: true,
+                    altFormat: "d/m/Y",
+                    minDate: "today",
+                    disable: datasOcupadas,
+                    onChange: function (selectedDates) {
+                        if (selectedDates.length > 0) {
+                            checkoutPicker.set('minDate', selectedDates[0]);
+                            checkoutPicker.open();
+                        }
+                    }
+                });
+                var checkoutPicker = flatpickr("#checkout-datepicker", {
+                    dateFormat: "Y-m-d",
+                    altInput: true,
+                    altFormat: "d/m/Y",
+                    minDate: "today",
+                    disable: datasOcupadas
+                });
+            });
+
+            $(document).on('submit', '.form-apagar-avaliacao', function (e) {
+                e.preventDefault();
+                var form = $(this);
+                showConfirmationModal(
+                    '@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.GerirAvaliacoes_confirmar_apagar))',
+                    function () {
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: 'POST',
+                            data: form.serialize(),
+                            success: function (response) {
+                                if (response.success) {
+                                    form.closest('.review-item').fadeOut('slow');
+                                } else {
+                                    showErrorModal('@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.GerirAvaliacoes_erro)) ' + response.message);
+                                }
+                            },
+                            error: function () {
+                                showErrorModal('@Html.Raw(HttpUtility.JavaScriptStringEncode(Strings.Aviso_erro_comunicacao))');
+                            }
+                        });
+                    }
+                );
+            });
+        });
+    </script>
+}
+

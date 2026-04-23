@@ -1,0 +1,120 @@
+﻿@model ProjetoFim.Models.Quarto
+@using ProjetoFim.Resources
+@{
+    bool isEditing = Model != null && Model.Id > 0;
+    ViewBag.Title = (isEditing ? Strings.Room_Edit : Strings.Room_Add) + " - " + Strings.Wizard_Step1;
+    string formAction = isEditing ? "ModificarQuarto_Passo1" : "AdicionarQuarto_Passo1";
+}
+
+@section styles {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+}
+
+<div class="admin-page-container">
+    <div class="admin-page-header">
+        <h1>@(isEditing ? Strings.Room_Edit : Strings.Room_Add)</h1>
+        <p>@Strings.adicionarquarto_passo1_passo_1_de_5_informacoes_basicas</p>
+    </div>
+
+    @{
+        object routeVals = null;
+        if (isEditing) { routeVals = new { id = Model.Id }; }
+    }
+
+    @using (Html.BeginForm(formAction, "Home", routeVals, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        if (isEditing)
+        { @Html.HiddenFor(model => model.Id) }
+
+    <div class="form-horizontal">
+        <p>@Strings.adicionarquarto_passo1_comece_por_preencher_os_detalhes_fundame</p>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Descricao, new { @class = "form-control", rows = 5, maxlength = 700 })
+                @Html.ValidationMessageFor(model => model.Descricao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @{
+            var tEn = Model?.Traducoes?.FirstOrDefault(t => t.Cultura == "en");
+            var tEs = Model?.Traducoes?.FirstOrDefault(t => t.Cultura == "es");
+            var tFr = Model?.Traducoes?.FirstOrDefault(t => t.Cultura == "fr");
+        }
+        <div class="form-group">
+            <label class="control-label col-md-2">@Strings.Traducao</label>
+            <div class="col-md-10">
+                <div class="well" style="padding:16px;margin-bottom:0">
+                    <p style="margin-top:0;margin-bottom:12px">
+                        @Strings.traducao2
+                    </p>
+
+                    <div class="row" style="margin-bottom:10px">
+                        <div class="col-md-6">
+                            <label for="Nome_en">Nome (EN)</label>
+                            <input id="Nome_en" name="Nome_en" class="form-control" maxlength="200" value="@(tEn?.Nome ?? "")" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="Descricao_en">Descrição (EN)</label>
+                            <textarea id="Descricao_en" name="Descricao_en" class="form-control" rows="3" maxlength="700">@(tEn?.Descricao ?? "")</textarea>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom:10px">
+                        <div class="col-md-6">
+                            <label for="Nome_es">Nombre (ES)</label>
+                            <input id="Nome_es" name="Nome_es" class="form-control" maxlength="200" value="@(tEs?.Nome ?? "")" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="Descricao_es">Descripción (ES)</label>
+                            <textarea id="Descricao_es" name="Descricao_es" class="form-control" rows="3" maxlength="700">@(tEs?.Descricao ?? "")</textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="Nome_fr">Nom (FR)</label>
+                            <input id="Nome_fr" name="Nome_fr" class="form-control" maxlength="200" value="@(tFr?.Nome ?? "")" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="Descricao_fr">Description (FR)</label>
+                            <textarea id="Descricao_fr" name="Descricao_fr" class="form-control" rows="3" maxlength="700">@(tFr?.Descricao ?? "")</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Localizacao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Localizacao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Localizacao, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Latitude, new { id = "Latitude" })
+        @Html.HiddenFor(model => model.Longitude, new { id = "Longitude" })
+
+        @Html.Partial("_MapSelector", Model)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 form-actions">
+                @Html.ActionLink(Strings.Confirm_Cancel, "GerirAnuncios", null, new { @class = "btn-cancel-form" })
+                <input type="submit" value="@Strings.Auth_Continue" class="btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+</div>

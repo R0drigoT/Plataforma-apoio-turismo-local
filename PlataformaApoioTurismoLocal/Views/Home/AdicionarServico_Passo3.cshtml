@@ -1,0 +1,65 @@
+﻿@Html.Hidden("FormToken", (string)ViewBag.FormToken)
+@model ProjetoFim.Models.Servico
+@using ProjetoFim.Resources
+@{
+    bool isEditing = Model != null && Model.Id > 0;
+    ViewBag.Title = (isEditing ? Strings.Service_Edit : Strings.Service_Add) + " - " + Strings.Service_Price_Label;
+
+    string formAction = isEditing ? "ModificarServico_Passo3" : "AdicionarServico_Passo3";
+    object routeVals = isEditing ? new { id = Model.Id } : null;
+}
+
+<h2>@(isEditing ? Strings.Service_Edit : Strings.Service_Add)</h2>
+<p>@Strings.adicionarservico_passo3_passo_3_de_3_preco_e_disponibilidade</p>
+<hr />
+
+@using (Html.BeginForm(formAction, "Home", routeVals, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("FormToken", (string)ViewBag.FormToken)
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">     
+        @Html.Label("MaxParticipantes", "Participantes (máx.)", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="number"
+                   id="MaxParticipantes"
+                   name="MaxParticipantes"
+                   class="form-control"
+                   value="@(Model?.MaxParticipantes > 0 ? Model.MaxParticipantes : 1)"
+                   min="1" />
+            @Html.ValidationMessage("MaxParticipantes", "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Preco, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Preco, new { htmlAttributes = new { @class = "form-control", placeholder = "0.00" } })
+            @Html.ValidationMessageFor(m => m.Preco, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DescontoPercentagem, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.DescontoPercentagem, new { htmlAttributes = new { @class = "form-control", type = "number", min = "0", max = "100", placeholder = "0" } })
+            @Html.ValidationMessageFor(m => m.DescontoPercentagem, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10 form-actions">
+            @if (isEditing)
+            {
+                @Html.ActionLink(Strings.Confirm_Cancel, "ModificarServico_Passo2", "Home", new { id = Model.Id }, new { @class = "btn-cancel-form" })
+            }
+            else
+            {
+                @Html.ActionLink(Strings.Confirm_Cancel, "AdicionarServico_Passo2", "Home", null, new { @class = "btn-cancel-form" })
+            }
+            <input type="submit" value="@(isEditing ? "Salvar Alterações" : "Criar Serviço")" class="btn-primary" />
+        </div>
+    </div>
+</div>
+}

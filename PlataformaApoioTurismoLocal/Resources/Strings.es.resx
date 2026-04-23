@@ -1,0 +1,1494 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Homepage_TopRated" xml:space="preserve">
+    <value>Habitaciones mejor valoradas</value>
+  </data>
+  <data name="Navbar_Favorites" xml:space="preserve">
+    <value>Favoritos</value>
+  </data>
+  <data name="Navbar_Bookings" xml:space="preserve">
+    <value>Reservas</value>
+  </data>
+  <data name="Search_Find" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="Search_Rooms" xml:space="preserve">
+    <value>Habitaciones</value>
+  </data>
+  <data name="Search_Services" xml:space="preserve">
+    <value>Servicios</value>
+  </data>
+  <data name="Navbar_Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Navbar_Ads" xml:space="preserve">
+    <value>Anuncios</value>
+  </data>
+  <data name="Navbar_Calendar" xml:space="preserve">
+    <value>Calendario</value>
+  </data>
+  <data name="Navbar_Inbox" xml:space="preserve">
+    <value>Bandeja de entrada</value>
+  </data>
+  <data name="Navbar_Stats" xml:space="preserve">
+    <value>Estadísticas</value>
+  </data>
+  <data name="Menu_Notifications" xml:space="preserve">
+    <value>Notificaciones</value>
+  </data>
+  <data name="Menu_Reviews" xml:space="preserve">
+    <value>Reseñas</value>
+  </data>
+  <data name="Menu_TransactionsHistory" xml:space="preserve">
+    <value>Historial de transacciones</value>
+  </data>
+  <data name="Menu_Profile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="Menu_Messages" xml:space="preserve">
+    <value>Mensajes</value>
+  </data>
+  <data name="Menu_Logout" xml:space="preserve">
+    <value>Cerrar sesión</value>
+  </data>
+  <data name="Auth_AdminLogin" xml:space="preserve">
+    <value>Inicio de sesión de administrador</value>
+  </data>
+  <data name="Auth_Username" xml:space="preserve">
+    <value>Nombre de usuario</value>
+  </data>
+  <data name="Auth_Email" xml:space="preserve">
+    <value>Correo electrónico</value>
+  </data>
+  <data name="Auth_DateOfBirth" xml:space="preserve">
+    <value>Fecha de nacimiento</value>
+  </data>
+  <data name="Auth_Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Auth_ConfirmPassword" xml:space="preserve">
+    <value>Confirmar contraseña</value>
+  </data>
+  <data name="Auth_ForgotPassword" xml:space="preserve">
+    <value>¿Olvidaste la contraseña?</value>
+  </data>
+  <data name="Auth_Continue" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="Auth_Login_Btn" xml:space="preserve">
+    <value>Iniciar sesión</value>
+  </data>
+  <data name="Auth_Register_Btn" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="Auth_ULogin" xml:space="preserve">
+    <value>Inicio de sesión</value>
+  </data>
+  <data name="Contact_Title" xml:space="preserve">
+    <value>Contactar al anfitrión</value>
+  </data>
+  <data name="Contact_MessageLabel" xml:space="preserve">
+    <value>Tu mensaje</value>
+  </data>
+  <data name="Contact_MessagePlaceholder" xml:space="preserve">
+    <value>Escribe tu pregunta o solicitud...</value>
+  </data>
+  <data name="Contact_Send" xml:space="preserve">
+    <value>Enviar mensaje</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Aviso</value>
+  </data>
+  <data name="Error_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Confirm_Title" xml:space="preserve">
+    <value>Confirmación</value>
+  </data>
+  <data name="Confirm_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Confirm_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Footer_Copy" xml:space="preserve">
+    <value>Mi Proyecto de Alojamiento</value>
+  </data>
+  <data name="Language_PT" xml:space="preserve">
+    <value>Portugués</value>
+  </data>
+  <data name="Language_EN" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Search_Tab_Find" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="Search_Tab_Rooms" xml:space="preserve">
+    <value>Habitaciones</value>
+  </data>
+  <data name="Search_Tab_Services" xml:space="preserve">
+    <value>Servicios</value>
+  </data>
+  <data name="Search_Label_Location" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="Search_Label_CheckIn" xml:space="preserve">
+    <value>Check‑in</value>
+  </data>
+  <data name="Search_Label_CheckOut" xml:space="preserve">
+    <value>Check‑out</value>
+  </data>
+  <data name="Search_Label_Guests" xml:space="preserve">
+    <value>Huéspedes</value>
+  </data>
+  <data name="Search_Button_Submit" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="Homepage_NewRooms" xml:space="preserve">
+    <value>Habitaciones recién añadidas</value>
+  </data>
+  <data name="Homepage_DiscountRooms" xml:space="preserve">
+    <value>Habitaciones con descuento</value>
+  </data>
+  <data name="Services_MostRequested" xml:space="preserve">
+    <value>Servicios más solicitados</value>
+  </data>
+  <data name="Services_New" xml:space="preserve">
+    <value>Servicios recién añadidos</value>
+  </data>
+  <data name="Services_Discount" xml:space="preserve">
+    <value>Servicios con descuento</value>
+  </data>
+  <data name="Menu_Admin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="Menu_User" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="adicionarquarto_passo1_passo_1_de_5_informacoes_basicas" xml:space="preserve">
+    <value>Paso 1 de 5: Información básica</value>
+  </data>
+  <data name="adicionarquarto_passo1_comece_por_preencher_os_detalhes_fundame" xml:space="preserve">
+    <value>Empieza rellenando los datos fundamentales de tu espacio.</value>
+  </data>
+  <data name="adicionarquarto_passo2_passo_2_de_5_instalacoes" xml:space="preserve">
+    <value>Paso 2 de 5: Instalaciones</value>
+  </data>
+  <data name="adicionarquarto_passo2_indique_as_instalacoes_basicas_disponive" xml:space="preserve">
+    <value>Indica las instalaciones básicas disponibles.</value>
+  </data>
+  <data name="adicionarquarto_passo2_disponivel" xml:space="preserve">
+    <value>Disponible</value>
+  </data>
+  <data name="adicionarquarto_passo3_passo_3_de_5_comodidades" xml:space="preserve">
+    <value>Paso 3 de 5: Comodidades</value>
+  </data>
+  <data name="adicionarquarto_passo3_selecione_todas_as_comodidades_que_o_seu" xml:space="preserve">
+    <value>Selecciona todas las comodidades que ofrece tu espacio.</value>
+  </data>
+  <data name="adicionarquarto_passo4_passo_4_de_5_galeria_de_fotos" xml:space="preserve">
+    <value>Paso 4 de 5: Galería de fotos</value>
+  </data>
+  <data name="adicionarquarto_passo4_carregue_novas_fotos_ou_arraste_as_exist" xml:space="preserve">
+    <value>Sube fotos nuevas o arrastra las existentes para reordenarlas.</value>
+  </data>
+  <data name="adicionarquarto_passo4_arraste_e_largue_as_suas_fotos_aqui" xml:space="preserve">
+    <value>Arrastra y suelta tus fotos aquí</value>
+  </data>
+  <data name="adicionarquarto_passo4_ou" xml:space="preserve">
+    <value>o</value>
+  </data>
+  <data name="adicionarquarto_passo4_selecione_os_ficheiros" xml:space="preserve">
+    <value>Selecciona los archivos</value>
+  </data>
+  <data name="adicionarquarto_passo4_pre_visualizacao_pode_arrastar_para_reor" xml:space="preserve">
+    <value>Vista previa (puedes arrastrar para reordenar):</value>
+  </data>
+  <data name="adicionarquarto_passo4_apagar" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="adicionarquarto_passo5_passo_5_de_5_preco_e_disponibilidade" xml:space="preserve">
+    <value>Paso 5 de 5: Precio y disponibilidad</value>
+  </data>
+  <data name="adicionarquarto_passo5_estamos_quase_a_terminar_defina_o_preco_" xml:space="preserve">
+    <value>Ya casi terminamos. Define el precio por noche de tu espacio.</value>
+  </data>
+  <data name="adicionarservico_passo1_passo_1_de_3_informacoes_basicas" xml:space="preserve">
+    <value>Paso 1 de 3: Información básica</value>
+  </data>
+  <data name="adicionarservico_passo1_comece_por_preencher_os_detalhes_do_serv" xml:space="preserve">
+    <value>Empiece rellenando los datos del servicio.</value>
+  </data>
+  <data name="adicionarservico_passo2_passo_2_de_3_galeria_de_fotos" xml:space="preserve">
+    <value>Paso 2 de 3: Galería de fotos</value>
+  </data>
+  <data name="adicionarservico_passo2_adicionar_novas_imagens" xml:space="preserve">
+    <value>Añadir nuevas imágenes</value>
+  </data>
+  <data name="adicionarservico_passo2_pre_visualizacao" xml:space="preserve">
+    <value>Vista previa</value>
+  </data>
+  <data name="adicionarservico_passo3_passo_3_de_3_preco_e_disponibilidade" xml:space="preserve">
+    <value>Paso 3 de 3: Precio y disponibilidad</value>
+  </data>
+  <data name="calendario_calendario_de_disponibilidade" xml:space="preserve">
+    <value>Calendario de disponibilidad</value>
+  </data>
+  <data name="calendario_veja_e_gira_a_disponibilidade_dos_seus_a" xml:space="preserve">
+    <value>Vea y gestione la disponibilidad de sus anuncios en un solo lugar.</value>
+  </data>
+  <data name="detalhesquarto_detalhes" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="detalhesquarto_comodidades" xml:space="preserve">
+    <value>Servicios</value>
+  </data>
+  <data name="detalhesquarto_estacionamento_disponivel" xml:space="preserve">
+    <value>Aparcamiento disponible</value>
+  </data>
+  <data name="detalhesquarto_noite" xml:space="preserve">
+    <value>noche</value>
+  </data>
+  <data name="detalhesquarto_check_in" xml:space="preserve">
+    <value>Check‑in</value>
+  </data>
+  <data name="detalhesquarto_check_out" xml:space="preserve">
+    <value>Check‑out</value>
+  </data>
+  <data name="detalhesquarto_hospedes" xml:space="preserve">
+    <value>Huéspedes</value>
+  </data>
+  <data name="detalhesquarto_reservar_agora" xml:space="preserve">
+    <value>Reservar ahora</value>
+  </data>
+  <data name="detalhesquarto_contactar_anfitriao" xml:space="preserve">
+    <value>Contactar al anfitrión</value>
+  </data>
+  <data name="detalhesquarto_localizacao" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="detalhesquarto_este_alojamento_ainda_nao_tem_avaliacoes" xml:space="preserve">
+    <value>Este alojamiento aún no tiene reseñas.</value>
+  </data>
+  <data name="detalhesquarto_mostrar_todas_as_avaliacoes" xml:space="preserve">
+    <value>Mostrar todas las reseñas</value>
+  </data>
+  <data name="detalhesquarto_deixe_a_sua_avaliacao" xml:space="preserve">
+    <value>Deja tu reseña</value>
+  </data>
+  <data name="detalhesquarto_a_sua_classificacao" xml:space="preserve">
+    <value>Tu valoración</value>
+  </data>
+  <data name="detalhesquarto_o_seu_comentario" xml:space="preserve">
+    <value>Tu comentario</value>
+  </data>
+  <data name="detalhesquarto_submeter_avaliacao" xml:space="preserve">
+    <value>Enviar reseña</value>
+  </data>
+  <data name="DetalhesServico_a_sua_classifica_o" xml:space="preserve">
+    <value>Su valoración</value>
+  </data>
+  <data name="DetalhesServico_apagar" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="DetalhesServico_contactar_prestador" xml:space="preserve">
+    <value>Contactar proveedor</value>
+  </data>
+  <data name="DetalhesServico_data" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="DetalhesServico_deixe_a_sua_avalia_o" xml:space="preserve">
+    <value>Deje su reseña</value>
+  </data>
+  <data name="DetalhesServico_descreva_a_sua_experi_ncia" xml:space="preserve">
+    <value>Describa su experiencia...</value>
+  </data>
+  <data name="DetalhesServico_detalhes" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="DetalhesServico_este_servi_o_ainda_n_o_tem_avalia_es" xml:space="preserve">
+    <value>Este servicio aún no tiene reseñas.</value>
+  </data>
+  <data name="DetalhesServico_localiza_o" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="DetalhesServico_mostrar_todas_as_avalia_es" xml:space="preserve">
+    <value>Mostrar todas las reseñas</value>
+  </data>
+  <data name="DetalhesServico_o_seu_coment_rio" xml:space="preserve">
+    <value>Su comentario</value>
+  </data>
+  <data name="DetalhesServico_participantes" xml:space="preserve">
+    <value>Participantes</value>
+  </data>
+  <data name="DetalhesServico_reservar_agora" xml:space="preserve">
+    <value>Reservar ahora</value>
+  </data>
+  <data name="DetalhesServico_selecione_a_data" xml:space="preserve">
+    <value>Seleccione la fecha</value>
+  </data>
+  <data name="DetalhesServico_submeter_avalia_o" xml:space="preserve">
+    <value>Enviar reseña</value>
+  </data>
+  <data name="DetalhesServico_por_pessoa" xml:space="preserve">
+    <value>por persona</value>
+  </data>
+  <data name="EditarPerfil_cancelar" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="EditarPerfil_data_de_nascimento" xml:space="preserve">
+    <value>Fecha de nacimiento</value>
+  </data>
+  <data name="EditarPerfil_email" xml:space="preserve">
+    <value>Correo electrónico</value>
+  </data>
+  <data name="EditarPerfil_nome_de_utilizador" xml:space="preserve">
+    <value>Nombre de usuario</value>
+  </data>
+  <data name="EditarPerfil_o_seu_n_mero_de_telefone" xml:space="preserve">
+    <value>Su número de teléfono</value>
+  </data>
+  <data name="EditarPerfil_salvar" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="EditarPerfil_telefone" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="Estatisticas_analise_o_desempenho_da_sua_plataforma" xml:space="preserve">
+    <value>Analice el rendimiento de su plataforma.</value>
+  </data>
+  <data name="Estatisticas_ganhos_totais" xml:space="preserve">
+    <value>Ganancias totales</value>
+  </data>
+  <data name="Estatisticas_ganhos_nos_ltimos_6_meses" xml:space="preserve">
+    <value>Ganancias en los últimos 6 meses</value>
+  </data>
+  <data name="Estatisticas_total_de_reservas" xml:space="preserve">
+    <value>Total de reservas</value>
+  </data>
+  <data name="Estatisticas_valor_m_dio_reserva" xml:space="preserve">
+    <value>Valor medio por reserva</value>
+  </data>
+  <data name="Favoritos_ainda_n_o_adicionou_nenhum_alojamento_ao" xml:space="preserve">
+    <value>Aún no ha añadido ningún alojamiento a sus favoritos.</value>
+  </data>
+  <data name="Favoritos_favoritos" xml:space="preserve">
+    <value>Favoritos</value>
+  </data>
+  <data name="GerirAnuncios_adicionar_novo" xml:space="preserve">
+    <value>Añadir nuevo</value>
+  </data>
+  <data name="GerirAnuncios_adicione_edite_ou_remova_os_seus_quartos" xml:space="preserve">
+    <value>Añada, edite o elimine sus habitaciones y servicios.</value>
+  </data>
+  <data name="GerirAnuncios_modificar" xml:space="preserve">
+    <value>Modificar</value>
+  </data>
+  <data name="GerirAnuncios_os_seus_an_ncios" xml:space="preserve">
+    <value>Sus anuncios</value>
+  </data>
+  <data name="GerirAnuncios_pr_visualizar" xml:space="preserve">
+    <value>Vista previa</value>
+  </data>
+  <data name="GerirAnuncios_quartos" xml:space="preserve">
+    <value>habitaciones</value>
+  </data>
+  <data name="GerirAnuncios_remover" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="GerirAnuncios_sem_imagem_dispon_vel" xml:space="preserve">
+    <value>Sin imagen disponible</value>
+  </data>
+  <data name="GerirAnuncios_servi_os" xml:space="preserve">
+    <value>Servicios</value>
+  </data>
+  <data name="GerirAnuncios_servicos" xml:space="preserve">
+    <value>servicios</value>
+  </data>
+  <data name="HistoricoTransacoes_consulte_todos_os_seus_pagamentos_e_reem" xml:space="preserve">
+    <value>Consulte todos sus pagos y reembolsos.</value>
+  </data>
+  <data name="HistoricoTransacoes_data" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="HistoricoTransacoes_descri_o" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="HistoricoTransacoes_fatura" xml:space="preserve">
+    <value>Factura</value>
+  </data>
+  <data name="HistoricoTransacoes_m_todo" xml:space="preserve">
+    <value>Método</value>
+  </data>
+  <data name="HistoricoTransacoes_n_o_existem_transa_es_para_mostrar" xml:space="preserve">
+    <value>No hay transacciones para mostrar.</value>
+  </data>
+  <data name="HistoricoTransacoes_total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="HistoricoTransacoes_utilizador" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="HistoricoTransacoes_ver_fatura" xml:space="preserve">
+    <value>Ver factura</value>
+  </data>
+  <data name="HistoricoTransacoes_ver_nota_de_cr_dito" xml:space="preserve">
+    <value>Ver nota de crédito</value>
+  </data>
+  <data name="ListaAvaliacoes_an_ncio" xml:space="preserve">
+    <value>Anuncio</value>
+  </data>
+  <data name="ListaAvaliacoes_apagar" xml:space="preserve">
+    <value>Eliminar</value>
+  </data>
+  <data name="ListaAvaliacoes_a_es" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
+  <data name="ListaAvaliacoes_classifica_o" xml:space="preserve">
+    <value>Calificación</value>
+  </data>
+  <data name="ListaAvaliacoes_coment_rio" xml:space="preserve">
+    <value>Comentario</value>
+  </data>
+  <data name="ListaAvaliacoes_data" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="ListaAvaliacoes_utilizador" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="ListaAvaliacoes_veja_e_gira_todas_as_avalia_es_deixadas_" xml:space="preserve">
+    <value>Vea y gestione todas las reseñas dejadas en la plataforma.</value>
+  </data>
+  <data name="ListaReservas_anuncio" xml:space="preserve">
+    <value>Anuncio</value>
+  </data>
+  <data name="ListaReservas_aplicar_filtros" xml:space="preserve">
+    <value>Aplicar filtros</value>
+  </data>
+  <data name="ListaReservas_acoes" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
+  <data name="ListaReservas_estado_cancelamento_pedido" xml:space="preserve">
+    <value>Cancelación solicitada</value>
+  </data>
+  <data name="ListaReservas_datas" xml:space="preserve">
+    <value>Fechas</value>
+  </data>
+  <data name="ListaReservas_estado" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="ListaReservas_hospede" xml:space="preserve">
+    <value>Huésped</value>
+  </data>
+  <data name="ListaReservas_placeholder_pesquisar" xml:space="preserve">
+    <value>Buscar por huésped o anuncio...</value>
+  </data>
+  <data name="ListaReservas_reservas" xml:space="preserve">
+    <value>Reservas</value>
+  </data>
+  <data name="ListaReservas_total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ListaReservas_veja_todas_as_reservas" xml:space="preserve">
+    <value>Vea todas las reservas de sus alojamientos y servicios.</value>
+  </data>
+  <data name="ListaReservas_ver_detalhes" xml:space="preserve">
+    <value>Ver detalles</value>
+  </data>
+  <data name="Notificacoes_notifica_es" xml:space="preserve">
+    <value>Notificaciones</value>
+  </data>
+  <data name="PaginaPagamento_como_gostaria_de_pagar" xml:space="preserve">
+    <value>¿Cómo le gustaría pagar?</value>
+  </data>
+  <data name="PaginaPagamento_concluir_reserva" xml:space="preserve">
+    <value>Finalizar reserva</value>
+  </data>
+  <data name="PaginaPagamento_detalhes_do_pagamento" xml:space="preserve">
+    <value>Detalles de pago</value>
+  </data>
+  <data name="PaginaPagamento_email" xml:space="preserve">
+    <value>Correo electrónico</value>
+  </data>
+  <data name="PaginaPagamento_impostos_e_taxas" xml:space="preserve">
+    <value>Impuestos y tasas</value>
+  </data>
+  <data name="PaginaPagamento_nome_completo" xml:space="preserve">
+    <value>Nombre completo</value>
+  </data>
+  <data name="PaginaPagamento_os_seus_dados" xml:space="preserve">
+    <value>Sus datos</value>
+  </data>
+  <data name="PaginaPagamento_preencha_os_seus_dados_e_os_detalhes_de_" xml:space="preserve">
+    <value>Complete sus datos y los detalles de pago.</value>
+  </data>
+  <data name="PaginaPagamento_pre_o_total" xml:space="preserve">
+    <value>Precio total</value>
+  </data>
+  <data name="PaginaPagamento_sum_rio_do_pre_o" xml:space="preserve">
+    <value>Resumen del precio</value>
+  </data>
+  <data name="CaixaDeEntrada_caixa_de_entrada" xml:space="preserve">
+    <value>Bandeja de entrada</value>
+  </data>
+  <data name="CaixaDeEntrada_mensagem" xml:space="preserve">
+    <value>Mensaje</value>
+  </data>
+  <data name="CaixaDeEntrada_nao_existem_conversas_para_mostrar" xml:space="preserve">
+    <value>No hay conversaciones para mostrar.</value>
+  </data>
+  <data name="CaixaDeEntrada_nao_lidas" xml:space="preserve">
+    <value>No leídas</value>
+  </data>
+  <data name="CaixaDeEntrada_pesquisar_mensagens" xml:space="preserve">
+    <value>Buscar mensajes...</value>
+  </data>
+  <data name="CaixaDeEntrada_selecione_uma_conversa_para_ver_as_mensa" xml:space="preserve">
+    <value>Seleccione una conversación para ver los mensajes.</value>
+  </data>
+  <data name="CaixaDeEntrada_todas" xml:space="preserve">
+    <value>Todas</value>
+  </data>
+  <data name="CaixaDeEntrada_todas_as_mensagens" xml:space="preserve">
+    <value>Todos los mensajes</value>
+  </data>
+  <data name="Index_as_minhas_mensagens" xml:space="preserve">
+    <value>Mis mensajes</value>
+  </data>
+  <data name="Index_mensagem" xml:space="preserve">
+    <value>Mensaje</value>
+  </data>
+  <data name="Index_nao_existem_conversas_para_mostrar" xml:space="preserve">
+    <value>No hay conversaciones para mostrar.</value>
+  </data>
+  <data name="Index_nao_lidas" xml:space="preserve">
+    <value>No leídas</value>
+  </data>
+  <data name="Index_pesquisar" xml:space="preserve">
+    <value>Buscar...</value>
+  </data>
+  <data name="Index_selecione_uma_conversa_para_ver_as_mensa" xml:space="preserve">
+    <value>Seleccione una conversación para ver los mensajes.</value>
+  </data>
+  <data name="Index_todas" xml:space="preserve">
+    <value>Todas</value>
+  </data>
+  <data name="Index_todas_as_mensagens" xml:space="preserve">
+    <value>Todos los mensajes</value>
+  </data>
+  <data name="Index_todas_as_mensagens_lower" xml:space="preserve">
+    <value>Todos los mensajes</value>
+  </data>
+  <data name="PaginaReserva_apelido" xml:space="preserve">
+    <value>Apellido *</value>
+  </data>
+  <data name="PaginaReserva_finalizar_reserva" xml:space="preserve">
+    <value>Finalizar reserva</value>
+  </data>
+  <data name="PaginaReserva_insira_os_seus_dados" xml:space="preserve">
+    <value>Introduce tus datos</value>
+  </data>
+  <data name="PaginaReserva_nome" xml:space="preserve">
+    <value>Nombre *</value>
+  </data>
+  <data name="PaginaReserva_seguinte" xml:space="preserve">
+    <value>Siguiente</value>
+  </data>
+  <data name="Perfil_ainda_nao_fez_nenhuma_avaliacao" xml:space="preserve">
+    <value>Aún no has hecho ninguna reseña.</value>
+  </data>
+  <data name="Perfil_membro_desde_2025" xml:space="preserve">
+    <value>Miembro desde 2025</value>
+  </data>
+  <data name="Perfil_o_meu_perfil" xml:space="preserve">
+    <value>Mi perfil</value>
+  </data>
+  <data name="Perfil_saber_mais" xml:space="preserve">
+    <value>Saber más</value>
+  </data>
+  <data name="Reservas_ainda_nao_efetuou_nenhuma_reserva" xml:space="preserve">
+    <value>Aún no has realizado ninguna reserva.</value>
+  </data>
+  <data name="Reservas_as_minhas_reservas" xml:space="preserve">
+    <value>Mis reservas</value>
+  </data>
+  <data name="Reservas_atuais" xml:space="preserve">
+    <value>Actuales</value>
+  </data>
+  <data name="Reservas_cancelamento_em_processamento" xml:space="preserve">
+    <value>Cancelación en proceso</value>
+  </data>
+  <data name="Reservas_cancelar_reserva" xml:space="preserve">
+    <value>Cancelar reserva</value>
+  </data>
+  <data name="Reservas_check_in" xml:space="preserve">
+    <value>Check-in:</value>
+  </data>
+  <data name="Reservas_check_out" xml:space="preserve">
+    <value>Check-out:</value>
+  </data>
+  <data name="Reservas_duracao" xml:space="preserve">
+    <value>Duración:</value>
+  </data>
+  <data name="Reservas_id_da_reserva" xml:space="preserve">
+    <value>ID de la Reserva:</value>
+  </data>
+  <data name="Reservas_participantes" xml:space="preserve">
+    <value>Participantes:</value>
+  </data>
+  <data name="Reservas_passadas" xml:space="preserve">
+    <value>Pasadas</value>
+  </data>
+  <data name="Reservas_preco" xml:space="preserve">
+    <value>Precio:</value>
+  </data>
+  <data name="Reservas_ver_iniciar_conversa" xml:space="preserve">
+    <value>Ver/Iniciar conversación</value>
+  </data>
+  <data name="ResultadosPesquisa_check_in" xml:space="preserve">
+    <value>Check-in</value>
+  </data>
+  <data name="ResultadosPesquisa_check_out" xml:space="preserve">
+    <value>Check-out</value>
+  </data>
+  <data name="ResultadosPesquisa_dd_mm_aaaa" xml:space="preserve">
+    <value>dd/mm/aaaa</value>
+  </data>
+  <data name="ResultadosPesquisa_diga_nos_onde_vai" xml:space="preserve">
+    <value>Dinos adónde vas</value>
+  </data>
+  <data name="ResultadosPesquisa_filtros" xml:space="preserve">
+    <value>Filtros</value>
+  </data>
+  <data name="ResultadosPesquisa_hospedes" xml:space="preserve">
+    <value>Huéspedes</value>
+  </data>
+  <data name="ResultadosPesquisa_localizacao" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="ResultadosPesquisa_nenhum_servico_encontrado_com_os_criteri" xml:space="preserve">
+    <value>Ningún servicio coincide con los criterios seleccionados.</value>
+  </data>
+  <data name="ResultadosPesquisa_resultados_da_pesquisa_de_quartos" xml:space="preserve">
+    <value>Resultados de búsqueda de habitaciones</value>
+  </data>
+  <data name="ResultadosServicos_data" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="ResultadosServicos_dd_mm_aaaa" xml:space="preserve">
+    <value>dd/mm/aaaa</value>
+  </data>
+  <data name="ResultadosServicos_ex_passeio_de_barco" xml:space="preserve">
+    <value>p. ej., Paseo en barco</value>
+  </data>
+  <data name="ResultadosServicos_filtros" xml:space="preserve">
+    <value>Filtros</value>
+  </data>
+  <data name="ResultadosServicos_localizacao" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="ResultadosServicos_nenhum_servico_encontrado_com_os_criteri" xml:space="preserve">
+    <value>Ningún servicio coincide con los criterios seleccionados.</value>
+  </data>
+  <data name="ResultadosServicos_onde_procura_o_servico" xml:space="preserve">
+    <value>¿Dónde buscas el servicio?</value>
+  </data>
+  <data name="ResultadosServicos_resultados_da_pesquisa_de_servicos" xml:space="preserve">
+    <value>Resultados de búsqueda de servicios</value>
+  </data>
+  <data name="ResultadosServicos_tipo_de_servico" xml:space="preserve">
+    <value>Tipo de servicio</value>
+  </data>
+  <data name="Servicos_data" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="Servicos_dd_mm_aaaa" xml:space="preserve">
+    <value>dd/mm/aaaa</value>
+  </data>
+  <data name="Servicos_encontrar" xml:space="preserve">
+    <value>Encontrar</value>
+  </data>
+  <data name="Servicos_ex_passeio_de_barco" xml:space="preserve">
+    <value>p. ej., Paseo en barco</value>
+  </data>
+  <data name="Servicos_localizacao" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="Servicos_onde_procura_o_servico" xml:space="preserve">
+    <value>¿Dónde buscas el servicio?</value>
+  </data>
+  <data name="Servicos_quartos" xml:space="preserve">
+    <value>Habitaciones</value>
+  </data>
+  <data name="Servicos_servicos" xml:space="preserve">
+    <value>Servicios</value>
+  </data>
+  <data name="Servicos_servicos_com_desconto" xml:space="preserve">
+    <value>Servicios con descuento</value>
+  </data>
+  <data name="Servicos_servicos_mais_requisitados" xml:space="preserve">
+    <value>Servicios más solicitados</value>
+  </data>
+  <data name="Servicos_servicos_recem_adicionados" xml:space="preserve">
+    <value>Servicios añadidos recientemente</value>
+  </data>
+  <data name="Servicos_tipo_de_servico" xml:space="preserve">
+    <value>Tipo de servicio</value>
+  </data>
+  <data name="_MensagensDaConversa_escrever" xml:space="preserve">
+    <value>Escribir...</value>
+  </data>
+  <data name="Reservas_item_removido" xml:space="preserve">
+    <value>Artículo eliminado</value>
+  </data>
+  <data name="PaginaPagamento_a_calcular" xml:space="preserve">
+    <value>(a calcular)</value>
+  </data>
+  <data name="PaginaPagamento_funcionalidade_pagamento_futuro" xml:space="preserve">
+    <value>Funcionalidad de pago que se implementará en el futuro</value>
+  </data>
+  <data name="MetodosPagamento_titulo" xml:space="preserve">
+    <value>Métodos de pago</value>
+  </data>
+  <data name="MetodosPagamento_descricao" xml:space="preserve">
+    <value>Agregar o eliminar métodos de pago de forma segura y hacer reservas más fáciles</value>
+  </data>
+  <data name="MetodosPagamento_cartoes_pagamento" xml:space="preserve">
+    <value>Tarjetas de pago</value>
+  </data>
+  <data name="MetodosPagamento_pague_com_novo_cartao" xml:space="preserve">
+    <value>Pagar con una nueva tarjeta</value>
+  </data>
+  <data name="MetodosPagamento_adicionar_cartao" xml:space="preserve">
+    <value>Agregar tarjeta</value>
+  </data>
+  <data name="MetodosPagamento_nome_titular_cartao" xml:space="preserve">
+    <value>Nombre del titular de la tarjeta</value>
+  </data>
+  <data name="MetodosPagamento_numero_cartao" xml:space="preserve">
+    <value>Número de tarjeta</value>
+  </data>
+  <data name="MetodosPagamento_data_validade" xml:space="preserve">
+    <value>Fecha de vencimiento</value>
+  </data>
+  <data name="MetodosPagamento_guardar" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="ListaReservas_titulo" xml:space="preserve">
+    <value>Lista de reservas</value>
+  </data>
+  <data name="ListaReservas_estado_todos" xml:space="preserve">
+    <value>Todos los estados</value>
+  </data>
+  <data name="ListaReservas_estado_pendente" xml:space="preserve">
+    <value>Pendiente</value>
+  </data>
+  <data name="ListaReservas_estado_confirmada" xml:space="preserve">
+    <value>Confirmado</value>
+  </data>
+  <data name="ListaReservas_estado_cancelada" xml:space="preserve">
+    <value>Cancelado</value>
+  </data>
+  <data name="ListaReservas_estado_concluida" xml:space="preserve">
+    <value>Completado</value>
+  </data>
+  <data name="ListaReservas_servico" xml:space="preserve">
+    <value>Servicio</value>
+  </data>
+  <data name="GerirAvaliacoes_titulo" xml:space="preserve">
+    <value>Gestionar reseñas</value>
+  </data>
+  <data name="GerirAvaliacoes_confirmar_apagar" xml:space="preserve">
+    <value>Está seguro de que desea eliminar esta reseña?</value>
+  </data>
+  <data name="GerirAvaliacoes_erro" xml:space="preserve">
+    <value>Error:</value>
+  </data>
+  <data name="verificacao" xml:space="preserve">
+    <value>Está seguro?</value>
+  </data>
+  <data name="DetalhesReserva_titulo" xml:space="preserve">
+    <value>Detalles del Ítem Reservado</value>
+  </data>
+  <data name="DetalhesReserva_reserva_feita_por" xml:space="preserve">
+    <value>Reserva realizada por:</value>
+  </data>
+  <data name="DetalhesReserva_em" xml:space="preserve">
+    <value>Habitación</value>
+  </data>
+  <data name="DetalhesReserva_item_reservado" xml:space="preserve">
+    <value>Servicio</value>
+  </data>
+  <data name="DetalhesReserva_tipo" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="DetalhesReserva_quarto" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="DetalhesReserva_servico" xml:space="preserve">
+    <value>Fechas y Duración</value>
+  </data>
+  <data name="DetalhesReserva_nome" xml:space="preserve">
+    <value>Check-in / Fecha</value>
+  </data>
+  <data name="DetalhesReserva_localizacao" xml:space="preserve">
+    <value>Check-out</value>
+  </data>
+  <data name="DetalhesReserva_datas_duracao" xml:space="preserve">
+    <value>Duración</value>
+  </data>
+  <data name="DetalhesReserva_checkin" xml:space="preserve">
+    <value>noches</value>
+  </data>
+  <data name="DetalhesReserva_checkout" xml:space="preserve">
+    <value>Información Financiera</value>
+  </data>
+  <data name="DetalhesReserva_duracao" xml:space="preserve">
+    <value>Valor Total</value>
+  </data>
+  <data name="DetalhesReserva_noites" xml:space="preserve">
+    <value>Estado Actual</value>
+  </data>
+  <data name="DetalhesReserva_financeiro" xml:space="preserve">
+    <value>Acciones de Gestión</value>
+  </data>
+  <data name="DetalhesReserva_total" xml:space="preserve">
+    <value>Confirmar Reserva</value>
+  </data>
+  <data name="DetalhesReserva_estado" xml:space="preserve">
+    <value>Rechazar Reserva</value>
+  </data>
+  <data name="DetalhesReserva_acoes" xml:space="preserve">
+    <value>Aprobar Cancelación</value>
+  </data>
+  <data name="DetalhesReserva_confirmar" xml:space="preserve">
+    <value>Rechazar Cancelación</value>
+  </data>
+  <data name="DetalhesReserva_rejeitar" xml:space="preserve">
+    <value>Cancelar Reserva</value>
+  </data>
+  <data name="DetalhesReserva_aprovar_cancelamento" xml:space="preserve">
+    <value>Marcar como Completada</value>
+  </data>
+  <data name="DetalhesReserva_rejeitar_cancelamento" xml:space="preserve">
+    <value>Ver/Iniciar Conversación</value>
+  </data>
+  <data name="DetalhesReserva_cancelar" xml:space="preserve">
+    <value>Cancelar reserva</value>
+  </data>
+  <data name="DetalhesReserva_marcar_concluida" xml:space="preserve">
+    <value>Marcar como Concluida</value>
+  </data>
+  <data name="DetalhesReserva_conversa" xml:space="preserve">
+    <value>Ver/Iniciar conversación</value>
+  </data>
+  <data name="DetalhesReserva_confirmacao_cancelar" xml:space="preserve">
+    <value>Está seguro? Esta acción es inmediata.</value>
+  </data>
+  <data name="Dashboard_titulo" xml:space="preserve">
+    <value>Panel de control</value>
+  </data>
+  <data name="Dashboard_bem_vindo_gestor" xml:space="preserve">
+    <value>¡Bienvenido de nuevo, Gestor!</value>
+  </data>
+  <data name="Dashboard_novas_reservas_hoje" xml:space="preserve">
+    <value>Nuevas Reservas (Hoy)</value>
+  </data>
+  <data name="Dashboard_checkins_hoje" xml:space="preserve">
+    <value>Entradas para Hoy</value>
+  </data>
+  <data name="Dashboard_ganhos_mes" xml:space="preserve">
+    <value>Ganancias del Mes</value>
+  </data>
+  <data name="Dashboard_mensagens_por_ler" xml:space="preserve">
+    <value>Mensajes sin leer</value>
+  </data>
+  <data name="Dashboard_atividade_recente" xml:space="preserve">
+    <value>Actividad Reciente</value>
+  </data>
+  <data name="Dashboard_sem_atividade" xml:space="preserve">
+    <value>No hay actividad reciente para mostrar.</value>
+  </data>
+  <data name="Dashboard_nova_reserva" xml:space="preserve">
+    <value>Nueva Reserva</value>
+  </data>
+  <data name="Dashboard_para" xml:space="preserve">
+    <value>para el</value>
+  </data>
+  <data name="Dashboard_de" xml:space="preserve">
+    <value>de</value>
+  </data>
+  <data name="Language_ES" xml:space="preserve">
+    <value>Español</value>
+  </data>
+  <data name="Language_FR" xml:space="preserve">
+    <value>Francés</value>
+  </data>
+  <data name="ProfileSummary_atualizar_foto" xml:space="preserve">
+    <value>Actualizar foto</value>
+  </data>
+  <data name="ProfileSummary_dados_pessoais" xml:space="preserve">
+    <value>Datos Personales</value>
+  </data>
+  <data name="Perfil_ola" xml:space="preserve">
+    <value>Hola</value>
+  </data>
+  <data name="Perfil_avaliacoes_realizadas" xml:space="preserve">
+    <value>Opiniones</value>
+  </data>
+  <data name="Reservas_confirmar_cancelamento" xml:space="preserve">
+    <value>¿Está seguro de que desea cancelar esta reserva?</value>
+  </data>
+  <data name="Aviso_erro_comunicacao" xml:space="preserve">
+    <value>Ocurrió un error de comunicación.</value>
+  </data>
+  <data name="Estatisticas_ganhos_euro_label" xml:space="preserve">
+    <value>Ganancias (€)</value>
+  </data>
+  <data name="Avaliacoes_selecione_classificacao" xml:space="preserve">
+    <value>Seleccione una calificación (1 a 5 estrellas) antes de enviar.</value>
+  </data>
+  <data name="Servicos_selecione_data_por_favor" xml:space="preserve">
+    <value>Por favor, seleccione una fecha para el servicio.</value>
+  </data>
+  <data name="Reservas_defina_preco_valido" xml:space="preserve">
+    <value>Defina un precio por noche válido (mayor que cero).</value>
+  </data>
+  <data name="Quarto_deve_ter_cama" xml:space="preserve">
+    <value>La habitación debe tener al menos una cama doble o una individual.</value>
+  </data>
+  <data name="Anuncio_precisa_uma_imagem" xml:space="preserve">
+    <value>Error: El anuncio debe tener al menos una imagen.</value>
+  </data>
+  <data name="DetalhesQuarto_datas_checkin_checkout" xml:space="preserve">
+    <value>Seleccione las fechas de entrada y salida antes de continuar.</value>
+  </data>
+  <data name="Aviso_erro_inesperado_tente_novamente" xml:space="preserve">
+    <value>Ocurrió un error inesperado. Por favor, inténtelo de nuevo.</value>
+  </data>
+  <data name="Mensagem_conversa_com" xml:space="preserve">
+    <value>Conversación con:</value>
+  </data>
+  <data name="Aviso_erro_comunicacao_envio_resposta" xml:space="preserve">
+    <value>Ocurrió un error de comunicación al enviar la respuesta.</value>
+  </data>
+  <data name="Mensagens_precisa_estar_logado" xml:space="preserve">
+    <value>Necesita iniciar sesión para enviar mensajes.</value>
+  </data>
+  <data name="ReservaConfirmada_titulo_pagina" xml:space="preserve">
+    <value>Reserva Confirmada</value>
+  </data>
+  <data name="ReservaConfirmada_sucesso_titulo" xml:space="preserve">
+    <value>¡Reserva Realizada con Éxito!</value>
+  </data>
+  <data name="ReservaConfirmada_sucesso_desc" xml:space="preserve">
+    <value>Gracias por su reserva. Le hemos enviado un correo de confirmación con todos los detalles.</value>
+  </data>
+  <data name="ReservaConfirmada_sumario_reserva" xml:space="preserve">
+    <value>Resumen de la Reserva</value>
+  </data>
+  <data name="ReservaConfirmada_alojamento" xml:space="preserve">
+    <value>Alojamiento:</value>
+  </data>
+  <data name="ReservaConfirmada_datas" xml:space="preserve">
+    <value>Fechas:</value>
+  </data>
+  <data name="ReservaConfirmada_preco_total_pago" xml:space="preserve">
+    <value>Precio Total Pagado:</value>
+  </data>
+  <data name="ReservaConfirmada_voltar_homepage" xml:space="preserve">
+    <value>Volver a la Página Principal</value>
+  </data>
+  <data name="ReservaConfirmada_ver_minhas_reservas" xml:space="preserve">
+    <value>Ver Mis Reservas</value>
+  </data>
+  <data name="Quarto_Nome" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Quarto_Nome_Obrigatorio" xml:space="preserve">
+    <value>El nombre es obligatorio.</value>
+  </data>
+  <data name="Quarto_Descricao" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Quarto_Descricao_Limite" xml:space="preserve">
+    <value>La descripción no puede superar los 1000 caracteres.</value>
+  </data>
+  <data name="Quarto_Localizacao" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="Quarto_Localizacao_Obrigatoria" xml:space="preserve">
+    <value>La ubicación es obligatoria.</value>
+  </data>
+  <data name="Quarto_PrecoPorNoite" xml:space="preserve">
+    <value>Precio por Noche</value>
+  </data>
+  <data name="Quarto_PrecoPorNoite_Obrigatorio" xml:space="preserve">
+    <value>El precio es obligatorio.</value>
+  </data>
+  <data name="Quarto_NumeroHospedes" xml:space="preserve">
+    <value>Nº de Huéspedes</value>
+  </data>
+  <data name="Quarto_NumeroHospedes_Obrigatorio" xml:space="preserve">
+    <value>El número de huéspedes es obligatorio.</value>
+  </data>
+  <data name="Quarto_NumeroCamasCasal" xml:space="preserve">
+    <value>Camas de Matrimonio</value>
+  </data>
+  <data name="Quarto_NumeroCamasSolteiro" xml:space="preserve">
+    <value>Camas Individuales</value>
+  </data>
+  <data name="Quarto_NumeroCasasDeBanho" xml:space="preserve">
+    <value>Baños</value>
+  </data>
+  <data name="Quarto_DescontoPercentagem" xml:space="preserve">
+    <value>Descuento (%)</value>
+  </data>
+  <data name="Quarto_TemEstacionamento" xml:space="preserve">
+    <value>Aparcamiento</value>
+  </data>
+  <data name="Quarto_Latitude" xml:space="preserve">
+    <value>Latitud</value>
+  </data>
+  <data name="Quarto_Longitude" xml:space="preserve">
+    <value>Longitud</value>
+  </data>
+  <data name="Avaliacao_Classificacao" xml:space="preserve">
+    <value>Clasificación</value>
+  </data>
+  <data name="Avaliacao_Classificacao_Obrigatoria" xml:space="preserve">
+    <value>La clasificación es obligatoria.</value>
+  </data>
+  <data name="Avaliacao_Classificacao_Range" xml:space="preserve">
+    <value>La clasificación debe estar entre 1 y 5.</value>
+  </data>
+  <data name="Avaliacao_Comentario" xml:space="preserve">
+    <value>Comentario</value>
+  </data>
+  <data name="Avaliacao_Comentario_Limite" xml:space="preserve">
+    <value>El comentario no puede superar los 500 caracteres.</value>
+  </data>
+  <data name="Servico_Nome" xml:space="preserve">
+    <value>Nombre del Servicio</value>
+  </data>
+  <data name="Servico_Nome_Obrigatorio" xml:space="preserve">
+    <value>El nombre del servicio es obligatorio.</value>
+  </data>
+  <data name="Servico_Desconto" xml:space="preserve">
+    <value>Descuento (%)</value>
+  </data>
+  <data name="Servico_Descricao" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="Servico_Descricao_Limite" xml:space="preserve">
+    <value>La descripción no puede superar los 1000 caracteres.</value>
+  </data>
+  <data name="Servico_Localizacao" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="Servico_Localizacao_Obrigatoria" xml:space="preserve">
+    <value>La ubicación es obligatoria.</value>
+  </data>
+  <data name="Servico_Preco" xml:space="preserve">
+    <value>Precio</value>
+  </data>
+  <data name="Servico_Preco_Obrigatorio" xml:space="preserve">
+    <value>El precio es obligatorio.</value>
+  </data>
+  <data name="Servico_Latitude" xml:space="preserve">
+    <value>Latitud</value>
+  </data>
+  <data name="Servico_Longitude" xml:space="preserve">
+    <value>Longitud</value>
+  </data>
+  <data name="Account_Login_InvalidData" xml:space="preserve">
+    <value>Datos de inicio de sesión no válidos.</value>
+  </data>
+  <data name="Account_Login_InvalidAttempt" xml:space="preserve">
+    <value>Intento de inicio de sesión no válido. Verifique su nombre de usuario y contraseña.</value>
+  </data>
+  <data name="Account_Admin_Only" xml:space="preserve">
+    <value>Solo los administradores pueden acceder a esta área.</value>
+  </data>
+  <data name="Account_Admin_InvalidAttempt" xml:space="preserve">
+    <value>Intento de inicio de sesión no válido. Verifique su nombre de administrador y contraseña.</value>
+  </data>
+  <data name="Avaliacao_Error_MustStayBeforeReview" xml:space="preserve">
+    <value>Solo puede evaluar una habitación después de haber tenido una estancia completada en ella.</value>
+  </data>
+  <data name="Avaliacao_Error_AlreadyReviewed" xml:space="preserve">
+    <value>Ya ha dejado una reseña para esta habitación.</value>
+  </data>
+  <data name="Avaliacao_Success_Submitted" xml:space="preserve">
+    <value>Su reseña se ha enviado con éxito. ¡Gracias!</value>
+  </data>
+  <data name="AvaliacaoService_Error_MustStayBeforeReview" xml:space="preserve">
+    <value>Solo puede evaluar un servicio después de haberlo utilizado (reserva completada).</value>
+  </data>
+  <data name="AvaliacaoService_Error_AlreadyReviewed" xml:space="preserve">
+    <value>Ya ha dejado una reseña para este servicio.</value>
+  </data>
+  <data name="Avaliacao_Delete_NotAllowed" xml:space="preserve">
+    <value>No tiene permiso para eliminar esta reseña.</value>
+  </data>
+  <data name="Mensagem_Error_EmptyMessage" xml:space="preserve">
+    <value>El mensaje no puede estar vacío.</value>
+  </data>
+  <data name="Mensagem_Subject_Booking" xml:space="preserve">
+    <value>Sobre la Reserva #{0}</value>
+  </data>
+  <data name="Mensagem_Subject_General" xml:space="preserve">
+    <value>Contacto general</value>
+  </data>
+  <data name="Mensagem_Subject_RoomQuestion" xml:space="preserve">
+    <value>Duda sobre: {0}</value>
+  </data>
+  <data name="Mensagem_Success_Sent" xml:space="preserve">
+    <value>¡Mensaje enviado con éxito!</value>
+  </data>
+  <data name="Booking_Error_RoomNotFound" xml:space="preserve">
+    <value>Habitación no encontrada.</value>
+  </data>
+  <data name="Booking_Error_EndBeforeStart" xml:space="preserve">
+    <value>La fecha de fin debe ser posterior a la fecha de inicio.</value>
+  </data>
+  <data name="Booking_Error_DatesUnavailable" xml:space="preserve">
+    <value>Lo sentimos, las fechas seleccionadas ya no están disponibles. Por favor, elige otras.</value>
+  </data>
+  <data name="Service_Error_NotFound" xml:space="preserve">
+    <value>Servicio no encontrado.</value>
+  </data>
+  <data name="Booking_Error_NotFoundOrDenied" xml:space="preserve">
+    <value>Reserva no encontrada o acceso denegado.</value>
+  </data>
+  <data name="BookingMgmt_Error_CannotConfirm_DatesConflict" xml:space="preserve">
+    <value>No es posible confirmar esta reserva. Ya existe una reserva confirmada para estas fechas.</value>
+  </data>
+  <data name="BookingMgmt_Error_InvalidState" xml:space="preserve">
+    <value>Estado no válido.</value>
+  </data>
+  <data name="BookingMgmt_Notification_StatusChanged_Format" xml:space="preserve">
+    <value>El estado de tu reserva n.º {0} se ha cambiado a {1}.</value>
+  </data>
+  <data name="BookingMgmt_Success_StateChanged" xml:space="preserve">
+    <value>¡El estado de la reserva se cambió correctamente!</value>
+  </data>
+  <data name="Messages_Error_EmptyMessage" xml:space="preserve">
+    <value>El mensaje no puede estar vacío.</value>
+  </data>
+  <data name="Messages_Subject_AboutReservation_Format" xml:space="preserve">
+    <value>Acerca de la reserva n.° {0}</value>
+  </data>
+  <data name="Messages_Subject_GeneralContact" xml:space="preserve">
+    <value>Contacto general</value>
+  </data>
+  <data name="Messages_Subject_QuestionAbout_Format" xml:space="preserve">
+    <value>Pregunta sobre: ​​{0}</value>
+  </data>
+  <data name="Messages_Success_Sent" xml:space="preserve">
+    <value>¡Mensaje enviado correctamente!</value>
+  </data>
+  <data name="Home_Notificacao_NaoEncontrada" xml:space="preserve">
+    <value>Notificación no encontrada.</value>
+  </data>
+  <data name="Home_Validacao_NomeObrigatorio" xml:space="preserve">
+    <value>Nombre obligatorio.</value>
+  </data>
+  <data name="Home_Validacao_LocalizacaoObrigatoria" xml:space="preserve">
+    <value>Ubicación obligatoria.</value>
+  </data>
+  <data name="Home_Validacao_PrecoMaiorZero" xml:space="preserve">
+    <value>El precio debe ser mayor que cero.</value>
+  </data>
+  <data name="detalhesquarto_camas_casal" xml:space="preserve">
+    <value>{0} Cama(s) doble(s)</value>
+  </data>
+  <data name="detalhesquarto_camas_solteiro" xml:space="preserve">
+    <value>{0} Cama(s) individual(es)</value>
+  </data>
+  <data name="detalhesquarto_casas_banho" xml:space="preserve">
+    <value>{0} Baño(s)</value>
+  </data>
+  <data name="detalhesquarto_wifi" xml:space="preserve">
+    <value>Wi-Fi</value>
+  </data>
+  <data name="detalhesquarto_pets" xml:space="preserve">
+    <value>Animales permitidos</value>
+  </data>
+  <data name="detalhesquarto_Tv" xml:space="preserve">
+    <value>Televisión</value>
+  </data>
+  <data name="detalhesquarto_cozinha" xml:space="preserve">
+    <value>Cocina</value>
+  </data>
+  <data name="detalhesquarto_AC" xml:space="preserve">
+    <value>AC</value>
+  </data>
+  <data name="detalhesquarto_ML" xml:space="preserve">
+    <value>Lavadora</value>
+  </data>
+  <data name="Quarto_deve_ter_hospede" xml:space="preserve">
+    <value>El número de invitados debe ser mayor a 0</value>
+  </data>
+  <data name="detalhesquarto_capacidade_maxima" xml:space="preserve">
+    <value>El valor excede el número máximo de huéspedes</value>
+  </data>
+  <data name="detalhesquarto_capacidade_maxima_reserva" xml:space="preserve">
+    <value>El número máximo de invitados es</value>
+  </data>
+  <data name="Reservas_dias" xml:space="preserve">
+    <value>días</value>
+  </data>
+  <data name="Servico_MaxParticipantes" xml:space="preserve">
+    <value>Participantes (máx.)</value>
+  </data>
+  <data name="detalhesservico_capacidade_maxima_reserva" xml:space="preserve">
+    <value>El número máximo de participantes es</value>
+  </data>
+  <data name="Confirmacao_titulo" xml:space="preserve">
+    <value>Reserva confirmada</value>
+  </data>
+  <data name="Confirmacao_sucesso" xml:space="preserve">
+    <value>¡Reserva realizada con éxito!</value>
+  </data>
+  <data name="Confirmacao_obrigado_email" xml:space="preserve">
+    <value>Gracias por su reserva. Le hemos enviado un correo de confirmación con todos los detalles.</value>
+  </data>
+  <data name="Confirmacao_sumario" xml:space="preserve">
+    <value>Resumen de la reserva</value>
+  </data>
+  <data name="Confirmacao_id_reserva" xml:space="preserve">
+    <value>ID de la reserva:</value>
+  </data>
+  <data name="Confirmacao_alojamento" xml:space="preserve">
+    <value>Alojamiento:</value>
+  </data>
+  <data name="Confirmacao_datas" xml:space="preserve">
+    <value>Fechas:</value>
+  </data>
+  <data name="Confirmacao_preco_total_pago" xml:space="preserve">
+    <value>Precio total pagado:</value>
+  </data>
+  <data name="Confirmacao_voltar_homepage" xml:space="preserve">
+    <value>Volver a la página de inicio</value>
+  </data>
+  <data name="Confirmacao_ver_minhas_reservas" xml:space="preserve">
+    <value>Ver mis reservas</value>
+  </data>
+  <data name="Confirmacao_servico" xml:space="preserve">
+    <value>Servicio:</value>
+  </data>
+  <data name="Confirmacao_data" xml:space="preserve">
+    <value>Fecha:</value>
+  </data>
+  <data name="ListaReservas_item_removido" xml:space="preserve">
+    <value>Anuncio eliminado</value>
+  </data>
+  <data name="Validation_Required" xml:space="preserve">
+    <value>El campo {0} es obligatorio.</value>
+  </data>
+  <data name="Validation_Email" xml:space="preserve">
+    <value>Introduce una dirección de correo válida.</value>
+  </data>
+  <data name="Validation_Password_Length" xml:space="preserve">
+    <value>La contraseña debe tener al menos {2} caracteres.</value>
+  </data>
+  <data name="Validation_Password_Confirm" xml:space="preserve">
+    <value>La contraseña y su confirmación no coinciden.</value>
+  </data>
+  <data name="Auth_RememberMe" xml:space="preserve">
+    <value>Recuérdame</value>
+  </data>
+  <data name="Auth_RememberBrowser" xml:space="preserve">
+    <value>Recordar este navegador</value>
+  </data>
+  <data name="Auth_Code" xml:space="preserve">
+    <value>Código</value>
+  </data>
+  <data name="Forgot_Info_WithEmail" xml:space="preserve">
+    <value>Si existe una cuenta, enviaremos instrucciones para restablecer la contraseña.</value>
+  </data>
+  <data name="Forgot_Info_NoEmail" xml:space="preserve">
+    <value>Si existe una cuenta, enviaremos instrucciones para restablecer la contraseña.</value>
+  </data>
+  <data name="Traducao" xml:space="preserve">
+    <value>Traducciones (opcional)</value>
+  </data>
+  <data name="traducao2" xml:space="preserve">
+    <value>Rellene este campo solo si desea el nombre o la descripción en otros idiomas. El nombre en portugués es el único idioma obligatorio.</value>
+  </data>
+  <data name="Room_Add" xml:space="preserve">
+    <value>Añadir Nueva Habitación</value>
+  </data>
+  <data name="Room_Edit" xml:space="preserve">
+    <value>Modificar Habitación</value>
+  </data>
+  <data name="Wizard_Step1" xml:space="preserve">
+    <value>Paso 1</value>
+  </data>
+  <data name="Service_Add" xml:space="preserve">
+    <value>Añadir Servicio</value>
+  </data>
+  <data name="Service_Edit" xml:space="preserve">
+    <value>Modificar Servicio</value>
+  </data>
+  <data name="Wizard_Step2" xml:space="preserve">
+    <value>Paso 2</value>
+  </data>
+  <data name="Wizard_Step3" xml:space="preserve">
+    <value>Paso 3</value>
+  </data>
+  <data name="Wizard_Step4" xml:space="preserve">
+    <value>Paso 4</value>
+  </data>
+  <data name="Wizard_Step5" xml:space="preserve">
+    <value>Paso 5</value>
+  </data>
+  <data name="Service_Gallery_Label" xml:space="preserve">
+    <value>Galería</value>
+  </data>
+  <data name="Service_Price_Label" xml:space="preserve">
+    <value>Precio</value>
+  </data>
+  <data name="ResultadosPesquisa_resultados_encontrados" xml:space="preserve">
+    <value>{0} resultado(s) encontrado(s)</value>
+  </data>
+  <data name="ResultadosServicos_resultados_encontrados" xml:space="preserve">
+    <value>{0} resultado(s) encontrado(s)</value>
+  </data>
+  <data name="Filtros_preco_min" xml:space="preserve">
+    <value>Precio mínimo</value>
+  </data>
+  <data name="Filtros_preco_max" xml:space="preserve">
+    <value>Precio máximo</value>
+  </data>
+  <data name="Filtros_classificacao_min" xml:space="preserve">
+    <value>Valoración mínima</value>
+  </data>
+  <data name="Filtros_capacidade" xml:space="preserve">
+    <value>Capacidad</value>
+  </data>
+  <data name="Filtros_aplicar" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="Filtros_limpar" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
+</root>

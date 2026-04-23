@@ -1,0 +1,50 @@
+﻿@model IEnumerable<ProjetoFim.Models.Servico>
+@using System.Globalization
+@{
+    var culturaEuro = new CultureInfo("pt-PT");
+    var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+}
+
+@foreach (var servico in Model)
+{
+
+    var imagemUrl = servico.Imagens.OrderBy(i => i.Ordem).FirstOrDefault()?.Url ?? "/Content/placeholder.jpg";
+    var t = servico.Traducoes?.FirstOrDefault(x => x.Cultura == lang) ?? servico.Traducoes?.FirstOrDefault(x => x.Cultura == "pt");
+    var nomeTrad = t?.Nome ?? servico.Nome;
+    <a href="@Url.Action("DetalhesServico", "Home", new { id = servico.Id })" class="card-link">
+        <div class="service-card">                     
+            <div class="card-image" style="background-image: url('@Url.Content(imagemUrl)');"></div>
+            <div class="card-info">
+                <div class="rating">
+                    <i class="fas fa-star"></i> @servico.AvaliacaoMedia.ToString("F1")
+                </div>
+                <h3>@nomeTrad</h3>
+
+                @{
+                    var cidadeServico = servico.Localizacao;
+                    if (cidadeServico.Contains(','))
+                    {
+                        var partes = cidadeServico.Split(',');
+                        if (partes.Length >= 4)
+                        {
+                            cidadeServico = partes[partes.Length - 4].Trim();
+                        }
+                    }
+                }
+                <p>@cidadeServico</p>
+                <div class="price-tag">
+                    @if (servico.DescontoPercentagem > 0)
+                    {
+                        var precoComDesconto = servico.Preco * (1 - (servico.DescontoPercentagem / 100.0m));
+                        <span class="original-price">@servico.Preco.ToString("C", culturaEuro)</span>
+                        <span class="discount-price">@precoComDesconto.ToString("C", culturaEuro)</span>
+                    }
+                    else
+                    {
+                        <span>@servico.Preco.ToString("C", culturaEuro)</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </a>
+}
